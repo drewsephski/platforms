@@ -178,6 +178,48 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'customer.subscription.created': {
+        const subscription = event.data.object as Stripe.Subscription;
+        const subData = subscription as any;
+
+        console.log('🆕 Subscription created:', {
+          subscriptionId: subscription.id,
+          customerId: subscription.customer,
+          status: subscription.status,
+        });
+
+        // Try to get user_id from customer metadata
+        let userId = null;
+        try {
+          const customer = await stripe.customers.retrieve(subscription.customer as string);
+          userId = (customer as any).metadata?.user_id;
+        } catch (e) {
+          console.log('Could not retrieve customer metadata');
+        }
+
+        if (userId) {
+          const { error } = await supabase.from('subscriptions').upsert({
+            user_id: userId,
+            stripe_subscription_id: subscription.id,
+            stripe_customer_id: subscription.customer as string,
+            stripe_price_id: subscription.items.data[0].price.id,
+            status: subscription.status,
+            current_period_start: subData.current_period_start ? new Date(subData.current_period_start * 1000).toISOString() : null,
+            current_period_end: subData.current_period_end ? new Date(subData.current_period_end * 1000).toISOString() : null,
+            cancel_at_period_end: subData.cancel_at_period_end,
+          });
+
+          if (error) {
+            console.error('❌ Failed to create subscription from customer.subscription.created:', error);
+          } else {
+            console.log('✅ Subscription created from customer.subscription.created for user:', userId);
+          }
+        } else {
+          console.log('⚠️ No user_id found in customer metadata, skipping subscription creation');
+        }
+        break;
+      }
+
       default:
         console.log(`⚠️ Unhandled event type: ${event.type}`);
     }
