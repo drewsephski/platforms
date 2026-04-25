@@ -1,17 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Save, Eye, ArrowLeft, Loader2, Check, Globe, ExternalLink, ChevronDown, ChevronUp, Type, User, FolderGit2, Mail, Hash, Plus, Trash2, LayoutGrid, Settings2, Image, Link2, FileText, Palette, Monitor, ArrowRight, ArrowLeft as ArrowLeftIcon } from 'lucide-react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionPanel } from '@/components/animate-ui/components/base/accordion';
-import Link from 'next/link';
-import { protocol, rootDomain, getSiteUrl } from '@/lib/utils';
-import type { SiteContent, Section } from '@/lib/types/site';
-import { cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -19,6 +13,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { toast } from 'sonner';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Save, Eye, ArrowLeft, Loader2, Globe, ExternalLink, Type, User, FolderGit2, Mail, Plus, Trash2, Settings2, FileText, Monitor, ArrowRight, ArrowLeft as ArrowLeftIcon, ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import { getSiteUrl } from '@/lib/utils';
+import type { SiteContent, Section } from '@/lib/types/site';
+import { cn } from '@/lib/utils';
 
 type Site = {
   id: string;
@@ -27,14 +34,14 @@ type Site = {
   content_json: SiteContent;
 };
 
-export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
+export function SiteEditor({ site }: { site: Site }) {
   const [content, setContent] = useState<SiteContent>(site.content_json);
   const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState('');
   const [previewReady, setPreviewReady] = useState(false);
   const [editorOnLeft, setEditorOnLeft] = useState(true);
+  const [openSections, setOpenSections] = useState<string[]>(['hero']);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   // Send content to preview iframe whenever it changes
@@ -87,7 +94,6 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
 
   const handleSave = async () => {
     setIsSaving(true);
-    setSaveMessage('');
 
     try {
       const response = await fetch(`/api/sites/${site.id}`, {
@@ -98,13 +104,12 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
 
       if (response.ok) {
         setLastSaved(new Date());
-        setSaveMessage('Saved');
-        setTimeout(() => setSaveMessage(''), 2000);
+        toast.success('Changes saved');
       } else {
-        setSaveMessage('Failed to save');
+        toast.error('Failed to save changes');
       }
-    } catch (error) {
-      setSaveMessage('Failed to save');
+    } catch {
+      toast.error('Failed to save changes');
     } finally {
       setIsSaving(false);
     }
@@ -112,7 +117,6 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
 
   const handlePublish = async () => {
     setIsSaving(true);
-    setSaveMessage('');
 
     try {
       const response = await fetch(`/api/sites/${site.id}/publish`, {
@@ -120,19 +124,18 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
       });
 
       if (response.ok) {
-        setSaveMessage('Published successfully');
-        setTimeout(() => setSaveMessage(''), 2000);
+        toast.success('Site published successfully');
       } else {
-        setSaveMessage('Failed to publish');
+        toast.error('Failed to publish site');
       }
-    } catch (error) {
-      setSaveMessage('Failed to publish');
+    } catch {
+      toast.error('Failed to publish site');
     } finally {
       setIsSaving(false);
     }
   };
 
-  const updateSection = (sectionId: string, updates: any) => {
+  const updateSection = (sectionId: string, updates: Partial<Section>) => {
     setContent({
       ...content,
       sections: content.sections.map((s) =>
@@ -142,56 +145,17 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
   };
 
   const StatusBadge = ({ status }: { status: string }) => (
-    <span className={cn(
-      "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium transition-colors",
-      status === 'published'
-        ? "bg-emerald-50/80 text-emerald-700 border border-emerald-200/60"
-        : "bg-amber-50/80 text-amber-700 border border-amber-200/60"
-    )}>
-      <span className={cn(
-        "w-1.5 h-1.5 rounded-full",
-        status === 'published' ? "bg-emerald-500" : "bg-amber-500"
-      )} />
+    <span className="text-xs text-muted-foreground">
       {status === 'published' ? 'Published' : 'Draft'}
     </span>
   );
 
-  const sectionConfig: Record<string, { icon: React.ReactNode; label: string; description: string; color: string }> = {
-    hero: { 
-      icon: <Type className="w-4 h-4" />, 
-      label: 'Hero',
-      description: 'Main headline and call-to-action',
-      color: 'bg-violet-50 text-violet-600 border-violet-200'
-    },
-    about: { 
-      icon: <User className="w-4 h-4" />, 
-      label: 'About',
-      description: 'Your story and background',
-      color: 'bg-blue-50 text-blue-600 border-blue-200'
-    },
-    projects: { 
-      icon: <FolderGit2 className="w-4 h-4" />, 
-      label: 'Projects',
-      description: 'Showcase your work',
-      color: 'bg-emerald-50 text-emerald-600 border-emerald-200'
-    },
-    contact: { 
-      icon: <Mail className="w-4 h-4" />, 
-      label: 'Contact',
-      description: 'How to reach you',
-      color: 'bg-amber-50 text-amber-600 border-amber-200'
-    },
+  const sectionConfig: Record<string, { icon: React.ReactNode; label: string; description: string }> = {
+    hero: { icon: <Type className="w-4 h-4" />, label: 'Hero', description: 'First impression with value proposition' },
+    about: { icon: <User className="w-4 h-4" />, label: 'About', description: 'Your story and achievements' },
+    projects: { icon: <FolderGit2 className="w-4 h-4" />, label: 'Projects', description: 'Work samples with outcomes' },
+    contact: { icon: <Mail className="w-4 h-4" />, label: 'Contact', description: 'How to reach you' },
   };
-
-  const FieldGroup = ({ title, children, description }: { title: string; children: React.ReactNode; description?: string }) => (
-    <div className="space-y-3">
-      <div>
-        <h4 className="text-sm font-medium text-foreground">{title}</h4>
-        {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
-      </div>
-      {children}
-    </div>
-  );
 
   const FormField = ({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) => (
     <div className="space-y-1.5">
@@ -201,448 +165,549 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
     </div>
   );
 
-  const AccordionSection = ({ section, index }: { section: Section; index: number }) => {
+  const FieldGroup = ({ title, children, description }: { title: string; children: React.ReactNode; description?: string }) => (
+    <div className="space-y-3">
+      <div>
+        <h4 className="text-sm font-medium">{title}</h4>
+        {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+      </div>
+      {children}
+    </div>
+  );
+
+  const SelectField = ({
+    label,
+    hint,
+    value,
+    onChange,
+    options,
+  }: {
+    label: string;
+    hint?: string;
+    value: string;
+    onChange: (value: string) => void;
+    options: { value: string; label: string }[];
+  }) => (
+    <FormField label={label} hint={hint}>
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger className="h-9 text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value} className="text-xs">
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </FormField>
+  );
+
+  function SectionEditor({ section }: { section: Section }) {
     const config = sectionConfig[section.type] || {
       icon: <FileText className="w-4 h-4" />,
       label: section.type,
       description: 'Section content',
-      color: 'bg-gray-50 text-gray-600 border-gray-200'
+    };
+
+    const renderHeroFields = () => (
+      <div className="space-y-5">
+        <FieldGroup title="Main Message" description="Specific value proposition">
+          <FormField label="Headline" hint="6-12 words, benefit-driven">
+            <Input
+              value={section.headline}
+              onChange={(e) => updateSection(section.id, { headline: e.target.value })}
+              placeholder="e.g., 'Design systems that scale engineering teams'"
+              className="text-sm"
+            />
+          </FormField>
+          <FormField label="Subheadline" hint="15-25 words with concrete details">
+            <Input
+              value={section.subheadline || ''}
+              onChange={(e) => updateSection(section.id, { subheadline: e.target.value })}
+              placeholder="Formerly at Vercel. Now helping startups ship faster..."
+              className="text-sm"
+            />
+          </FormField>
+          <FormField label="Tagline" hint="Differentiator above headline">
+            <Input
+              value={section.tagline || ''}
+              onChange={(e) => updateSection(section.id, { tagline: e.target.value })}
+              placeholder="e.g., 'INDEPENDENT DESIGN ENGINEER'"
+              className="text-sm"
+            />
+          </FormField>
+        </FieldGroup>
+
+        <FieldGroup title="Call to Action">
+          <div className="grid grid-cols-2 gap-3">
+            <FormField label="Button Text" hint="Verb + benefit">
+              <Input
+                value={section.cta?.text || ''}
+                onChange={(e) =>
+                  updateSection(section.id, {
+                    cta: { ...section.cta, text: e.target.value, href: section.cta?.href || '#' },
+                  })
+                }
+                placeholder="e.g., 'Book consultation'"
+                className="text-sm"
+              />
+            </FormField>
+            <FormField label="Button Link">
+              <Input
+                value={section.cta?.href || ''}
+                onChange={(e) =>
+                  updateSection(section.id, {
+                    cta: { ...section.cta, href: e.target.value, text: section.cta?.text || '' },
+                  })
+                }
+                placeholder="#contact"
+                className="text-sm"
+              />
+            </FormField>
+          </div>
+        </FieldGroup>
+
+        <FieldGroup title="Layout">
+          <div className="grid grid-cols-2 gap-3">
+            <SelectField
+              label="Style"
+              hint="Visual arrangement"
+              value={section.style || 'centered'}
+              onChange={(value) => updateSection(section.id, { style: value })}
+              options={[
+                { value: 'asymmetric', label: 'Asymmetric' },
+                { value: 'centered', label: 'Centered' },
+                { value: 'split', label: 'Split' },
+                { value: 'fullbleed', label: 'Full Bleed' },
+                { value: 'minimal', label: 'Minimal' },
+              ]}
+            />
+            <SelectField
+              label="Text Alignment"
+              value={section.layout?.textAlign || 'center'}
+              onChange={(value) =>
+                updateSection(section.id, {
+                  layout: { ...section.layout, textAlign: value as any },
+                })
+              }
+              options={[
+                { value: 'left', label: 'Left' },
+                { value: 'center', label: 'Center' },
+                { value: 'right', label: 'Right' },
+              ]}
+            />
+          </div>
+        </FieldGroup>
+      </div>
+    );
+
+    const renderAboutFields = () => (
+      <div className="space-y-5">
+        <FieldGroup title="Content" description="Your story">
+          <FormField label="Heading" hint="Benefit-driven">
+            <Input
+              value={section.heading}
+              onChange={(e) => updateSection(section.id, { heading: e.target.value })}
+              placeholder="e.g., 'Where design systems meet business impact'"
+              className="text-sm"
+            />
+          </FormField>
+          <FormField label="Body Text" hint="3-4 paragraphs">
+            <Textarea
+              value={section.body}
+              onChange={(e) => updateSection(section.id, { body: e.target.value })}
+              rows={5}
+              placeholder="Started in 2018 after seeing too many teams rebuild..."
+              className="text-sm resize-none"
+            />
+          </FormField>
+        </FieldGroup>
+
+        <FieldGroup title="Layout">
+          <SelectField
+            label="Style"
+            value={section.layout || 'standard'}
+            onChange={(value) => updateSection(section.id, { layout: value })}
+            options={[
+              { value: 'standard', label: 'Standard' },
+              { value: 'editorial', label: 'Editorial' },
+              { value: 'split', label: 'Split (with image)' },
+              { value: 'minimal', label: 'Minimal' },
+            ]}
+          />
+          {section.layout === 'split' && (
+            <FormField label="Image URL" hint="Your photo">
+              <Input
+                value={section.avatarUrl || ''}
+                onChange={(e) => updateSection(section.id, { avatarUrl: e.target.value })}
+                placeholder="https://example.com/photo.jpg"
+                className="text-sm mt-3"
+              />
+            </FormField>
+          )}
+        </FieldGroup>
+      </div>
+    );
+
+    const renderProjectsFields = () => (
+      <div className="space-y-5">
+        <FieldGroup title="Section Header">
+          <div className="grid grid-cols-2 gap-3">
+            <FormField label="Heading">
+              <Input
+                value={section.heading}
+                onChange={(e) => updateSection(section.id, { heading: e.target.value })}
+                placeholder="e.g., 'Selected projects'"
+                className="text-sm"
+              />
+            </FormField>
+            <FormField label="Subheading">
+              <Input
+                value={section.subheading || ''}
+                onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
+                placeholder="e.g., 'Where strategy met execution'"
+                className="text-sm"
+              />
+            </FormField>
+          </div>
+        </FieldGroup>
+
+        <FieldGroup title="Layout">
+          <div className="grid grid-cols-2 gap-3">
+            <SelectField
+              label="Display Style"
+              value={section.layout || 'grid'}
+              onChange={(value) => updateSection(section.id, { layout: value })}
+              options={[
+                { value: 'featured', label: 'Featured' },
+                { value: 'grid', label: 'Grid' },
+                { value: 'list', label: 'List' },
+                { value: 'masonry', label: 'Masonry' },
+              ]}
+            />
+            <SelectField
+              label="Columns"
+              value={String(section.columns || 2)}
+              onChange={(value) => updateSection(section.id, { columns: Number(value) as 1 | 2 | 3 })}
+              options={[
+                { value: '1', label: '1 column' },
+                { value: '2', label: '2 columns' },
+                { value: '3', label: '3 columns' },
+              ]}
+            />
+          </div>
+        </FieldGroup>
+
+        <FieldGroup title={`Projects (${section.items.length})`}>
+          <div className="space-y-3">
+            {section.items.map((item, idx) => (
+              <div key={item.id} className="rounded-lg border border-border/60 bg-muted/20 p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-muted-foreground">Project {idx + 1}</span>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      const newItems = section.items.filter((_, i) => i !== idx);
+                      updateSection(section.id, { items: newItems });
+                    }}
+                    className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+                <FormField label="Title">
+                  <Input
+                    value={item.title}
+                    onChange={(e) => {
+                      const newItems = [...section.items];
+                      newItems[idx] = { ...item, title: e.target.value };
+                      updateSection(section.id, { items: newItems });
+                    }}
+                    placeholder="e.g., 'SaaS redesign: 40% conversion lift'"
+                    className="text-sm"
+                  />
+                </FormField>
+                <FormField label="Description">
+                  <Textarea
+                    value={item.description}
+                    onChange={(e) => {
+                      const newItems = [...section.items];
+                      newItems[idx] = { ...item, description: e.target.value };
+                      updateSection(section.id, { items: newItems });
+                    }}
+                    placeholder="Challenge, approach, and quantified result..."
+                    rows={2}
+                    className="text-sm resize-none"
+                  />
+                </FormField>
+                <div className="grid grid-cols-2 gap-2">
+                  <FormField label="Link URL">
+                    <Input
+                      value={item.href || ''}
+                      onChange={(e) => {
+                        const newItems = [...section.items];
+                        newItems[idx] = { ...item, href: e.target.value };
+                        updateSection(section.id, { items: newItems });
+                      }}
+                      placeholder="# or https://..."
+                      className="text-sm"
+                    />
+                  </FormField>
+                  <FormField label="Accent Color">
+                    <Input
+                      value={item.accentColor || ''}
+                      onChange={(e) => {
+                        const newItems = [...section.items];
+                        newItems[idx] = { ...item, accentColor: e.target.value };
+                        updateSection(section.id, { items: newItems });
+                      }}
+                      placeholder="#1e3a5f"
+                      className="text-sm font-mono"
+                    />
+                  </FormField>
+                </div>
+                <FormField label="Tags" hint="Comma separated">
+                  <Input
+                    value={item.tags?.join(', ') || ''}
+                    onChange={(e) => {
+                      const newItems = [...section.items];
+                      newItems[idx] = { ...item, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) };
+                      updateSection(section.id, { items: newItems });
+                    }}
+                    placeholder="e.g., React, UX Strategy"
+                    className="text-sm"
+                  />
+                </FormField>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                updateSection(section.id, {
+                  items: [...section.items, { id: `proj-${Date.now()}`, title: '', description: '', accentColor: '#1e3a5f' }],
+                })
+              }
+              className="w-full h-9 text-xs"
+            >
+              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              Add Project
+            </Button>
+          </div>
+        </FieldGroup>
+      </div>
+    );
+
+    const renderContactFields = () => (
+      <div className="space-y-5">
+        <FieldGroup title="Header">
+          <div className="grid grid-cols-2 gap-3">
+            <FormField label="Heading">
+              <Input
+                value={section.heading}
+                onChange={(e) => updateSection(section.id, { heading: e.target.value })}
+                placeholder="Get in Touch"
+                className="text-sm"
+              />
+            </FormField>
+            <FormField label="Subheading">
+              <Input
+                value={section.subheading || ''}
+                onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
+                placeholder="Let's work together"
+                className="text-sm"
+              />
+            </FormField>
+          </div>
+        </FieldGroup>
+
+        <FieldGroup title="Contact Details">
+          <FormField label="Email Address">
+            <Input
+              type="email"
+              value={section.email || ''}
+              onChange={(e) => updateSection(section.id, { email: e.target.value })}
+              placeholder="hello@example.com"
+              className="text-sm"
+            />
+          </FormField>
+        </FieldGroup>
+
+        <FieldGroup title="Layout">
+          <SelectField
+            label="Display Style"
+            value={section.layout || 'simple'}
+            onChange={(value) => updateSection(section.id, { layout: value })}
+            options={[
+              { value: 'simple', label: 'Simple' },
+              { value: 'split', label: 'Split' },
+              { value: 'card', label: 'Card' },
+              { value: 'fullbleed', label: 'Full Bleed' },
+            ]}
+          />
+        </FieldGroup>
+
+        <FieldGroup title={`Social Links (${(section.links || []).length})`}>
+          <div className="space-y-2">
+            {(section.links || []).map((link, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <Input
+                  value={link.label}
+                  onChange={(e) => {
+                    const newLinks = [...(section.links || [])];
+                    newLinks[idx] = { ...link, label: e.target.value };
+                    updateSection(section.id, { links: newLinks });
+                  }}
+                  placeholder="Platform"
+                  className="text-sm flex-1"
+                />
+                <Input
+                  value={link.href}
+                  onChange={(e) => {
+                    const newLinks = [...(section.links || [])];
+                    newLinks[idx] = { ...link, href: e.target.value };
+                    updateSection(section.id, { links: newLinks });
+                  }}
+                  placeholder="URL"
+                  className="text-sm flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => {
+                    const newLinks = (section.links || []).filter((_, i) => i !== idx);
+                    updateSection(section.id, { links: newLinks });
+                  }}
+                  className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => updateSection(section.id, { links: [...(section.links || []), { label: '', href: '' }] })}
+              className="w-full h-9 text-xs"
+            >
+              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              Add Link
+            </Button>
+          </div>
+        </FieldGroup>
+      </div>
+    );
+
+    const contentVariants = {
+      hidden: { opacity: 0, height: 0 },
+      visible: {
+        opacity: 1,
+        height: 'auto',
+        transition: {
+          duration: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94],
+          staggerChildren: 0.03,
+        },
+      },
+      exit: {
+        opacity: 0,
+        height: 0,
+        transition: {
+          duration: 0.2,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+    };
+
+    const itemVariants = {
+      hidden: { opacity: 0, y: 8 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.25,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        },
+      },
+    };
+
+    const renderAnimatedFields = () => {
+      let fields;
+      switch (section.type) {
+        case 'hero':
+          fields = renderHeroFields();
+          break;
+        case 'about':
+          fields = renderAboutFields();
+          break;
+        case 'projects':
+          fields = renderProjectsFields();
+          break;
+        case 'contact':
+          fields = renderContactFields();
+          break;
+        default:
+          fields = null;
+      }
+      return fields;
     };
 
     return (
-      <AccordionItem value={section.id} className="group rounded-xl border border-border/40 bg-background/50 overflow-hidden">
-        <AccordionTrigger className="w-full flex items-center justify-between px-4 py-4 hover:bg-secondary/50" showArrow={false}>
+      <AccordionItem value={section.id} className="border-b border-border last:border-b-0">
+        <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/50 transition-colors duration-200 [&[data-state=open]]:bg-muted/50">
           <div className="flex items-center gap-3">
-            <div className={cn("flex items-center justify-center w-9 h-9 rounded-lg border transition-colors", config.color)}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 text-primary"
+            >
               {config.icon}
-            </div>
-            <div>
-              <h3 className="text-sm font-medium text-foreground">{config.label}</h3>
+            </motion.div>
+            <div className="text-left">
+              <h3 className="text-sm font-medium">{config.label}</h3>
               <p className="text-xs text-muted-foreground">{config.description}</p>
             </div>
           </div>
-          <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform duration-200" />
         </AccordionTrigger>
-        <AccordionPanel>
-          <div className="px-4 pb-4 pt-1 border-t border-border/30">
-            <div className="pt-4 space-y-5">
-              {section.type === 'hero' && (
-                <>
-                  <FieldGroup title="Main Message" description="The first thing visitors see">
-                    <FormField label="Headline">
-                      <Input
-                        value={section.headline}
-                        onChange={(e) => updateSection(section.id, { headline: e.target.value })}
-                        placeholder="Your main headline"
-                        className="text-sm"
-                      />
-                    </FormField>
-                    <FormField label="Subheadline" hint="Optional supporting text">
-                      <Input
-                        value={section.subheadline || ''}
-                        onChange={(e) => updateSection(section.id, { subheadline: e.target.value })}
-                        placeholder="A brief description of what you do"
-                        className="text-sm"
-                      />
-                    </FormField>
-                    <FormField label="Tagline" hint="Small text above the headline">
-                      <Input
-                        value={section.tagline || ''}
-                        onChange={(e) => updateSection(section.id, { tagline: e.target.value })}
-                        placeholder="e.g., WELCOME TO MY WORLD"
-                        className="text-sm"
-                      />
-                    </FormField>
-                  </FieldGroup>
-
-                  <FieldGroup title="Call to Action" description="Guide visitors to take action">
-                    <div className="grid grid-cols-2 gap-3">
-                      <FormField label="Button Text">
-                        <Input
-                          value={section.cta?.text || ''}
-                          onChange={(e) =>
-                            updateSection(section.id, {
-                              cta: { ...section.cta, text: e.target.value, href: section.cta?.href || '#' }
-                            })
-                          }
-                          placeholder="Get in Touch"
-                          className="text-sm"
-                        />
-                      </FormField>
-                      <FormField label="Button Link">
-                        <Input
-                          value={section.cta?.href || ''}
-                          onChange={(e) =>
-                            updateSection(section.id, {
-                              cta: { ...section.cta, href: e.target.value, text: section.cta?.text || '' }
-                            })
-                          }
-                          placeholder="#contact"
-                          className="text-sm"
-                        />
-                      </FormField>
-                    </div>
-                  </FieldGroup>
-
-                  <FieldGroup title="Appearance" description="How this section looks">
-                    <div className="grid grid-cols-2 gap-3">
-                      <FormField label="Style">
-                        <select
-                          value={section.style || 'centered'}
-                          onChange={(e) => updateSection(section.id, { style: e.target.value as any })}
-                          className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                        >
-                          <option value="centered">Centered</option>
-                          <option value="asymmetric">Asymmetric</option>
-                          <option value="split">Split</option>
-                          <option value="fullbleed">Full Bleed</option>
-                          <option value="minimal">Minimal</option>
-                        </select>
-                      </FormField>
-                      <FormField label="Text Alignment">
-                        <select
-                          value={section.layout?.textAlign || 'center'}
-                          onChange={(e) =>
-                            updateSection(section.id, {
-                              layout: { ...section.layout, textAlign: e.target.value as any }
-                            })
-                          }
-                          className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                        >
-                          <option value="left">Left</option>
-                          <option value="center">Center</option>
-                          <option value="right">Right</option>
-                        </select>
-                      </FormField>
-                    </div>
-                  </FieldGroup>
-                </>
-              )}
-
-              {section.type === 'about' && (
-                <>
-                  <FieldGroup title="Content">
-                    <FormField label="Heading">
-                      <Input
-                        value={section.heading}
-                        onChange={(e) => updateSection(section.id, { heading: e.target.value })}
-                        placeholder="About Me"
-                        className="text-sm"
-                      />
-                    </FormField>
-                    <FormField label="Body Text">
-                      <Textarea
-                        value={section.body}
-                        onChange={(e) => updateSection(section.id, { body: e.target.value })}
-                        rows={4}
-                        placeholder="Tell your story..."
-                        className="text-sm resize-none"
-                      />
-                    </FormField>
-                  </FieldGroup>
-
-                  <FieldGroup title="Layout">
-                    <FormField label="Style">
-                      <select
-                        value={section.layout || 'standard'}
-                        onChange={(e) => updateSection(section.id, { layout: e.target.value as any })}
-                        className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                      >
-                        <option value="standard">Standard</option>
-                        <option value="editorial">Editorial</option>
-                        <option value="split">Split (with image)</option>
-                        <option value="minimal">Minimal</option>
-                      </select>
-                    </FormField>
-                    {section.layout === 'split' && (
-                      <FormField label="Image URL" hint="Your photo or avatar">
-                        <Input
-                          value={section.avatarUrl || ''}
-                          onChange={(e) => updateSection(section.id, { avatarUrl: e.target.value })}
-                          placeholder="https://example.com/photo.jpg"
-                          className="text-sm"
-                        />
-                      </FormField>
-                    )}
-                  </FieldGroup>
-                </>
-              )}
-
-              {section.type === 'projects' && (
-                <>
-                  <FieldGroup title="Section Header">
-                    <div className="grid grid-cols-2 gap-3">
-                      <FormField label="Heading">
-                        <Input
-                          value={section.heading}
-                          onChange={(e) => updateSection(section.id, { heading: e.target.value })}
-                          placeholder="Selected Work"
-                          className="text-sm"
-                        />
-                      </FormField>
-                      <FormField label="Subheading">
-                        <Input
-                          value={section.subheading || ''}
-                          onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
-                          placeholder="A few things I've built"
-                          className="text-sm"
-                        />
-                      </FormField>
-                    </div>
-                  </FieldGroup>
-
-                  <FieldGroup title="Layout Options">
-                    <div className="grid grid-cols-2 gap-3">
-                      <FormField label="Display Style">
-                        <select
-                          value={section.layout || 'grid'}
-                          onChange={(e) => updateSection(section.id, { layout: e.target.value as any })}
-                          className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                        >
-                          <option value="grid">Grid</option>
-                          <option value="featured">Featured</option>
-                          <option value="list">List</option>
-                          <option value="masonry">Masonry</option>
-                        </select>
-                      </FormField>
-                      <FormField label="Columns">
-                        <select
-                          value={section.columns || 2}
-                          onChange={(e) => updateSection(section.id, { columns: Number(e.target.value) as 1|2|3 })}
-                          className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                        >
-                          <option value={1}>1 column</option>
-                          <option value={2}>2 columns</option>
-                          <option value={3}>3 columns</option>
-                        </select>
-                      </FormField>
-                    </div>
-                  </FieldGroup>
-
-                  <FieldGroup title="Projects" description={`${section.items.length} project${section.items.length !== 1 ? 's' : ''}`}>
-                    <div className="space-y-3">
-                      {section.items.map((item, idx) => (
-                        <div 
-                          key={item.id} 
-                          className="rounded-lg border border-border/50 bg-background p-3 space-y-3"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-medium text-muted-foreground">Project {idx + 1}</span>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                const newItems = section.items.filter((_, i) => i !== idx);
-                                updateSection(section.id, { items: newItems });
-                              }}
-                              className="h-6 px-2 text-xs text-muted-foreground hover:text-destructive"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </Button>
-                          </div>
-                          <Input
-                            value={item.title}
-                            onChange={(e) => {
-                              const newItems = [...section.items];
-                              newItems[idx] = { ...item, title: e.target.value };
-                              updateSection(section.id, { items: newItems });
-                            }}
-                            placeholder="Project Title"
-                            className="text-sm"
-                          />
-                          <Textarea
-                            value={item.description}
-                            onChange={(e) => {
-                              const newItems = [...section.items];
-                              newItems[idx] = { ...item, description: e.target.value };
-                              updateSection(section.id, { items: newItems });
-                            }}
-                            placeholder="Brief description of the project"
-                            rows={2}
-                            className="text-sm resize-none"
-                          />
-                          <div className="grid grid-cols-2 gap-2">
-                            <Input
-                              value={item.href || ''}
-                              onChange={(e) => {
-                                const newItems = [...section.items];
-                                newItems[idx] = { ...item, href: e.target.value };
-                                updateSection(section.id, { items: newItems });
-                              }}
-                              placeholder="Link URL"
-                              className="text-sm"
-                            />
-                            <Input
-                              value={item.imageUrl || ''}
-                              onChange={(e) => {
-                                const newItems = [...section.items];
-                                newItems[idx] = { ...item, imageUrl: e.target.value };
-                                updateSection(section.id, { items: newItems });
-                              }}
-                              placeholder="Image URL"
-                              className="text-sm"
-                            />
-                          </div>
-                          <Input
-                            value={item.tags?.join(', ') || ''}
-                            onChange={(e) => {
-                              const newItems = [...section.items];
-                              newItems[idx] = { ...item, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) };
-                              updateSection(section.id, { items: newItems });
-                            }}
-                            placeholder="Tags (comma separated)"
-                            className="text-sm"
-                          />
-                        </div>
-                      ))}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          updateSection(section.id, {
-                            items: [...section.items, { id: `proj-${Date.now()}`, title: '', description: '' }]
-                          })
-                        }
-                        className="w-full h-9 text-xs"
-                      >
-                        <Plus className="w-3.5 h-3.5 mr-1.5" />
-                        Add Project
-                      </Button>
-                    </div>
-                  </FieldGroup>
-                </>
-              )}
-
-              {section.type === 'contact' && (
-                <>
-                  <FieldGroup title="Header">
-                    <div className="grid grid-cols-2 gap-3">
-                      <FormField label="Heading">
-                        <Input
-                          value={section.heading}
-                          onChange={(e) => updateSection(section.id, { heading: e.target.value })}
-                          placeholder="Get in Touch"
-                          className="text-sm"
-                        />
-                      </FormField>
-                      <FormField label="Subheading">
-                        <Input
-                          value={section.subheading || ''}
-                          onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
-                          placeholder="Let's work together"
-                          className="text-sm"
-                        />
-                      </FormField>
-                    </div>
-                  </FieldGroup>
-
-                  <FieldGroup title="Contact Details">
-                    <FormField label="Email Address">
-                      <Input
-                        type="email"
-                        value={section.email || ''}
-                        onChange={(e) => updateSection(section.id, { email: e.target.value })}
-                        placeholder="hello@example.com"
-                        className="text-sm"
-                      />
-                    </FormField>
-                  </FieldGroup>
-
-                  <FieldGroup title="Layout">
-                    <FormField label="Display Style">
-                      <select
-                        value={section.layout || 'simple'}
-                        onChange={(e) => updateSection(section.id, { layout: e.target.value as any })}
-                        className="w-full h-9 px-2.5 text-sm rounded-md border border-input bg-background focus:ring-2 focus:ring-ring/20 focus:border-ring transition-colors"
-                      >
-                        <option value="simple">Simple</option>
-                        <option value="split">Split</option>
-                        <option value="card">Card</option>
-                        <option value="fullbleed">Full Bleed</option>
-                      </select>
-                    </FormField>
-                  </FieldGroup>
-
-                  <FieldGroup title="Social Links" description={`${(section.links || []).length} link${(section.links || []).length !== 1 ? 's' : ''}`}>
-                    <div className="space-y-2">
-                      {(section.links || []).map((link, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <Input
-                            value={link.label}
-                            onChange={(e) => {
-                              const newLinks = [...(section.links || [])];
-                              newLinks[idx] = { ...link, label: e.target.value };
-                              updateSection(section.id, { links: newLinks });
-                            }}
-                            placeholder="Platform (e.g., Twitter)"
-                            className="text-sm flex-1"
-                          />
-                          <Input
-                            value={link.href}
-                            onChange={(e) => {
-                              const newLinks = [...(section.links || [])];
-                              newLinks[idx] = { ...link, href: e.target.value };
-                              updateSection(section.id, { links: newLinks });
-                            }}
-                            placeholder="URL"
-                            className="text-sm flex-1"
-                          />
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => {
-                              const newLinks = (section.links || []).filter((_, i) => i !== idx);
-                              updateSection(section.id, { links: newLinks });
-                            }}
-                            className="h-9 w-9 text-muted-foreground hover:text-destructive"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      ))}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                          updateSection(section.id, {
-                            links: [...(section.links || []), { label: '', href: '' }]
-                          })
-                        }
-                        className="w-full h-9 text-xs"
-                      >
-                        <Plus className="w-3.5 h-3.5 mr-1.5" />
-                        Add Link
-                      </Button>
-                    </div>
-                  </FieldGroup>
-                </>
-              )}
-            </div>
-          </div>
-        </AccordionPanel>
+        <AccordionContent className="px-4 pb-4 overflow-hidden">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={contentVariants}
+            className="pt-2"
+          >
+            <motion.div variants={itemVariants}>
+              {renderAnimatedFields()}
+            </motion.div>
+          </motion.div>
+        </AccordionContent>
       </AccordionItem>
     );
-  };
+  }
 
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur-sm">
+      <nav className="sticky top-0 z-50 border-b border-border bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link 
               href="/dashboard"
-              className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
             >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+              <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
             </Link>
-            <div className="h-4 w-px bg-border/60" />
-            <div className="flex items-center gap-2.5">
+            <div className="h-4 w-px bg-border" />
+            <div className="flex items-center gap-2">
               <h1 className="text-sm font-medium">
                 /s/{site.subdomain}
               </h1>
@@ -665,19 +730,9 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
                 <ArrowLeftIcon className="w-4 h-4" />
               )}
             </Button>
-            {lastSaved && !saveMessage && (
+            {lastSaved && (
               <span className="hidden sm:block text-xs text-muted-foreground">
                 Saved {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
-            )}
-            {saveMessage && (
-              <span className={cn(
-                "text-xs px-2 py-1 rounded-md transition-colors",
-                saveMessage === 'Saved' || saveMessage === 'Published successfully'
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "text-destructive bg-destructive/10"
-              )}>
-                {saveMessage}
               </span>
             )}
             <Button
@@ -733,19 +788,47 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
             </div>
 
             {/* Sections */}
-            <Accordion>
-              <div className="space-y-3">
-                {content.sections
-                  .filter(section => sectionConfig[section.type])
-                  .map((section, index) => (
-                    <AccordionSection key={section.id} section={section} index={index} />
-                  ))}
-              </div>
-            </Accordion>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <Accordion
+                type="multiple"
+                value={openSections}
+                onValueChange={setOpenSections}
+                className="border border-border rounded-lg overflow-hidden bg-background"
+              >
+                <AnimatePresence mode="popLayout">
+                  {content.sections
+                    .filter(section => sectionConfig[section.type])
+                    .map((section, index) => (
+                      <motion.div
+                        key={section.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{
+                          duration: 0.25,
+                          delay: index * 0.05,
+                          ease: [0.25, 0.46, 0.45, 0.94]
+                        }}
+                      >
+                        <SectionEditor key={section.id} section={section as Section} />
+                      </motion.div>
+                    ))}
+                </AnimatePresence>
+              </Accordion>
+            </motion.div>
 
             {/* Metadata */}
-            <div className="rounded-xl border border-border/60 bg-background overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border/40 bg-muted/30">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="border border-border rounded-lg overflow-hidden bg-background"
+            >
+              <div className="flex items-center gap-2 px-4 py-3 bg-muted/30 border-b border-border">
                 <Monitor className="w-4 h-4 text-muted-foreground" />
                 <h3 className="text-sm font-medium">Site Settings</h3>
               </div>
@@ -780,26 +863,19 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
                   />
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Preview */}
           <div className={cn("space-y-4", !editorOnLeft && "lg:order-1")}>
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4 text-muted-foreground" />
-              <h2 className="text-sm font-medium">Live Preview</h2>
+              <h2 className="text-sm font-medium">Preview</h2>
             </div>
-            <div className="rounded-xl border border-border/60 overflow-hidden shadow-sm bg-background">
-              <div className="bg-muted/40 px-3 py-2 text-xs text-muted-foreground border-b border-border/40 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400/70" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/70" />
-                  </div>
-                  <span className="ml-1">Preview</span>
-                </div>
-                <span className="text-muted-foreground/50 truncate max-w-[200px]">
+            <div className="border border-border rounded-lg overflow-hidden bg-background">
+              <div className="bg-muted/40 px-3 py-2 text-xs text-muted-foreground border-b border-border flex items-center justify-between">
+                <span>Preview</span>
+                <span className="truncate max-w-[200px]">
                   /s/{site.subdomain}
                 </span>
               </div>
