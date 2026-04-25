@@ -673,7 +673,7 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
             {saveMessage && (
               <span className={cn(
                 "text-xs px-2 py-1 rounded-md transition-colors",
-                saveMessage === 'Saved'
+                saveMessage === 'Saved' || saveMessage === 'Published successfully'
                   ? "bg-emerald-50 text-emerald-700"
                   : "text-destructive bg-destructive/10"
               )}>

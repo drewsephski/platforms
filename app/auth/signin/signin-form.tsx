@@ -60,7 +60,7 @@ export function SignInForm() {
       if (error) {
         setError(error.message);
       } else {
-        setSuccessMessage('Check your email for confirmation link');
+        redirect('/dashboard');
       }
     } catch (err: any) {
       setError('An error occurred during sign up');
