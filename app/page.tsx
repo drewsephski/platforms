@@ -4,6 +4,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/server';
 import { SignOutButton } from '@/components/sign-out-button';
+import { InteractiveDemo } from '@/components/interactive-demo';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -39,29 +40,27 @@ export default async function HomePage() {
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-20 md:py-28">
         <div className="text-center max-w-2xl mx-auto animate-fade-in">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/70 border border-border/50 text-xs text-muted-foreground mb-8">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI-Powered Site Builder</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-primary mb-8">
+            <span className="font-medium">Prompt → Production</span>
           </div>
 
           {/* Heading */}
-          <h1 className="text-[clamp(2.5rem,6vw,3.5rem)] font-semibold tracking-tight leading-[1.1] text-foreground mb-5">
-            Your Beautiful Website
+          <h1 className="text-[clamp(2.5rem,7vw,4rem)] font-semibold tracking-tight leading-[1.05] text-foreground mb-5">
+            Describe it.
             <br />
-            <span className="text-muted-foreground">in Seconds</span>
+            <span className="text-muted-foreground">We ship it.</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg mx-auto">
-            Tell us what you need, and watch AI create your portfolio or landing page instantly. 
-            No design skills required—just your ideas.
+            One prompt. Real website. Not a template.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-20">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-16">
             <Link href="/auth/signin">
-              <Button size="lg" className="h-11 px-6 group transition-all duration-200">
-                Get Started Free
+              <Button size="lg" className="h-11 px-6 group transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-primary/30">
+                Generate My Site
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Button>
             </Link>
@@ -72,20 +71,25 @@ export default async function HomePage() {
             </Link>
           </div>
 
+          {/* Product Demo */}
+          <div className="mb-20 animate-fade-in delay-100">
+            <InteractiveDemo />
+          </div>
+
           {/* Features */}
           <div className="grid md:grid-cols-3 gap-6 text-left animate-fade-in delay-100">
             {[
               {
-                title: 'AI Creates It For You',
-                description: 'Just describe what you want in plain English. AI handles the design, writing, and layout.'
+                title: 'From prompt → layout, copy, and components',
+                description: 'Describe what you need. AI generates the entire site—design, content, and structure—instantly.'
               },
               {
-                title: 'Live in One Click',
-                description: 'Your website goes online instantly with a free link. Share it anywhere right away.'
+                title: 'Instant deploy with shareable URL',
+                description: 'Your site goes live immediately. Get a working link you can share anywhere, right now.'
               },
               {
-                title: 'Easy to Customize',
-                description: 'Change anything you want—text, colors, layout. Make it uniquely yours in minutes.'
+                title: 'Edit anything—no lock-in, no weird builders',
+                description: 'Full control over every element. No proprietary drag-and-drop nightmares.'
               }
             ].map((feature, i) => (
               <div 
@@ -98,6 +102,13 @@ export default async function HomePage() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Trust indicator */}
+          <div className="mt-16 pt-8 border-t border-border/30 animate-fade-in delay-200">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">10,000+</span> sites built and counting
+            </p>
           </div>
         </div>
       </main>
