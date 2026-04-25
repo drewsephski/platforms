@@ -1,33 +1,109 @@
 import Link from 'next/link';
-import { SubdomainForm } from './subdomain-form';
 import { rootDomain } from '@/lib/utils';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/server';
+import { SignOutButton } from '@/components/sign-out-button';
 
 export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const isAuthenticated = !!user;
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white p-4 relative">
-      <div className="absolute top-4 right-4">
-        <Link
-          href="/admin"
-          className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-        >
-          Admin
-        </Link>
-      </div>
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/5 pointer-events-none" />
+      
+      {/* Navigation */}
+      <nav className="relative z-10 border-b border-border/60">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-background" />
+            </div>
+            <span className="font-medium text-sm tracking-tight">{rootDomain}</span>
+          </div>
+          {isAuthenticated ? (
+            <SignOutButton />
+          ) : (
+            <Link href="/auth/signin">
+              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                Sign In
+              </Button>
+            </Link>
+          )}
+        </div>
+      </nav>
 
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            {rootDomain}
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-20 md:py-28">
+        <div className="text-center max-w-2xl mx-auto animate-fade-in">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/70 border border-border/50 text-xs text-muted-foreground mb-8">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>AI-Powered Site Builder</span>
+          </div>
+          
+          {/* Heading */}
+          <h1 className="text-[clamp(2.5rem,6vw,3.5rem)] font-semibold tracking-tight leading-[1.1] text-foreground mb-5">
+            AI-Powered Carrd
+            <br />
+            <span className="text-muted-foreground">for Hackers</span>
           </h1>
-          <p className="mt-3 text-lg text-gray-600">
-            Create your own subdomain with a custom emoji
+          
+          {/* Subheadline */}
+          <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg mx-auto">
+            Describe your vibe, and let AI generate your portfolio in seconds. 
+            Publish to a custom subdomain instantly.
           </p>
-        </div>
 
-        <div className="mt-8 bg-white shadow-md rounded-lg p-6">
-          <SubdomainForm />
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-20">
+            <Link href="/auth/signin">
+              <Button size="lg" className="h-11 px-6 group transition-all duration-200">
+                Get Started Free
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </Button>
+            </Link>
+            <Link href="/dashboard">
+              <Button variant="outline" size="lg" className="h-11 px-6 transition-all duration-200 hover:bg-secondary/50">
+                View Dashboard
+              </Button>
+            </Link>
+          </div>
+
+          {/* Features */}
+          <div className="grid md:grid-cols-3 gap-6 text-left animate-fade-in delay-100">
+            {[
+              {
+                title: 'AI Generation',
+                description: 'Describe your site in natural language. AI generates structure, copy, and theme.'
+              },
+              {
+                title: 'Instant Publishing',
+                description: 'Your site is live on a custom subdomain the moment you hit publish.'
+              },
+              {
+                title: 'Full Control',
+                description: 'Edit any section, reorder blocks, and refine with AI. You own the content.'
+              }
+            ].map((feature, i) => (
+              <div 
+                key={feature.title}
+                className="p-5 rounded-xl bg-card border border-border/40 transition-all duration-200 hover:border-border hover:shadow-sm hover:bg-secondary/20"
+              >
+                <h3 className="font-medium text-foreground mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </main>
+
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </div>
   );
 }

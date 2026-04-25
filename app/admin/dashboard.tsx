@@ -3,10 +3,11 @@
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2, Loader2 } from 'lucide-react';
+import { Trash2, Loader2, ExternalLink, ArrowLeft, LayoutGrid, AlertCircle, Check } from 'lucide-react';
 import Link from 'next/link';
 import { deleteSubdomainAction } from '@/app/actions';
 import { rootDomain, protocol } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 type Tenant = {
   subdomain: string;
@@ -19,21 +20,125 @@ type DeleteState = {
   success?: string;
 };
 
-function DashboardHeader() {
-  // TODO: You can add authentication here with your preferred auth provider
-
+function DashboardHeader({ tenantCount }: { tenantCount: number }) {
   return (
-    <div className="flex justify-between items-center mb-8">
-      <h1 className="text-3xl font-bold">Subdomain Management</h1>
-      <div className="flex items-center gap-4">
+    <div className="mb-10 animate-fade-in">
+      <div className="flex items-center gap-2 mb-4">
         <Link
           href={`${protocol}://${rootDomain}`}
-          className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200"
         >
-          {rootDomain}
+          <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          <span>Back to {rootDomain}</span>
         </Link>
       </div>
+      
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <LayoutGrid className="w-5 h-5 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+              Admin
+            </span>
+          </div>
+          <h1 className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold tracking-tight text-foreground">
+            Subdomain Management
+          </h1>
+          <p className="mt-1.5 text-muted-foreground">
+            {tenantCount === 0 
+              ? "No subdomains created yet" 
+              : `Managing ${tenantCount} subdomain${tenantCount === 1 ? '' : 's'}`
+            }
+          </p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          <a
+            href={`${protocol}://${rootDomain}`}
+            className="group inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-lg hover:bg-secondary/50 transition-all duration-200"
+          >
+            <span>Visit platform</span>
+            <ExternalLink className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
+      </div>
     </div>
+  );
+}
+
+function TenantCard({
+  tenant,
+  action,
+  isPending,
+  index
+}: {
+  tenant: Tenant;
+  action: (formData: FormData) => void;
+  isPending: boolean;
+  index: number;
+}) {
+  const fullUrl = `${protocol}://${tenant.subdomain}.${rootDomain}`;
+  
+  return (
+    <Card 
+      className={cn(
+        "group overflow-hidden border-border/60 transition-all duration-200",
+        "hover:border-border hover:shadow-sm hover:shadow-black/[0.02]",
+        "animate-fade-in"
+      )}
+      style={{ animationDelay: `${index * 75}ms` }}
+    >
+      <CardHeader className="pb-3 pt-5 px-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-xl">
+              {tenant.emoji}
+            </div>
+            <div className="min-w-0">
+              <CardTitle className="text-base font-medium truncate">
+                {tenant.subdomain}
+              </CardTitle>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {new Date(tenant.createdAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </p>
+            </div>
+          </div>
+          
+          <form action={action} className="flex-shrink-0">
+            <input type="hidden" name="subdomain" value={tenant.subdomain} />
+            <Button
+              variant="ghost"
+              size="icon"
+              type="submit"
+              disabled={isPending}
+              className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200"
+            >
+              {isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
+            </Button>
+          </form>
+        </div>
+      </CardHeader>
+      
+      <CardContent className="pt-0 pb-5 px-5">
+        <a
+          href={fullUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group/link inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200"
+        >
+          <span className="truncate">{fullUrl.replace(/^https?:\/\//, '')}</span>
+          <ExternalLink className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-200" />
+        </a>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -48,63 +153,65 @@ function TenantGrid({
 }) {
   if (tenants.length === 0) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center">
-          <p className="text-gray-500">No subdomains have been created yet.</p>
+      <Card className="border-dashed border-border/60 bg-muted/20">
+        <CardContent className="py-16 text-center">
+          <div className="w-12 h-12 rounded-full bg-secondary mx-auto mb-4 flex items-center justify-center">
+            <LayoutGrid className="w-6 h-6 text-muted-foreground" />
+          </div>
+          <h3 className="text-base font-medium text-foreground mb-1">
+            No subdomains yet
+          </h3>
+          <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+            Create your first subdomain from the main page to get started.
+          </p>
+          <Link
+            href={`${protocol}://${rootDomain}`}
+            className="group inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-foreground hover:underline"
+          >
+            Create a subdomain
+            <ArrowLeft className="w-3.5 h-3.5 rotate-180 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {tenants.map((tenant) => (
-        <Card key={tenant.subdomain}>
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl">{tenant.subdomain}</CardTitle>
-              <form action={action}>
-                <input
-                  type="hidden"
-                  name="subdomain"
-                  value={tenant.subdomain}
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="submit"
-                  disabled={isPending}
-                  className="text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                >
-                  {isPending ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <Trash2 className="h-5 w-5" />
-                  )}
-                </Button>
-              </form>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="text-4xl">{tenant.emoji}</div>
-              <div className="text-sm text-gray-500">
-                Created: {new Date(tenant.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-            <div className="mt-4">
-              <a
-                href={`${protocol}://${tenant.subdomain}.${rootDomain}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline text-sm"
-              >
-                Visit subdomain →
-              </a>
-            </div>
-          </CardContent>
-        </Card>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {tenants.map((tenant, index) => (
+        <TenantCard
+          key={tenant.subdomain}
+          tenant={tenant}
+          action={action}
+          isPending={isPending}
+          index={index}
+        />
       ))}
+    </div>
+  );
+}
+
+function Toast({ type, message, onClose }: { type: 'error' | 'success'; message: string; onClose?: () => void }) {
+  return (
+    <div 
+      className={cn(
+        "fixed bottom-6 right-6 z-50 flex items-start gap-3 px-4 py-3 rounded-lg shadow-lg shadow-black/5 animate-slide-in",
+        type === 'error' 
+          ? "bg-destructive/10 border border-destructive/20" 
+          : "bg-emerald-50 border border-emerald-200"
+      )}
+    >
+      {type === 'error' ? (
+        <AlertCircle className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
+      ) : (
+        <Check className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+      )}
+      <p className={cn(
+        "text-sm",
+        type === 'error' ? "text-destructive" : "text-emerald-900"
+      )}>
+        {message}
+      </p>
     </div>
   );
 }
@@ -116,21 +223,19 @@ export function AdminDashboard({ tenants }: { tenants: Tenant[] }) {
   );
 
   return (
-    <div className="space-y-6 relative p-4 md:p-8">
-      <DashboardHeader />
-      <TenantGrid tenants={tenants} action={action} isPending={isPending} />
+    <div className="min-h-screen bg-background">
+      <div className="max-w-5xl mx-auto px-6 py-8 md:py-12">
+        <DashboardHeader tenantCount={tenants.length} />
+        <TenantGrid tenants={tenants} action={action} isPending={isPending} />
 
-      {state.error && (
-        <div className="fixed bottom-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-md">
-          {state.error}
-        </div>
-      )}
+        {state.error && (
+          <Toast type="error" message={state.error} />
+        )}
 
-      {state.success && (
-        <div className="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-md">
-          {state.success}
-        </div>
-      )}
+        {state.success && (
+          <Toast type="success" message={state.success} />
+        )}
+      </div>
     </div>
   );
 }

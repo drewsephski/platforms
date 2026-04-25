@@ -8,8 +8,8 @@ function extractSubdomain(request: NextRequest): string | null {
 
   // Local development environment
   if (url.includes('localhost') || url.includes('127.0.0.1')) {
-    // Try to extract subdomain from the full URL
-    const fullUrlMatch = url.match(/http:\/\/([^.]+)\.localhost/);
+    // Try to extract subdomain from the full URL (with or without port)
+    const fullUrlMatch = url.match(/http:\/\/([^.]+)\.localhost(?::\d+)?/);
     if (fullUrlMatch && fullUrlMatch[1]) {
       return fullUrlMatch[1];
     }

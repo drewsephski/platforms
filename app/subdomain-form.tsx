@@ -1,7 +1,5 @@
 'use client';
 
-import type React from 'react';
-
 import { useState } from 'react';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -12,8 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover';
-import { Smile } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Smile, Loader2, Check, AlertCircle } from 'lucide-react';
 import {
   EmojiPicker,
   EmojiPickerContent,
@@ -22,6 +19,7 @@ import {
 } from '@/components/ui/emoji-picker';
 import { createSubdomainAction } from '@/app/actions';
 import { rootDomain } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 type CreateState = {
   error?: string;
@@ -32,23 +30,31 @@ type CreateState = {
 
 function SubdomainInput({ defaultValue }: { defaultValue?: string }) {
   return (
-    <div className="space-y-2">
-      <Label htmlFor="subdomain">Subdomain</Label>
+    <div className="space-y-2.5">
+      <Label 
+        htmlFor="subdomain" 
+        className="text-sm font-medium text-foreground"
+      >
+        Subdomain name
+      </Label>
       <div className="flex items-center">
-        <div className="relative flex-1">
-          <Input
-            id="subdomain"
-            name="subdomain"
-            placeholder="your-subdomain"
-            defaultValue={defaultValue}
-            className="w-full rounded-r-none focus:z-10"
-            required
-          />
-        </div>
-        <span className="bg-gray-100 px-3 border border-l-0 border-input rounded-r-md text-gray-500 min-h-[36px] flex items-center">
+        <Input
+          id="subdomain"
+          name="subdomain"
+          placeholder="my-app"
+          defaultValue={defaultValue}
+          className="w-full rounded-r-none border-r-0 bg-background focus-visible:ring-0 focus-visible:ring-offset-0"
+          required
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <span className="px-3 py-2 border border-l-0 border-input rounded-r-md bg-muted/30 text-muted-foreground text-sm font-medium">
           .{rootDomain}
         </span>
       </div>
+      <p className="text-xs text-muted-foreground/80">
+        Letters, numbers, and hyphens only. 3-63 characters.
+      </p>
     </div>
   );
 }
@@ -70,56 +76,58 @@ function IconPicker({
   };
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor="icon">Icon</Label>
-      <div className="flex flex-col gap-2">
-        <input type="hidden" name="icon" value={icon} required />
-        <div className="flex items-center gap-2">
-          <Card className="flex-1 flex flex-row items-center justify-between p-2 border border-input rounded-md">
-            <div className="min-w-[40px] min-h-[40px] flex items-center pl-[14px] select-none">
-              {icon ? (
-                <span className="text-3xl">{icon}</span>
-              ) : (
-                <span className="text-gray-400 text-sm font-normal">
-                  No icon selected
-                </span>
-              )}
+    <div className="space-y-2.5">
+      <Label className="text-sm font-medium text-foreground">
+        Emoji icon
+      </Label>
+      <input type="hidden" name="icon" value={icon} required />
+      
+      <Popover open={isPickerOpen} onOpenChange={setIsPickerOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            className={cn(
+              "w-full justify-between h-12 px-3 font-normal transition-all duration-200 hover:bg-secondary/50",
+              !icon && "text-muted-foreground"
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <div className={cn(
+                "w-8 h-8 rounded-md flex items-center justify-center text-xl transition-colors",
+                icon ? "bg-secondary" : "bg-muted/50"
+              )}>
+                {icon ? icon : <Smile className="w-4 h-4 text-muted-foreground" />}
+              </div>
+              <span className="text-sm">
+                {icon ? "Icon selected" : "Choose an emoji"}
+              </span>
             </div>
-            <Popover open={isPickerOpen} onOpenChange={setIsPickerOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="ml-auto rounded-sm"
-                  onClick={() => setIsPickerOpen(!isPickerOpen)}
-                >
-                  <Smile className="h-4 w-4 mr-2" />
-                  Select Emoji
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                className="p-0 w-[256px]"
-                align="end"
-                sideOffset={5}
-              >
-                <EmojiPicker
-                  className="h-[300px] w-[256px]"
-                  defaultValue={defaultValue}
-                  onEmojiSelect={handleEmojiSelect}
-                >
-                  <EmojiPickerSearch />
-                  <EmojiPickerContent />
-                  <EmojiPickerFooter />
-                </EmojiPicker>
-              </PopoverContent>
-            </Popover>
-          </Card>
-        </div>
-        <p className="text-xs text-gray-500">
-          Select an emoji to represent your subdomain
-        </p>
-      </div>
+            <span className="text-xs text-muted-foreground">
+              {isPickerOpen ? "Close" : "Open"}
+            </span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          className="p-0 w-[280px]"
+          align="start"
+          sideOffset={8}
+        >
+          <EmojiPicker
+            className="h-[320px] w-[280px]"
+            defaultValue={defaultValue}
+            onEmojiSelect={handleEmojiSelect}
+          >
+            <EmojiPickerSearch />
+            <EmojiPickerContent />
+            <EmojiPickerFooter />
+          </EmojiPicker>
+        </PopoverContent>
+      </Popover>
+      
+      <p className="text-xs text-muted-foreground/80">
+        Pick an emoji that represents your project
+      </p>
     </div>
   );
 }
@@ -132,18 +140,48 @@ export function SubdomainForm() {
     {}
   );
 
+  const isValid = icon && !isPending;
+
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} className="space-y-6">
       <SubdomainInput defaultValue={state?.subdomain} />
 
       <IconPicker icon={icon} setIcon={setIcon} defaultValue={state?.icon} />
 
+      {/* Error message */}
       {state?.error && (
-        <div className="text-sm text-red-500">{state.error}</div>
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+          <AlertCircle className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-destructive">{state.error}</p>
+        </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isPending || !icon}>
-        {isPending ? 'Creating...' : 'Create Subdomain'}
+      {/* Success message */}
+      {state?.success && (
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-50 border border-emerald-200">
+          <Check className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+          <div className="text-sm">
+            <p className="font-medium text-emerald-900">Subdomain created!</p>
+            <p className="text-emerald-700/80 mt-0.5">
+              {state.subdomain}.{rootDomain} is ready to use.
+            </p>
+          </div>
+        </div>
+      )}
+
+      <Button 
+        type="submit" 
+        className="w-full h-11 text-sm font-medium transition-all duration-200"
+        disabled={!isValid}
+      >
+        {isPending ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            Creating...
+          </>
+        ) : (
+          'Create subdomain'
+        )}
       </Button>
     </form>
   );

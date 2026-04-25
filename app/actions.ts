@@ -2,6 +2,7 @@
 
 import { redis } from '@/lib/redis';
 import { isValidIcon } from '@/lib/subdomains';
+import { deleteSite } from '@/lib/sites';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { rootDomain, protocol } from '@/lib/utils';
@@ -66,4 +67,24 @@ export async function deleteSubdomainAction(
   await redis.del(`subdomain:${subdomain}`);
   revalidatePath('/admin');
   return { success: 'Domain deleted successfully' };
+}
+
+export async function deleteSiteAction(
+  prevState: any,
+  formData: FormData
+) {
+  const siteId = formData.get('siteId') as string;
+  const userId = formData.get('userId') as string;
+
+  if (!siteId || !userId) {
+    return { error: 'Missing required fields' };
+  }
+
+  try {
+    await deleteSite(siteId, userId);
+    revalidatePath('/dashboard');
+    return { success: 'Site deleted successfully' };
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : 'Failed to delete site' };
+  }
 }
