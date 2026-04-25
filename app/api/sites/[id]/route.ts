@@ -14,8 +14,13 @@ export async function PATCH(
   // Validate content
   const validationResult = SiteContentSchema.safeParse(content);
   if (!validationResult.success) {
+    const issues = validationResult.error.issues.map(issue => ({
+      path: issue.path.join('.'),
+      message: issue.message,
+      code: issue.code,
+    }));
     return NextResponse.json(
-      { error: 'Invalid content structure' },
+      { error: 'Validation failed', issues },
       { status: 400 }
     );
   }

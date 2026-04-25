@@ -106,10 +106,34 @@ export function SiteEditor({ site }: { site: Site }) {
         setLastSaved(new Date());
         toast.success('Changes saved');
       } else {
-        toast.error('Failed to save changes');
+        const data = await response.json();
+        if (data.issues && data.issues.length > 0) {
+          const issue = data.issues[0];
+          toast.error(issue.message, {
+            duration: 5000,
+            action: {
+              label: 'Retry',
+              onClick: () => handleSave(),
+            },
+          });
+        } else {
+          toast.error(data.error || 'Failed to save changes', {
+            duration: 5000,
+            action: {
+              label: 'Retry',
+              onClick: () => handleSave(),
+            },
+          });
+        }
       }
     } catch {
-      toast.error('Failed to save changes');
+      toast.error('Failed to save changes', {
+        duration: 5000,
+        action: {
+          label: 'Retry',
+          onClick: () => handleSave(),
+        },
+      });
     } finally {
       setIsSaving(false);
     }
