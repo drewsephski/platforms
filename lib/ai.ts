@@ -195,10 +195,11 @@ export async function generateSiteContent(
 ): Promise<SiteContent> {
   const structureExample = CONTENT_STRUCTURE_EXAMPLE.replace('AESTHETIC_PLACEHOLDER', aesthetic);
 
-  const result = await generateObject({
-    model: openrouter('google/gemini-3.1-flash-lite-preview'),
-    schema: SiteContentSchema,
-    prompt: `${DESIGN_SYSTEM_PROMPT}
+  try {
+    const result = await generateObject({
+      model: openrouter('google/gemini-3.1-flash-lite-preview'),
+      schema: SiteContentSchema,
+      prompt: `${DESIGN_SYSTEM_PROMPT}
 
 User's request: ${prompt}
 
@@ -240,26 +241,76 @@ REQUIRED FIELDS:
 Style options: centered, split, minimal, asymmetric, fullbleed, grid, masonry
 
 Now generate content for this request. Remember: Be SPECIFIC to the business. No generic placeholders.`,
-  });
+    });
 
-  const content = result.object as SiteContent;
+    const content = result.object as SiteContent;
 
-  // Defensive: Ensure only one hero section exists at the top
-  const heroSections = content.sections.filter(s => s.type === 'hero');
-  if (heroSections.length > 1) {
-    // Find the hero with actual content (not placeholder "Welcome")
-    const heroToKeep = heroSections.find(h => h.headline && h.headline !== 'Welcome' && h.headline.length > 10) || heroSections[0];
-    // Remove all hero sections and insert the kept one at the beginning
-    content.sections = content.sections.filter(s => s.type !== 'hero');
-    content.sections.unshift(heroToKeep);
-  } else if (heroSections.length === 1) {
-    // Ensure the single hero is at the top
-    const heroIndex = content.sections.findIndex(s => s.type === 'hero');
-    if (heroIndex !== 0) {
-      const [hero] = content.sections.splice(heroIndex, 1);
-      content.sections.unshift(hero);
+    // Defensive: Ensure only one hero section exists at the top
+    const heroSections = content.sections.filter(s => s.type === 'hero');
+    if (heroSections.length > 1) {
+      // Find the hero with actual content (not placeholder "Welcome")
+      const heroToKeep = heroSections.find(h => h.headline && h.headline !== 'Welcome' && h.headline.length > 10) || heroSections[0];
+      // Remove all hero sections and insert the kept one at the beginning
+      content.sections = content.sections.filter(s => s.type !== 'hero');
+      content.sections.unshift(heroToKeep);
+    } else if (heroSections.length === 1) {
+      // Ensure the single hero is at the top
+      const heroIndex = content.sections.findIndex(s => s.type === 'hero');
+      if (heroIndex !== 0) {
+        const [hero] = content.sections.splice(heroIndex, 1);
+        content.sections.unshift(hero);
+      }
     }
-  }
 
-  return content;
+    return content;
+  } catch (error: any) {
+    console.error('Schema validation failed, attempting fallback parsing:', error.message);
+
+    // Fallback: Use generateText and manually parse with lenient validation
+    const { generateText } = await import('ai');
+
+    const result = await generateText({
+      model: openrouter('google/gemini-3.1-flash-lite-preview'),
+      prompt: `${DESIGN_SYSTEM_PROMPT}
+
+User's request: ${prompt}
+
+Template reference (use for structure only, make it DISTINCTIVE): ${template}
+
+VISUAL AESTHETIC TO USE: ${aesthetic}
+
+Generate a complete SiteContent object as JSON. Follow this EXACT structure:
+
+${structureExample}
+
+CRITICAL: Return ONLY valid JSON, no markdown formatting, no code blocks.`,
+    });
+
+    // Parse the JSON response
+    const jsonMatch = result.text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error('Failed to extract JSON from AI response');
+    }
+
+    const parsedContent = JSON.parse(jsonMatch[0]);
+
+    // Lenient validation - coerce to schema
+    const content = SiteContentSchema.parse(parsedContent) as SiteContent;
+
+    // Defensive: Ensure only one hero section exists at the top
+    const heroSections = content.sections.filter(s => s.type === 'hero');
+    if (heroSections.length > 1) {
+      const heroToKeep = heroSections.find(h => h.headline && h.headline !== 'Welcome' && h.headline.length > 10) || heroSections[0];
+      content.sections = content.sections.filter(s => s.type !== 'hero');
+      content.sections.unshift(heroToKeep);
+    } else if (heroSections.length === 1) {
+      const heroIndex = content.sections.findIndex(s => s.type === 'hero');
+      if (heroIndex !== 0) {
+        const [hero] = content.sections.splice(heroIndex, 1);
+        content.sections.unshift(hero);
+      }
+    }
+
+    return content;
+  }
 }

@@ -238,7 +238,7 @@ export const ThemeSchema = z.object({
   font: permissiveEnum(['system', 'serif', 'mono'], 'system').optional(),
   fontPairing: FontPairingSchema.optional(),
   colors: ColorPaletteSchema.optional(),
-});
+}).passthrough();
 
 export const HeroSectionSchema = z.object({
   type: z.literal('hero'),
@@ -258,7 +258,7 @@ export const HeroSectionSchema = z.object({
     verticalAlign: permissiveEnum(['top', 'center', 'bottom'], 'center').optional(),
     decorative: permissiveEnum(['none', 'shapes', 'lines', 'texture', 'gradient'], 'none').optional(),
   }).optional().or(z.string()).transform(v => typeof v === 'string' ? undefined : v),
-});
+}).passthrough();
 
 export const AboutSectionSchema = z.object({
   type: z.literal('about'),
@@ -268,7 +268,7 @@ export const AboutSectionSchema = z.object({
   avatarUrl: optionalString(),
   layout: permissiveEnum(['standard', 'split', 'editorial', 'minimal'], 'standard').optional(),
   stats: z.array(z.object({ label: z.string(), value: z.string() })).optional().default([]),
-});
+}).passthrough();
 
 export const ProjectItemSchema = z.object({
   id: z.string(),
@@ -289,7 +289,7 @@ export const ProjectsSectionSchema = z.object({
   items: z.array(ProjectItemSchema).default([]),
   layout: permissiveEnum(['grid', 'list', 'masonry', 'featured'], 'grid').optional(),
   columns: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
-});
+}).passthrough();
 
 export const TestimonialsSectionSchema = z.object({
   type: z.literal('testimonials'),
@@ -306,7 +306,7 @@ export const TestimonialsSectionSchema = z.object({
     })
   ).default([]),
   layout: permissiveEnum(['grid', 'masonry', 'carousel'], 'grid').optional(),
-});
+}).passthrough();
 
 export const ContactSectionSchema = z.object({
   type: z.literal('contact'),
@@ -323,14 +323,14 @@ export const ContactSectionSchema = z.object({
   })).optional().default([]),
   layout: permissiveEnum(['simple', 'split', 'card', 'fullbleed'], 'simple').optional(),
   cta: z.object({ text: z.string(), href: z.string() }).optional(),
-});
+}).passthrough();
 
 export const RawSectionSchema = z.object({
   type: z.literal('raw'),
   id: z.string().default(() => `raw-${Date.now()}`),
   label: z.string().optional(),
   content: z.any(),
-});
+}).passthrough();
 
 export const SectionSchema = z.union([
   HeroSectionSchema,
@@ -348,7 +348,7 @@ export const SiteContentSchema = z.object({
   meta: z.object({
     title: z.string(),
     description: z.string(),
-    ogImage: z.string().url().optional(),
+    ogImage: z.string().optional().or(z.literal('')).transform(v => v || undefined),
   }),
   extras: z.record(z.string(), z.any()).optional(),
-});
+}).passthrough();
