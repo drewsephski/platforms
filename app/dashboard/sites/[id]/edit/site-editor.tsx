@@ -24,7 +24,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Save, Eye, ArrowLeft, Loader2, Globe, ExternalLink, Type, User, FolderGit2, Mail, Plus, Trash2, Settings2, FileText, Monitor, ArrowRight, ArrowLeft as ArrowLeftIcon, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { getSiteUrl } from '@/lib/utils';
-import type { SiteContent, Section } from '@/lib/types/site';
+import type { SiteContent, Section, HeroSection, AboutSection, ProjectsSection, ContactSection } from '@/lib/types/site';
 import { cn } from '@/lib/utils';
 
 type Site = {
@@ -135,11 +135,11 @@ export function SiteEditor({ site }: { site: Site }) {
     }
   };
 
-  const updateSection = (sectionId: string, updates: Partial<Section>) => {
+  const updateSection = (sectionId: string, updates: Record<string, unknown>) => {
     setContent({
       ...content,
       sections: content.sections.map((s) =>
-        s.id === sectionId ? { ...s, ...updates } : s
+        s.id === sectionId ? { ...s, ...updates } as Section : s
       ),
     });
   };
@@ -211,12 +211,14 @@ export function SiteEditor({ site }: { site: Site }) {
       description: 'Section content',
     };
 
-    const renderHeroFields = () => (
+    const renderHeroFields = () => {
+      const heroSection = section as Extract<Section, { type: 'hero' }>;
+      return (
       <div className="space-y-5">
         <FieldGroup title="Main Message" description="Specific value proposition">
           <FormField label="Headline" hint="6-12 words, benefit-driven">
             <Input
-              value={section.headline}
+              value={heroSection.headline}
               onChange={(e) => updateSection(section.id, { headline: e.target.value })}
               placeholder="e.g., 'Design systems that scale engineering teams'"
               className="text-sm"
@@ -224,7 +226,7 @@ export function SiteEditor({ site }: { site: Site }) {
           </FormField>
           <FormField label="Subheadline" hint="15-25 words with concrete details">
             <Input
-              value={section.subheadline || ''}
+              value={heroSection.subheadline || ''}
               onChange={(e) => updateSection(section.id, { subheadline: e.target.value })}
               placeholder="Formerly at Vercel. Now helping startups ship faster..."
               className="text-sm"
@@ -232,7 +234,7 @@ export function SiteEditor({ site }: { site: Site }) {
           </FormField>
           <FormField label="Tagline" hint="Differentiator above headline">
             <Input
-              value={section.tagline || ''}
+              value={heroSection.tagline || ''}
               onChange={(e) => updateSection(section.id, { tagline: e.target.value })}
               placeholder="e.g., 'INDEPENDENT DESIGN ENGINEER'"
               className="text-sm"
@@ -244,10 +246,10 @@ export function SiteEditor({ site }: { site: Site }) {
           <div className="grid grid-cols-2 gap-3">
             <FormField label="Button Text" hint="Verb + benefit">
               <Input
-                value={section.cta?.text || ''}
+                value={heroSection.cta?.text || ''}
                 onChange={(e) =>
                   updateSection(section.id, {
-                    cta: { ...section.cta, text: e.target.value, href: section.cta?.href || '#' },
+                    cta: { ...heroSection.cta, text: e.target.value, href: heroSection.cta?.href || '#' },
                   })
                 }
                 placeholder="e.g., 'Book consultation'"
@@ -256,10 +258,10 @@ export function SiteEditor({ site }: { site: Site }) {
             </FormField>
             <FormField label="Button Link">
               <Input
-                value={section.cta?.href || ''}
+                value={heroSection.cta?.href || ''}
                 onChange={(e) =>
                   updateSection(section.id, {
-                    cta: { ...section.cta, href: e.target.value, text: section.cta?.text || '' },
+                    cta: { ...heroSection.cta, href: e.target.value, text: heroSection.cta?.text || '' },
                   })
                 }
                 placeholder="#contact"
@@ -274,8 +276,8 @@ export function SiteEditor({ site }: { site: Site }) {
             <SelectField
               label="Style"
               hint="Visual arrangement"
-              value={section.style || 'centered'}
-              onChange={(value) => updateSection(section.id, { style: value })}
+              value={heroSection.style || 'centered'}
+              onChange={(value) => updateSection(section.id, { style: value as HeroSection['style'] })}
               options={[
                 { value: 'asymmetric', label: 'Asymmetric' },
                 { value: 'centered', label: 'Centered' },
@@ -286,10 +288,10 @@ export function SiteEditor({ site }: { site: Site }) {
             />
             <SelectField
               label="Text Alignment"
-              value={section.layout?.textAlign || 'center'}
+              value={heroSection.layout?.textAlign || 'center'}
               onChange={(value) =>
                 updateSection(section.id, {
-                  layout: { ...section.layout, textAlign: value as any },
+                  layout: { ...heroSection.layout, textAlign: value as 'left' | 'center' | 'right' },
                 })
               }
               options={[
@@ -302,13 +304,16 @@ export function SiteEditor({ site }: { site: Site }) {
         </FieldGroup>
       </div>
     );
+  };
 
-    const renderAboutFields = () => (
+    const renderAboutFields = () => {
+      const aboutSection = section as Extract<Section, { type: 'about' }>;
+      return (
       <div className="space-y-5">
         <FieldGroup title="Content" description="Your story">
           <FormField label="Heading" hint="Benefit-driven">
             <Input
-              value={section.heading}
+              value={aboutSection.heading}
               onChange={(e) => updateSection(section.id, { heading: e.target.value })}
               placeholder="e.g., 'Where design systems meet business impact'"
               className="text-sm"
@@ -316,7 +321,7 @@ export function SiteEditor({ site }: { site: Site }) {
           </FormField>
           <FormField label="Body Text" hint="3-4 paragraphs">
             <Textarea
-              value={section.body}
+              value={aboutSection.body}
               onChange={(e) => updateSection(section.id, { body: e.target.value })}
               rows={5}
               placeholder="Started in 2018 after seeing too many teams rebuild..."
@@ -328,8 +333,8 @@ export function SiteEditor({ site }: { site: Site }) {
         <FieldGroup title="Layout">
           <SelectField
             label="Style"
-            value={section.layout || 'standard'}
-            onChange={(value) => updateSection(section.id, { layout: value })}
+            value={aboutSection.layout || 'standard'}
+            onChange={(value) => updateSection(section.id, { layout: value as AboutSection['layout'] })}
             options={[
               { value: 'standard', label: 'Standard' },
               { value: 'editorial', label: 'Editorial' },
@@ -337,10 +342,10 @@ export function SiteEditor({ site }: { site: Site }) {
               { value: 'minimal', label: 'Minimal' },
             ]}
           />
-          {section.layout === 'split' && (
+          {aboutSection.layout === 'split' && (
             <FormField label="Image URL" hint="Your photo">
               <Input
-                value={section.avatarUrl || ''}
+                value={aboutSection.avatarUrl || ''}
                 onChange={(e) => updateSection(section.id, { avatarUrl: e.target.value })}
                 placeholder="https://example.com/photo.jpg"
                 className="text-sm mt-3"
@@ -350,14 +355,17 @@ export function SiteEditor({ site }: { site: Site }) {
         </FieldGroup>
       </div>
     );
+  };
 
-    const renderProjectsFields = () => (
+  const renderProjectsFields = () => {
+    const projectsSection = section as Extract<Section, { type: 'projects' }>;
+    return (
       <div className="space-y-5">
         <FieldGroup title="Section Header">
           <div className="grid grid-cols-2 gap-3">
             <FormField label="Heading">
               <Input
-                value={section.heading}
+                value={projectsSection.heading}
                 onChange={(e) => updateSection(section.id, { heading: e.target.value })}
                 placeholder="e.g., 'Selected projects'"
                 className="text-sm"
@@ -365,7 +373,7 @@ export function SiteEditor({ site }: { site: Site }) {
             </FormField>
             <FormField label="Subheading">
               <Input
-                value={section.subheading || ''}
+                value={projectsSection.subheading || ''}
                 onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
                 placeholder="e.g., 'Where strategy met execution'"
                 className="text-sm"
@@ -378,8 +386,8 @@ export function SiteEditor({ site }: { site: Site }) {
           <div className="grid grid-cols-2 gap-3">
             <SelectField
               label="Display Style"
-              value={section.layout || 'grid'}
-              onChange={(value) => updateSection(section.id, { layout: value })}
+              value={projectsSection.layout || 'grid'}
+              onChange={(value) => updateSection(section.id, { layout: value as ProjectsSection['layout'] })}
               options={[
                 { value: 'featured', label: 'Featured' },
                 { value: 'grid', label: 'Grid' },
@@ -389,7 +397,7 @@ export function SiteEditor({ site }: { site: Site }) {
             />
             <SelectField
               label="Columns"
-              value={String(section.columns || 2)}
+              value={String(projectsSection.columns || 2)}
               onChange={(value) => updateSection(section.id, { columns: Number(value) as 1 | 2 | 3 })}
               options={[
                 { value: '1', label: '1 column' },
@@ -400,9 +408,9 @@ export function SiteEditor({ site }: { site: Site }) {
           </div>
         </FieldGroup>
 
-        <FieldGroup title={`Projects (${section.items.length})`}>
+        <FieldGroup title={`Projects (${projectsSection.items.length})`}>
           <div className="space-y-3">
-            {section.items.map((item, idx) => (
+            {projectsSection.items.map((item, idx) => (
               <div key={item.id} className="rounded-lg border border-border/60 bg-muted/20 p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-muted-foreground">Project {idx + 1}</span>
@@ -411,7 +419,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     variant="ghost"
                     size="sm"
                     onClick={() => {
-                      const newItems = section.items.filter((_, i) => i !== idx);
+                      const newItems = projectsSection.items.filter((_, i) => i !== idx);
                       updateSection(section.id, { items: newItems });
                     }}
                     className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
@@ -423,7 +431,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Input
                     value={item.title}
                     onChange={(e) => {
-                      const newItems = [...section.items];
+                      const newItems = [...projectsSection.items];
                       newItems[idx] = { ...item, title: e.target.value };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -435,7 +443,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Textarea
                     value={item.description}
                     onChange={(e) => {
-                      const newItems = [...section.items];
+                      const newItems = [...projectsSection.items];
                       newItems[idx] = { ...item, description: e.target.value };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -449,7 +457,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     <Input
                       value={item.href || ''}
                       onChange={(e) => {
-                        const newItems = [...section.items];
+                        const newItems = [...projectsSection.items];
                         newItems[idx] = { ...item, href: e.target.value };
                         updateSection(section.id, { items: newItems });
                       }}
@@ -461,7 +469,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     <Input
                       value={item.accentColor || ''}
                       onChange={(e) => {
-                        const newItems = [...section.items];
+                        const newItems = [...projectsSection.items];
                         newItems[idx] = { ...item, accentColor: e.target.value };
                         updateSection(section.id, { items: newItems });
                       }}
@@ -474,7 +482,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Input
                     value={item.tags?.join(', ') || ''}
                     onChange={(e) => {
-                      const newItems = [...section.items];
+                      const newItems = [...projectsSection.items];
                       newItems[idx] = { ...item, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -490,7 +498,7 @@ export function SiteEditor({ site }: { site: Site }) {
               size="sm"
               onClick={() =>
                 updateSection(section.id, {
-                  items: [...section.items, { id: `proj-${Date.now()}`, title: '', description: '', accentColor: '#1e3a5f' }],
+                  items: [...projectsSection.items, { id: `proj-${Date.now()}`, title: '', description: '', accentColor: '#1e3a5f' }],
                 })
               }
               className="w-full h-9 text-xs"
@@ -502,14 +510,17 @@ export function SiteEditor({ site }: { site: Site }) {
         </FieldGroup>
       </div>
     );
+  };
 
-    const renderContactFields = () => (
+  const renderContactFields = () => {
+    const contactSection = section as Extract<Section, { type: 'contact' }>;
+    return (
       <div className="space-y-5">
         <FieldGroup title="Header">
           <div className="grid grid-cols-2 gap-3">
             <FormField label="Heading">
               <Input
-                value={section.heading}
+                value={contactSection.heading}
                 onChange={(e) => updateSection(section.id, { heading: e.target.value })}
                 placeholder="Get in Touch"
                 className="text-sm"
@@ -517,7 +528,7 @@ export function SiteEditor({ site }: { site: Site }) {
             </FormField>
             <FormField label="Subheading">
               <Input
-                value={section.subheading || ''}
+                value={contactSection.subheading || ''}
                 onChange={(e) => updateSection(section.id, { subheading: e.target.value })}
                 placeholder="Let's work together"
                 className="text-sm"
@@ -530,7 +541,7 @@ export function SiteEditor({ site }: { site: Site }) {
           <FormField label="Email Address">
             <Input
               type="email"
-              value={section.email || ''}
+              value={contactSection.email || ''}
               onChange={(e) => updateSection(section.id, { email: e.target.value })}
               placeholder="hello@example.com"
               className="text-sm"
@@ -541,8 +552,8 @@ export function SiteEditor({ site }: { site: Site }) {
         <FieldGroup title="Layout">
           <SelectField
             label="Display Style"
-            value={section.layout || 'simple'}
-            onChange={(value) => updateSection(section.id, { layout: value })}
+            value={contactSection.layout || 'simple'}
+            onChange={(value) => updateSection(section.id, { layout: value as ContactSection['layout'] })}
             options={[
               { value: 'simple', label: 'Simple' },
               { value: 'split', label: 'Split' },
@@ -552,14 +563,14 @@ export function SiteEditor({ site }: { site: Site }) {
           />
         </FieldGroup>
 
-        <FieldGroup title={`Social Links (${(section.links || []).length})`}>
+        <FieldGroup title={`Social Links (${(contactSection.links || []).length})`}>
           <div className="space-y-2">
-            {(section.links || []).map((link, idx) => (
+            {(contactSection.links || []).map((link, idx) => (
               <div key={idx} className="flex items-center gap-2">
                 <Input
                   value={link.label}
                   onChange={(e) => {
-                    const newLinks = [...(section.links || [])];
+                    const newLinks = [...(contactSection.links || [])];
                     newLinks[idx] = { ...link, label: e.target.value };
                     updateSection(section.id, { links: newLinks });
                   }}
@@ -569,7 +580,7 @@ export function SiteEditor({ site }: { site: Site }) {
                 <Input
                   value={link.href}
                   onChange={(e) => {
-                    const newLinks = [...(section.links || [])];
+                    const newLinks = [...(contactSection.links || [])];
                     newLinks[idx] = { ...link, href: e.target.value };
                     updateSection(section.id, { links: newLinks });
                   }}
@@ -581,7 +592,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   variant="ghost"
                   size="icon"
                   onClick={() => {
-                    const newLinks = (section.links || []).filter((_, i) => i !== idx);
+                    const newLinks = (contactSection.links || []).filter((_, i) => i !== idx);
                     updateSection(section.id, { links: newLinks });
                   }}
                   className="h-9 w-9 text-muted-foreground hover:text-destructive"
@@ -594,7 +605,7 @@ export function SiteEditor({ site }: { site: Site }) {
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => updateSection(section.id, { links: [...(section.links || []), { label: '', href: '' }] })}
+              onClick={() => updateSection(section.id, { links: [...(contactSection.links || []), { label: '', href: '' }] })}
               className="w-full h-9 text-xs"
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" />
@@ -604,15 +615,16 @@ export function SiteEditor({ site }: { site: Site }) {
         </FieldGroup>
       </div>
     );
+  };
 
-    const contentVariants = {
+  const contentVariants: import('framer-motion').Variants = {
       hidden: { opacity: 0, height: 0 },
       visible: {
         opacity: 1,
         height: 'auto',
         transition: {
           duration: 0.3,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
           staggerChildren: 0.03,
         },
       },
@@ -621,19 +633,19 @@ export function SiteEditor({ site }: { site: Site }) {
         height: 0,
         transition: {
           duration: 0.2,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
         },
       },
     };
 
-    const itemVariants = {
+    const itemVariants: import('framer-motion').Variants = {
       hidden: { opacity: 0, y: 8 },
       visible: {
         opacity: 1,
         y: 0,
         transition: {
           duration: 0.25,
-          ease: [0.25, 0.46, 0.45, 0.94],
+          ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
         },
       },
     };
