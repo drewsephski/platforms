@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Trash2, Loader2, ExternalLink, ArrowLeft, LayoutGrid, AlertCircle, Check } from 'lucide-react';
 import Link from 'next/link';
 import { deleteSubdomainAction } from '@/app/actions';
-import { rootDomain, protocol } from '@/lib/utils';
+import { rootDomain, protocol, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 type Tenant = {
@@ -77,7 +77,7 @@ function TenantCard({
   isPending: boolean;
   index: number;
 }) {
-  const fullUrl = `${protocol}://${tenant.subdomain}.${rootDomain}`;
+  const fullUrl = getSiteUrl(tenant.subdomain);
   
   return (
     <Card 
