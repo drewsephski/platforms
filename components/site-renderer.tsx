@@ -1059,6 +1059,7 @@ export function SiteRenderer({ content }: { content: SiteContent }) {
         ...fontStyles,
       }}
     >
+      <Navbar content={content} />
       {content.sections.map((section) => {
         switch (section.type) {
           case 'hero':
