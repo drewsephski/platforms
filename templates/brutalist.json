@@ -1,0 +1,116 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Brutalist Portfolio",
+    "description": "Raw, bold, unapologetic design"
+  },
+  "theme": {
+    "preset": "bold",
+    "aesthetic": "brutalist",
+    "background": "light",
+    "font": "mono",
+    "fontPairing": {
+      "display": "Space Mono",
+      "body": "Space Mono",
+      "weights": {
+        "display": 700,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#000000",
+      "accent": "#ff0000",
+      "background": "#ffffff",
+      "surface": "#f0f0f0",
+      "text": "#000000",
+      "muted": "#333333",
+      "border": "#000000"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "asymmetric",
+      "headline": "I BUILD THINGS",
+      "subheadline": "NO FLUFF. NO BULLSHIT. JUST WORK THAT WORKS.",
+      "tagline": "FULL-STACK DEVELOPER",
+      "cta": {
+        "text": "SEE THE WORK",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "layout": {
+        "textAlign": "left",
+        "verticalAlign": "top",
+        "decorative": "lines"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "standard",
+      "heading": "WHO I AM",
+      "body": "I'm a developer who cares about shipping. Not shipping features—shipping products that people actually use. I've been doing this for 8 years, working with startups and Fortune 500 companies alike.\n\nMy philosophy is simple: build fast, measure, iterate. Don't overthink it. The best code is code that ships.\n\nCurrently based in Brooklyn, working remotely with teams around the world.",
+      "stats": [
+        { "label": "Years shipping", "value": "8" },
+        { "label": "Projects shipped", "value": "47" },
+        { "label": "Lines of code", "value": "1M+" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "grid",
+      "heading": "SELECTED WORK",
+      "subheading": "THINGS I'VE BUILT",
+      "items": [
+        {
+          "id": "project-1",
+          "title": "E-COMMERCE PLATFORM",
+          "description": "Built a headless e-commerce platform handling $50M+ in annual transactions. 99.9% uptime.",
+          "href": "#",
+          "tags": ["React", "Node.js", "PostgreSQL"],
+          "accentColor": "#ff0000"
+        },
+        {
+          "id": "project-2",
+          "title": "REAL-TIME ANALYTICS",
+          "description": "Dashboard processing 1M+ events per second. Built with Go and WebSockets.",
+          "href": "#",
+          "tags": ["Go", "WebSockets", "Redis"],
+          "accentColor": "#000000"
+        },
+        {
+          "id": "project-3",
+          "title": "MOBILE APP",
+          "description": "React Native app with 500K+ downloads. 4.8 star rating.",
+          "href": "#",
+          "tags": ["React Native", "iOS", "Android"],
+          "accentColor": "#ff0000"
+        },
+        {
+          "id": "project-4",
+          "title": "API INFRASTRUCTURE",
+          "description": "Scaled API from 10K to 10M requests per day. Implemented rate limiting and caching.",
+          "href": "#",
+          "tags": ["AWS", "Lambda", "API Gateway"],
+          "accentColor": "#000000"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "split",
+      "heading": "LET'S WORK TOGETHER",
+      "subheading": "IF YOU HAVE SOMETHING REAL TO BUILD",
+      "email": "dev@example.com",
+      "links": [
+        { "label": "GITHUB", "href": "https://github.com" },
+        { "label": "TWITTER", "href": "https://twitter.com" },
+        { "label": "LINKEDIN", "href": "https://linkedin.com" }
+      ]
+    }
+  ]
+}

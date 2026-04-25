@@ -18,10 +18,11 @@ type State = {
 const templates = [
   { value: 'auto', label: 'Auto', desc: 'AI picks', icon: Wand2 },
   { value: 'dev', label: 'Developer', desc: 'Code-focused', icon: Code2 },
-  { value: 'designer', label: 'Designer', desc: 'Visual-first', icon: Palette },
-  { value: 'founder', label: 'Founder', desc: 'Startup ready', icon: Rocket },
-  { value: 'creator', label: 'Creator', desc: 'Social ready', icon: User },
-  { value: 'minimal', label: 'Minimal', desc: 'Clean & focused', icon: Minimize2 },
+  { value: 'minimalist', label: 'Minimalist', desc: 'Extreme restraint', icon: Minimize2 },
+  { value: 'brutalist', label: 'Brutalist', desc: 'Raw & bold', icon: Hexagon },
+  { value: 'retro-futuristic', label: 'Retro-Future', desc: '80s tech vibes', icon: Rocket },
+  { value: 'organic', label: 'Organic', desc: 'Natural & human', icon: Palette },
+  { value: 'industrial', label: 'Industrial', desc: 'Utilitarian', icon: Factory },
 ];
 
 const aestheticStyles = [
@@ -51,14 +52,16 @@ export function NewSiteForm({ userId }: { userId: string }) {
     // Template detection
     if (lower.includes('developer') || lower.includes('code') || lower.includes('github') || lower.includes('programming') || lower.includes('software')) {
       setTemplate('dev');
-    } else if (lower.includes('design') || lower.includes('creative') || lower.includes('art') || lower.includes('visual')) {
-      setTemplate('designer');
-    } else if (lower.includes('startup') || lower.includes('product') || lower.includes('pitch') || lower.includes('launch')) {
-      setTemplate('founder');
-    } else if (lower.includes('creator') || lower.includes('influencer') || lower.includes('social') || lower.includes('link in bio')) {
-      setTemplate('creator');
-    } else if (lower.includes('minimal') || lower.includes('simple') || lower.includes('clean')) {
-      setTemplate('minimal');
+    } else if (lower.includes('minimal') || lower.includes('simple') || lower.includes('clean') || lower.includes('restraint')) {
+      setTemplate('minimalist');
+    } else if (lower.includes('brutal') || lower.includes('raw') || lower.includes('bold') || lower.includes('stark') || lower.includes('industrial')) {
+      setTemplate('brutalist');
+    } else if (lower.includes('retro') || lower.includes('futuristic') || lower.includes('80s') || lower.includes('cyber') || lower.includes('neon')) {
+      setTemplate('retro-futuristic');
+    } else if (lower.includes('organic') || lower.includes('natural') || lower.includes('earthy') || lower.includes('soft') || lower.includes('human')) {
+      setTemplate('organic');
+    } else if (lower.includes('industrial') || lower.includes('functional') || lower.includes('technical') || lower.includes('engineering')) {
+      setTemplate('industrial');
     }
     
     // Aesthetic detection

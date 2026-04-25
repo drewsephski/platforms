@@ -43,18 +43,18 @@ export default async function HomePage() {
             <Sparkles className="w-3.5 h-3.5" />
             <span>AI-Powered Site Builder</span>
           </div>
-          
+
           {/* Heading */}
           <h1 className="text-[clamp(2.5rem,6vw,3.5rem)] font-semibold tracking-tight leading-[1.1] text-foreground mb-5">
-            AI-Powered Carrd
+            Your Beautiful Website
             <br />
-            <span className="text-muted-foreground">for Hackers</span>
+            <span className="text-muted-foreground">in Seconds</span>
           </h1>
-          
+
           {/* Subheadline */}
           <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg mx-auto">
-            Describe your vibe, and let AI generate your portfolio in seconds. 
-            Publish to a custom subdomain instantly.
+            Tell us what you need, and watch AI create your portfolio or landing page instantly. 
+            No design skills required—just your ideas.
           </p>
 
           {/* CTAs */}
@@ -76,16 +76,16 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-3 gap-6 text-left animate-fade-in delay-100">
             {[
               {
-                title: 'AI Generation',
-                description: 'Describe your site in natural language. AI generates structure, copy, and theme.'
+                title: 'AI Creates It For You',
+                description: 'Just describe what you want in plain English. AI handles the design, writing, and layout.'
               },
               {
-                title: 'Instant Publishing',
-                description: 'Your site is live on a custom subdomain the moment you hit publish.'
+                title: 'Live in One Click',
+                description: 'Your website goes online instantly with a free link. Share it anywhere right away.'
               },
               {
-                title: 'Full Control',
-                description: 'Edit any section, reorder blocks, and refine with AI. You own the content.'
+                title: 'Easy to Customize',
+                description: 'Change anything you want—text, colors, layout. Make it uniquely yours in minutes.'
               }
             ].map((feature, i) => (
               <div 

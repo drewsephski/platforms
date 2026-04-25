@@ -1,6 +1,8 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { generateObject } from 'ai';
 import { SiteContentSchema, type SiteContent } from '@/lib/types/site';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -241,11 +243,43 @@ const CONTENT_STRUCTURE_EXAMPLE = `
   ]
 }`;
 
+// Helper function to load template file
+function loadTemplate(templateName: string): SiteContent | null {
+  try {
+    const templatePath = join(process.cwd(), 'templates', `${templateName}.json`);
+    const templateContent = readFileSync(templatePath, 'utf-8');
+    return JSON.parse(templateContent) as SiteContent;
+  } catch (error) {
+    console.error(`Failed to load template ${templateName}:`, error);
+    return null;
+  }
+}
+
 export async function generateSiteContent(
   prompt: string,
   template: string = 'dev',
   aesthetic: string = 'editorial'
 ): Promise<SiteContent> {
+  // Load template to get theme/aesthetic configuration
+  const loadedTemplate = loadTemplate(template);
+  
+  // Use template's theme if available, otherwise use aesthetic parameter
+  const themeToUse = loadedTemplate?.theme || {
+    preset: 'default',
+    aesthetic: aesthetic as any,
+    background: 'light',
+    font: 'system',
+    colors: {
+      primary: '#1a1a1a',
+      accent: '#c9a227',
+      background: '#faf9f7',
+      surface: '#f5f4f2',
+      text: '#1a1a1a',
+      muted: '#6b6b6b',
+      border: '#e5e5e5'
+    }
+  };
+
   const structureExample = CONTENT_STRUCTURE_EXAMPLE.replace('AESTHETIC_PLACEHOLDER', aesthetic);
 
   try {
@@ -256,18 +290,12 @@ export async function generateSiteContent(
 
 User's request: ${prompt}
 
-Template reference (use for structure only, make it DISTINCTIVE): ${template}
+TEMPLATE THEME TO USE (use these exact fonts, colors, and aesthetic direction):
+${JSON.stringify(themeToUse, null, 2)}
 
-VISUAL AESTHETIC TO USE: ${aesthetic}
-- Choose fonts, colors, and layouts that match this aesthetic direction
-- Editorial: Playfair Display + clean sans, warm neutrals, asymmetric layouts
-- Minimal: System fonts, extreme whitespace, single accent color
-- Brutalist: Bold monospace, stark contrast, exposed grid
-- Retro-Futuristic: Geometric sans, gradient accents, space-age curves
-- Organic: Soft rounded fonts, earthy palette, flowing asymmetry
-- Maximalist: Layered elements, vibrant clashing colors, energetic
-- Art Deco: Symmetrical, metallic accents, bold geometry
-- Industrial: Monospace, utilitarian grays, functional grids
+CRITICAL: You MUST use the theme configuration above for fonts, colors, and aesthetic. Do not choose your own - use exactly what's provided.
+
+Generate content that is SPECIFIC to the user's request above. The content must match their business, role, or project - not generic placeholders.
 
 Generate a complete SiteContent object. Follow this EXACT structure:
 
@@ -328,6 +356,9 @@ Now generate content for this request. Remember: Be SPECIFIC, NO IMAGES, respons
 
     const content = result.object as SiteContent;
 
+    // Override the theme with the template's theme to ensure aesthetic consistency
+    content.theme = themeToUse;
+
     // Defensive: Ensure only one hero section exists at the top
     const heroSections = content.sections.filter(s => s.type === 'hero');
     if (heroSections.length > 1) {
@@ -358,13 +389,12 @@ Now generate content for this request. Remember: Be SPECIFIC, NO IMAGES, respons
 
 User's request: ${prompt}
 
-Template reference (use for structure only, make it DISTINCTIVE): ${template}
+TEMPLATE THEME TO USE (use these exact fonts, colors, and aesthetic direction):
+${JSON.stringify(themeToUse, null, 2)}
 
-VISUAL AESTHETIC TO USE: ${aesthetic}
-- Choose fonts, colors, and layouts that match this aesthetic direction
-- NO IMAGES - design must work beautifully without any imageUrl or avatarUrl
-- Use asymmetric layouts for visual interest
-- Each project needs a distinctive accentColor for visual variety
+CRITICAL: You MUST use the theme configuration above for fonts, colors, and aesthetic. Do not choose your own - use exactly what's provided.
+
+Generate content that is SPECIFIC to the user's request above. The content must match their business, role, or project - not generic placeholders.
 
 Generate a complete SiteContent object as JSON. Follow this EXACT structure:
 
@@ -390,6 +420,9 @@ CRITICAL RULES:
 
     // Lenient validation - coerce to schema
     const content = SiteContentSchema.parse(parsedContent) as SiteContent;
+
+    // Override the theme with the template's theme to ensure aesthetic consistency
+    content.theme = themeToUse;
 
     // Defensive: Ensure only one hero section exists at the top
     const heroSections = content.sections.filter(s => s.type === 'hero');

@@ -1,0 +1,98 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Minimal Portfolio",
+    "description": "Extreme restraint and intentional whitespace"
+  },
+  "theme": {
+    "preset": "minimal",
+    "aesthetic": "minimal",
+    "background": "light",
+    "font": "serif",
+    "fontPairing": {
+      "display": "Inter",
+      "body": "Inter",
+      "weights": {
+        "display": 300,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#0a0a0a",
+      "accent": "#0a0a0a",
+      "background": "#ffffff",
+      "surface": "#fafafa",
+      "text": "#0a0a0a",
+      "muted": "#666666",
+      "border": "#e5e5e5"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "minimal",
+      "headline": "Design matters",
+      "subheadline": "I create digital experiences with intention and restraint.",
+      "layout": {
+        "textAlign": "left",
+        "verticalAlign": "center",
+        "decorative": "none"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "minimal",
+      "heading": "",
+      "body": "I believe in the power of subtraction. Every element should earn its place. Every pixel should serve a purpose. This philosophy guides everything I create—from brand identities to digital products.\n\nBased in San Francisco, I work with companies who value craft over trends, substance over style, and long-term thinking over quick wins.",
+      "stats": []
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "list",
+      "heading": "Work",
+      "subheading": "",
+      "items": [
+        {
+          "id": "project-1",
+          "title": "Stripe Design System",
+          "description": "Led the redesign of Stripe's component library, focusing on accessibility and developer experience.",
+          "href": "#",
+          "tags": ["Design Systems", "React", "Accessibility"],
+          "accentColor": "#0a0a0a"
+        },
+        {
+          "id": "project-2",
+          "title": "Linear Brand Identity",
+          "description": "Created the visual identity for Linear, including logo, typography system, and brand guidelines.",
+          "href": "#",
+          "tags": ["Branding", "Identity", "Typography"],
+          "accentColor": "#0a0a0a"
+        },
+        {
+          "id": "project-3",
+          "title": "Vercel Website",
+          "description": "Redesigned Vercel's marketing site with focus on performance and developer experience.",
+          "href": "#",
+          "tags": ["Web Design", "Performance", "Next.js"],
+          "accentColor": "#0a0a0a"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "simple",
+      "heading": "Get in touch",
+      "subheading": "Open to interesting projects",
+      "email": "hello@example.com",
+      "links": [
+        { "label": "Twitter", "href": "https://twitter.com" },
+        { "label": "GitHub", "href": "https://github.com" },
+        { "label": "LinkedIn", "href": "https://linkedin.com" }
+      ]
+    }
+  ]
+}

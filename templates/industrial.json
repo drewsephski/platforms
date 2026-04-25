@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Industrial Portfolio",
+    "description": "Utilitarian, technical, and precision-focused"
+  },
+  "theme": {
+    "preset": "bold",
+    "aesthetic": "industrial",
+    "background": "dark",
+    "font": "mono",
+    "fontPairing": {
+      "display": "JetBrains Mono",
+      "body": "IBM Plex Mono",
+      "weights": {
+        "display": 500,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#e8e8e8",
+      "accent": "#ff6b35",
+      "background": "#1a1a1a",
+      "surface": "#252525",
+      "text": "#e8e8e8",
+      "muted": "#888888",
+      "border": "#333333"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "split",
+      "headline": "ENGINEERED SOLUTIONS",
+      "subheadline": "I build robust systems with predictable outcomes. No magic, just solid engineering.",
+      "tagline": "SYSTEMS ENGINEER",
+      "cta": {
+        "text": "VIEW SPECS",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "layout": {
+        "textAlign": "left",
+        "verticalAlign": "center",
+        "decorative": "lines"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "standard",
+      "heading": "SPECIFICATIONS",
+      "body": "I approach software engineering like mechanical engineering: understand the requirements, design the system, implement with precision, test thoroughly, and document everything.\n\nMy background is in distributed systems, infrastructure, and developer tooling. I care about observability, maintainability, and operational excellence. If it can't be measured, it doesn't exist.\n\nCurrently based in Seattle, working on infrastructure that powers millions of requests per day.",
+      "stats": [
+        { "label": "Systems architected", "value": "15" },
+        { "label": "99.99% uptime achieved", "value": "12" },
+        { "label": "Team size led", "value": "20+" },
+        { "label": "Latency reduced by", "value": "85%" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "grid",
+      "heading": "DEPLOYMENTS",
+      "subheading": "Production systems in operation",
+      "items": [
+        {
+          "id": "project-1",
+          "title": "MESSAGE QUEUE",
+          "description": "Distributed message queue handling 10M+ messages/day. Exactly-once semantics, dead letter queues, and comprehensive monitoring.",
+          "href": "#",
+          "tags": ["Go", "Kafka", "Monitoring"],
+          "accentColor": "#ff6b35"
+        },
+        {
+          "id": "project-2",
+          "title": "API GATEWAY",
+          "description": "High-performance API gateway with rate limiting, circuit breaking, and request routing. Handles 50K+ RPS.",
+          "href": "#",
+          "tags": ["Rust", "Kubernetes", "Networking"],
+          "accentColor": "#e8e8e8"
+        },
+        {
+          "id": "project-3",
+          "title": "OBSERVABILITY STACK",
+          "description": "Custom observability platform with metrics, traces, and logs. Built on Prometheus, Jaeger, and Elasticsearch.",
+          "href": "#",
+          "tags": ["Observability", "Prometheus", "Grafana"],
+          "accentColor": "#ff6b35"
+        },
+        {
+          "id": "project-4",
+          "title": "CI/CD PIPELINE",
+          "description": "Internal developer platform for automated deployments. GitOps-based with progressive delivery and automated rollback.",
+          "href": "#",
+          "tags": ["DevOps", "ArgoCD", "Kubernetes"],
+          "accentColor": "#e8e8e8"
+        },
+        {
+          "id": "project-5",
+          "title": "DATABASE MIGRATION",
+          "description": "Zero-downtime migration tool for PostgreSQL. Handles schema changes, data transformation, and rollback safely.",
+          "href": "#",
+          "tags": ["PostgreSQL", "Go", "Migration"],
+          "accentColor": "#ff6b35"
+        },
+        {
+          "id": "project-6",
+          "title": "SERVICE MESH",
+          "description": "Implementation of service mesh for microservices architecture. mTLS, traffic management, and policy enforcement.",
+          "href": "#",
+          "tags": ["Istio", "Envoy", "Security"],
+          "accentColor": "#e8e8e8"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "split",
+      "heading": "INITIATE CONTACT",
+      "subheading": "Available for consulting and full-time roles",
+      "email": "engineer@systems.io",
+      "links": [
+        { "label": "GitHub", "href": "https://github.com" },
+        { "label": "LinkedIn", "href": "https://linkedin.com" },
+        { "label": "Stack Overflow", "href": "https://stackoverflow.com" }
+      ]
+    }
+  ]
+}

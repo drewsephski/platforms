@@ -11,8 +11,13 @@ export async function generateSiteAction(
 ) {
   const prompt = formData.get('prompt') as string;
   const subdomain = formData.get('subdomain') as string;
-  const template = (formData.get('template') as string) || 'dev';
+  let template = (formData.get('template') as string) || 'dev';
   const aesthetic = (formData.get('aesthetic') as string) || 'editorial';
+
+  // Map 'auto' template to 'dev' as default
+  if (template === 'auto') {
+    template = 'dev';
+  }
 
   if (!prompt || !subdomain) {
     return { success: false, error: 'Prompt and subdomain are required' };

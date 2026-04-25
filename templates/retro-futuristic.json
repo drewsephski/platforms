@@ -1,0 +1,118 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Retro-Futuristic Portfolio",
+    "description": "80s tech vibes with modern execution"
+  },
+  "theme": {
+    "preset": "bold",
+    "aesthetic": "retro-futuristic",
+    "background": "dark",
+    "font": "system",
+    "fontPairing": {
+      "display": "Orbitron",
+      "body": "Rajdhani",
+      "weights": {
+        "display": 700,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#00ff88",
+      "accent": "#ff00ff",
+      "background": "#0a0a1a",
+      "surface": "#151530",
+      "text": "#e0e0ff",
+      "muted": "#8080a0",
+      "border": "#00ff88"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "fullbleed",
+      "headline": "FUTURE READY",
+      "subheadline": "Building the digital infrastructure of tomorrow, today. Next-generation interfaces for the connected world.",
+      "tagline": "CYBERNETIC SYSTEMS",
+      "cta": {
+        "text": "INITIATE SEQUENCE",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "layout": {
+        "textAlign": "center",
+        "verticalAlign": "center",
+        "decorative": "gradient"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "editorial",
+      "heading": "SYSTEM STATUS",
+      "body": "I specialize in creating immersive digital experiences that push the boundaries of what's possible on the web. From WebGL visualizations to real-time collaborative interfaces, I build systems that feel like they're from the future.\n\nMy toolkit includes React, Three.js, WebSockets, and a deep understanding of performance optimization. I believe the web is the most powerful platform for creative expression and utility.\n\nCurrently exploring: AI-powered interfaces, spatial computing, and the intersection of art and technology.",
+      "stats": [
+        { "label": "Systems deployed", "value": "23" },
+        { "label": "Users served", "value": "2.5M" },
+        { "label": "Uptime", "value": "99.99%" },
+        { "label": "Latency avg", "value": "45ms" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "featured",
+      "heading": "DEPLOYED SYSTEMS",
+      "subheading": "Production-grade digital infrastructure",
+      "items": [
+        {
+          "id": "project-1",
+          "title": "NEURAL INTERFACE",
+          "description": "Real-time AI collaboration platform with 100K+ active users. Features include live code editing, AI-powered suggestions, and instant deployment.",
+          "href": "#",
+          "tags": ["AI", "WebSockets", "React"],
+          "size": "large",
+          "accentColor": "#ff00ff"
+        },
+        {
+          "id": "project-2",
+          "title": "QUANTUM DASHBOARD",
+          "description": "3D data visualization platform for financial analytics. Built with Three.js and WebGL for GPU-accelerated rendering.",
+          "href": "#",
+          "tags": ["Three.js", "WebGL", "Data Viz"],
+          "accentColor": "#00ff88"
+        },
+        {
+          "id": "project-3",
+          "title": "SYNTHWAVE AUDIO",
+          "description": "Browser-based synthesizer and audio workstation. Real-time audio processing with Web Audio API.",
+          "href": "#",
+          "tags": ["Web Audio", "Canvas", "Music"],
+          "accentColor": "#ff00ff"
+        },
+        {
+          "id": "project-4",
+          "title": "HOLODECK PRESENCE",
+          "description": "AR/VR collaboration platform for remote teams. Spatial audio, hand tracking, and shared 3D environments.",
+          "href": "#",
+          "tags": ["WebXR", "Three.js", "Spatial"],
+          "accentColor": "#00ff88"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "fullbleed",
+      "heading": "ESTABLISH CONNECTION",
+      "subheading": "Ready to build something extraordinary together?",
+      "email": "system@cybernetic.io",
+      "links": [
+        { "label": "SIGNAL", "href": "https://twitter.com" },
+        { "label": "NETWORK", "href": "https://linkedin.com" },
+        { "label": "REPOSITORY", "href": "https://github.com" }
+      ]
+    }
+  ]
+}

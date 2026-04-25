@@ -1,0 +1,125 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Organic Portfolio",
+    "description": "Natural, earthy, and human-centered design"
+  },
+  "theme": {
+    "preset": "pastel",
+    "aesthetic": "organic",
+    "background": "light",
+    "font": "serif",
+    "fontPairing": {
+      "display": "Cormorant Garamond",
+      "body": "Lora",
+      "weights": {
+        "display": 400,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#2d4a3e",
+      "accent": "#8b7355",
+      "background": "#f5f3ef",
+      "surface": "#ebe8e1",
+      "text": "#2d4a3e",
+      "muted": "#5c6b5f",
+      "border": "#d4cfc5"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "centered",
+      "headline": "Design that grows",
+      "subheadline": "I create digital experiences rooted in human needs and natural patterns. Every project is an opportunity to build something that feels alive.",
+      "tagline": "Human-centered design",
+      "cta": {
+        "text": "See my work",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "layout": {
+        "textAlign": "center",
+        "verticalAlign": "center",
+        "decorative": "shapes"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "split",
+      "heading": "My approach",
+      "body": "I believe great design should feel inevitable—like it couldn't have been any other way. This comes from deep research, iterative prototyping, and a willingness to follow where the work leads.\n\nMy process is organic: start with understanding, let ideas grow through experimentation, and refine until every detail serves the whole. I don't believe in templates or shortcuts—each project deserves its own solution.\n\nBased in Portland, I work with brands who value authenticity over trends and substance over style.",
+      "stats": [
+        { "label": "Years in practice", "value": "6" },
+        { "label": "Happy clients", "value": "32" },
+        { "label": "Awards", "value": "4" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "masonry",
+      "heading": "Selected work",
+      "subheading": "Projects that grew from real needs",
+      "items": [
+        {
+          "id": "project-1",
+          "title": "Wildflower Co.",
+          "description": "Brand identity and e-commerce experience for a sustainable flower farm. Focused on storytelling and seasonal rhythms.",
+          "href": "#",
+          "tags": ["Branding", "E-commerce", "Sustainability"],
+          "size": "large",
+          "accentColor": "#8b7355"
+        },
+        {
+          "id": "project-2",
+          "title": "Forest School",
+          "description": "Educational platform for outdoor learning programs. Designed to feel like a walk in the woods.",
+          "href": "#",
+          "tags": ["Education", "UX Design", "Web"],
+          "accentColor": "#2d4a3e"
+        },
+        {
+          "id": "project-3",
+          "title": "Heritage Kitchen",
+          "description": "Recipe app celebrating family traditions and cultural heritage. Warm, inviting, and deeply personal.",
+          "href": "#",
+          "tags": ["Mobile App", "Food", "Culture"],
+          "accentColor": "#8b7355"
+        },
+        {
+          "id": "project-4",
+          "title": "Garden Planner",
+          "description": "Digital tool for planning and tracking garden growth. Combines data with delight.",
+          "href": "#",
+          "tags": ["Product Design", "Data", "Gardening"],
+          "accentColor": "#2d4a3e"
+        },
+        {
+          "id": "project-5",
+          "title": "Wellness Studio",
+          "description": "Booking and community platform for a holistic wellness center. Calm, clear, and welcoming.",
+          "href": "#",
+          "tags": ["Web App", "Wellness", "Community"],
+          "accentColor": "#8b7355"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "card",
+      "heading": "Let's cultivate something together",
+      "subheading": "I'm always interested in meaningful projects",
+      "email": "hello@organic.design",
+      "links": [
+        { "label": "Dribbble", "href": "https://dribbble.com" },
+        { "label": "Instagram", "href": "https://instagram.com" },
+        { "label": "LinkedIn", "href": "https://linkedin.com" }
+      ]
+    }
+  ]
+}

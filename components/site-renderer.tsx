@@ -684,6 +684,109 @@ function ProjectsSection({
   );
 }
 
+function TestimonialsSection({
+  section,
+  theme,
+}: {
+  section: Extract<Section, { type: 'testimonials' }>;
+  theme: Theme;
+}) {
+  const visible = useStaggeredReveal(section.items.length + 1, 100);
+  const layout = section.layout || 'grid';
+
+  // Masonry layout - varied card sizes
+  if (layout === 'masonry') {
+    return (
+      <section className="py-24 lg:py-32 px-6 lg:px-12">
+        <div className="container mx-auto">
+          <div className="mb-12">
+            <div
+              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            >
+              <h2 className="text-4xl md:text-5xl font-light"
+                style={{ fontFamily: theme.fontPairing?.display }}>
+                {section.heading}
+              </h2>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {section.items.map((item, i) => (
+              <div
+                key={item.id}
+                className={`p-6 lg:p-8 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+              >
+                <p className="text-lg leading-relaxed mb-6"
+                  style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
+                  "{item.quote}"
+                </p>
+                <div>
+                  <p className="font-medium" style={{ color: theme.colors?.text }}>
+                    {item.name}
+                  </p>
+                  {item.role && (
+                    <p className="text-sm mt-1" style={{ color: theme.colors?.muted }}>
+                      {item.role}
+                      {item.company && ` · ${item.company}`}
+                    </p>
+                  )}
+                  {item.outcome && (
+                    <p className="text-sm mt-2" style={{ color: theme.colors?.accent }}>
+                      {item.outcome}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Grid layout - uniform cards
+  return (
+    <section className="py-24 lg:py-32 px-6 lg:px-12">
+      <div className="container mx-auto">
+        <div className="mb-12">
+          <div
+            className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <h2 className="text-4xl md:text-5xl font-light"
+              style={{ fontFamily: theme.fontPairing?.display }}>
+              {section.heading}
+            </h2>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {section.items.map((item, i) => (
+            <div
+              key={item.id}
+              className={`p-6 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+            >
+              <p className="text-base leading-relaxed mb-4"
+                style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
+                "{item.quote}"
+              </p>
+              <div>
+                <p className="font-medium text-sm" style={{ color: theme.colors?.text }}>
+                  {item.name}
+                </p>
+                {item.role && (
+                  <p className="text-xs mt-1" style={{ color: theme.colors?.muted }}>
+                    {item.role}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ContactSection({
   section,
   theme,
@@ -915,6 +1018,31 @@ function RawSection({
   );
 }
 
+function Navbar({ content }: { content: SiteContent }) {
+  return (
+    <nav
+      className="sticky top-0 z-50 px-6 lg:px-12 py-4"
+      style={{
+        backgroundColor: content.theme.colors?.background || '#fff',
+        borderBottom: `1px solid ${content.theme.colors?.border || '#e5e5e5'}`,
+      }}
+    >
+      <div className="container mx-auto flex items-center justify-between">
+        <a
+          href="/"
+          className="text-lg font-medium hover:opacity-60 transition-opacity"
+          style={{
+            fontFamily: content.theme.fontPairing?.display,
+            color: content.theme.colors?.text || '#000',
+          }}
+        >
+          {content.meta?.title || 'Home'}
+        </a>
+      </div>
+    </nav>
+  );
+}
+
 export function SiteRenderer({ content }: { content: SiteContent }) {
   // Generate CSS variables for custom fonts and colors
   const fontStyles = content.theme.fontPairing ? {
@@ -939,6 +1067,8 @@ export function SiteRenderer({ content }: { content: SiteContent }) {
             return <AboutSection key={section.id} section={section} theme={content.theme} />;
           case 'projects':
             return <ProjectsSection key={section.id} section={section} theme={content.theme} />;
+          case 'testimonials':
+            return <TestimonialsSection key={section.id} section={section} theme={content.theme} />;
           case 'contact':
             return <ContactSection key={section.id} section={section} theme={content.theme} />;
           case 'raw':
