@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Plus, ExternalLink, Edit, ArrowLeft, Sparkles, LayoutGrid, Trash2, Loader2, AlertCircle, Check, Crown, Zap } from 'lucide-react';
 import { deleteSiteAction } from '@/app/actions';
-import { protocol, rootDomain } from '@/lib/utils';
+import { protocol, rootDomain, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 type Site = {
@@ -345,7 +345,7 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
                         {site.subdomain}
                       </CardTitle>
                       <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                        .{rootDomain}
+                        /s/{site.subdomain}
                       </p>
                     </div>
                     <StatusBadge status={site.status} />
@@ -365,7 +365,7 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
                     </Link>
                     {site.status === 'published' && (
                       <a
-                        href={`${protocol}://${site.subdomain}.${rootDomain}`}
+                        href={getSiteUrl(site.subdomain)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex-shrink-0"

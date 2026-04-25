@@ -18,7 +18,7 @@ import {
   EmojiPickerFooter
 } from '@/components/ui/emoji-picker';
 import { createSubdomainAction } from '@/app/actions';
-import { rootDomain } from '@/lib/utils';
+import { rootDomain, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 type CreateState = {
@@ -35,7 +35,7 @@ function SubdomainInput({ defaultValue }: { defaultValue?: string }) {
         htmlFor="subdomain" 
         className="text-sm font-medium text-foreground"
       >
-        Subdomain name
+        Site name
       </Label>
       <div className="flex items-center">
         <Input
@@ -49,7 +49,7 @@ function SubdomainInput({ defaultValue }: { defaultValue?: string }) {
           spellCheck={false}
         />
         <span className="px-3 py-2 border border-l-0 border-input rounded-r-md bg-muted/30 text-muted-foreground text-sm font-medium">
-          .{rootDomain}
+          /s/
         </span>
       </div>
       <p className="text-xs text-muted-foreground/80">
@@ -161,9 +161,9 @@ export function SubdomainForm() {
         <div className="flex items-start gap-2 p-3 rounded-lg bg-emerald-50 border border-emerald-200">
           <Check className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm">
-            <p className="font-medium text-emerald-900">Subdomain created!</p>
+            <p className="font-medium text-emerald-900">Site created!</p>
             <p className="text-emerald-700/80 mt-0.5">
-              {state.subdomain}.{rootDomain} is ready to use.
+              {getSiteUrl(state.subdomain || '')} is ready to use.
             </p>
           </div>
         </div>
@@ -180,7 +180,7 @@ export function SubdomainForm() {
             Creating...
           </>
         ) : (
-          'Create subdomain'
+          'Create site'
         )}
       </Button>
     </form>

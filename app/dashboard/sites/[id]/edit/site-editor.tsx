@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Save, Eye, ArrowLeft, Loader2, Check, Globe, ExternalLink, ChevronDown, ChevronUp, Type, User, FolderGit2, Mail, Hash, Plus, Trash2, LayoutGrid, Settings2, Image, Link2, FileText, Palette, Monitor, ArrowRight, ArrowLeft as ArrowLeftIcon } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionPanel } from '@/components/animate-ui/components/base/accordion';
 import Link from 'next/link';
-import { protocol, rootDomain } from '@/lib/utils';
+import { protocol, rootDomain, getSiteUrl } from '@/lib/utils';
 import type { SiteContent, Section } from '@/lib/types/site';
 import { cn } from '@/lib/utils';
 import {
@@ -644,7 +644,7 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
             <div className="h-4 w-px bg-border/60" />
             <div className="flex items-center gap-2.5">
               <h1 className="text-sm font-medium">
-                {site.subdomain}.{rootDomain}
+                /s/{site.subdomain}
               </h1>
               <StatusBadge status={site.status} />
             </div>
@@ -705,7 +705,7 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
               </Button>
             ) : (
               <a
-                href={`${protocol}://${site.subdomain}.${rootDomain}`}
+                href={getSiteUrl(site.subdomain)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -800,7 +800,7 @@ export function SiteEditor({ site, userId }: { site: Site; userId: string }) {
                   <span className="ml-1">Preview</span>
                 </div>
                 <span className="text-muted-foreground/50 truncate max-w-[200px]">
-                  {site.subdomain}.{rootDomain}
+                  /s/{site.subdomain}
                 </span>
               </div>
               <div className="relative bg-background" style={{ height: 'calc(100vh - 240px)', minHeight: '500px' }}>

@@ -7,3 +7,7 @@ export const rootDomain = 'platforms.vercel.app';
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function getSiteUrl(subdomain: string) {
+  return `${protocol}://${rootDomain}/s/${subdomain}`;
+}

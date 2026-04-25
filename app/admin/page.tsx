@@ -5,7 +5,7 @@ import { rootDomain } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: `Admin | ${rootDomain}`,
-  description: `Manage subdomains for ${rootDomain}`
+  description: `Manage sites for ${rootDomain}`
 };
 
 export default async function AdminPage() {

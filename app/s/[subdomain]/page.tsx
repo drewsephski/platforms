@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getSiteForSubdomain } from '@/lib/sites';
 import { SiteRenderer } from '@/components/site-renderer';
-import { rootDomain } from '@/lib/utils';
+import { rootDomain, getSiteUrl } from '@/lib/utils';
 
 export async function generateMetadata({
   params
@@ -20,8 +20,8 @@ export async function generateMetadata({
 
   const meta = site.content_json?.meta;
   return {
-    title: meta?.title || `${subdomain}.${rootDomain}`,
-    description: meta?.description || `Site for ${subdomain}.${rootDomain}`,
+    title: meta?.title || `${subdomain}`,
+    description: meta?.description || `Site for ${subdomain}`,
   };
 }
 
