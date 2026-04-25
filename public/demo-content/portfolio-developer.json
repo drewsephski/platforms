@@ -1,0 +1,159 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Alex Chen - Frontend Architect",
+    "description": "Senior frontend engineer building performant, accessible interfaces at scale"
+  },
+  "theme": {
+    "preset": "bold",
+    "aesthetic": "industrial",
+    "background": "dark",
+    "font": "mono",
+    "fontPairing": {
+      "display": "JetBrains Mono",
+      "body": "IBM Plex Mono",
+      "weights": {
+        "display": 500,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#e8e8e8",
+      "accent": "#00ff88",
+      "background": "#0d0d0d",
+      "surface": "#1a1a1a",
+      "text": "#e8e8e8",
+      "muted": "#888888",
+      "border": "#333333"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "split",
+      "headline": "PERFORMANCE. ACCESSIBILITY. SCALE.",
+      "subheadline": "I build frontend systems that handle millions of users. Currently architecting UI infrastructure at Stripe. Previously led frontend performance at Vercel.",
+      "tagline": "ALEX CHEN",
+      "cta": {
+        "text": "VIEW SPECS",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "layout": {
+        "textAlign": "left",
+        "verticalAlign": "center",
+        "decorative": "lines"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "standard",
+      "heading": "SYSTEM ARCHITECTURE",
+      "body": "My approach to frontend engineering is systematic: measure everything, optimize what matters, document decisions. I've built component libraries used by 500+ developers, reduced page load times by 60% for Fortune 500 companies, and contributed core features to Next.js.",
+      "stats": [
+        { "label": "Systems architected", "value": "12" },
+        { "label": "Performance gains", "value": "60% avg" },
+        { "label": "Core contributions", "value": "47 PRs" },
+        { "label": "Lighthouse score", "value": "98+" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "grid",
+      "heading": "DEPLOYMENTS",
+      "subheading": "Production systems in operation",
+      "items": [
+        {
+          "id": "p1",
+          "title": "STRIPE DASHBOARD",
+          "description": "Led frontend redesign reducing load times by 60%. Implemented design system used across 50+ products. 99.99% uptime.",
+          "tags": ["React", "TypeScript", "Performance"],
+          "accentColor": "#00ff88"
+        },
+        {
+          "id": "p2",
+          "title": "VERCEL ANALYTICS",
+          "description": "Real-time dashboard processing 10M+ events daily. Sub-100ms query times. Edge-based architecture.",
+          "tags": ["Next.js", "Edge Functions", "WebSocket"],
+          "accentColor": "#e8e8e8"
+        },
+        {
+          "id": "p3",
+          "title": "COMPONENT LIBRARY",
+          "description": "Design system used by 500+ developers. 98% test coverage. Comprehensive documentation. Zero breaking changes.",
+          "tags": ["Design Systems", "Storybook", "Testing"],
+          "accentColor": "#00ff88"
+        },
+        {
+          "id": "p4",
+          "title": "E-COMMERCE PLATFORM",
+          "description": "Headless architecture handling 10K+ daily orders. 2-second page loads. 99.9% uptime. GraphQL API.",
+          "tags": ["Next.js", "GraphQL", "Stripe"],
+          "accentColor": "#e8e8e8"
+        },
+        {
+          "id": "p5",
+          "title": "PERFORMANCE MONITORING",
+          "description": "Custom RUM dashboard tracking Core Web Vitals. Automated regression detection. 40% performance improvement.",
+          "tags": ["Observability", "Web Vitals", "Automation"],
+          "accentColor": "#00ff88"
+        },
+        {
+          "id": "p6",
+          "title": "NEXT.JS CONTRIBUTIONS",
+          "description": "47 merged PRs to core. Server components optimization. Image optimization improvements. Cache strategy work.",
+          "tags": ["Open Source", "React", "Core"],
+          "accentColor": "#e8e8e8"
+        }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-1",
+      "layout": "masonry",
+      "heading": "PEER REVIEWS",
+      "items": [
+        {
+          "id": "t1",
+          "quote": "Alex's systematic approach to performance optimization reduced our page load times by 60%. The impact on conversion was immediate and measurable.",
+          "name": "Sarah Miller",
+          "role": "Engineering Manager",
+          "company": "Stripe",
+          "outcome": "60% performance improvement"
+        },
+        {
+          "id": "t2",
+          "quote": "The component library Alex architected transformed our development velocity. 500+ developers now ship with confidence and consistency.",
+          "name": "James Park",
+          "role": "Staff Engineer",
+          "company": "Vercel",
+          "outcome": "500+ developer adoption"
+        },
+        {
+          "id": "t3",
+          "quote": "Alex's contributions to Next.js core have benefited the entire ecosystem. His work on server components is foundational.",
+          "name": "Guillermo Rauch",
+          "role": "CEO",
+          "company": "Vercel",
+          "outcome": "47 merged PRs to core"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "split",
+      "heading": "INITIATE CONTACT",
+      "subheading": "Available for consulting and full-time roles",
+      "email": "alex@systems.dev",
+      "links": [
+        { "label": "GitHub", "href": "https://github.com" },
+        { "label": "LinkedIn", "href": "https://linkedin.com" },
+        { "label": "Twitter", "href": "https://twitter.com" }
+      ]
+    }
+  ]
+}

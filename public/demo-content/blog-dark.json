@@ -1,0 +1,187 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "The Midnight Coder - Technical Blog",
+    "description": "Deep technical writing on software engineering, distributed systems, and the craft of building systems that scale with modern responsive layouts"
+  },
+  "theme": {
+    "preset": "bold",
+    "aesthetic": "industrial",
+    "background": "dark",
+    "font": "mono",
+    "fontPairing": {
+      "display": "IBM Plex Mono",
+      "body": "JetBrains Mono",
+      "weights": {
+        "display": 600,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#e2e8f0",
+      "accent": "#10b981",
+      "background": "#0f172a",
+      "surface": "#1e293b",
+      "text": "#e2e8f0",
+      "muted": "#94a3b8",
+      "border": "#334155"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "split",
+      "headline": "BUILDING SYSTEMS THAT SCALE.",
+      "subheadline": "Deep technical writing on software engineering, distributed systems, and the craft of writing code that lasts. No fluff, no tutorials, no clickbait. Just technical depth from 15 years of building production systems at scale. Real problems, real solutions, real metrics.",
+      "tagline": "THE MIDNIGHT CODER",
+      "cta": {
+        "text": "Read articles",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "text": "Subscribe via RSS",
+        "href": "/feed.xml"
+      },
+      "layout": {
+        "textAlign": "left",
+        "verticalAlign": "center",
+        "decorative": "lines"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "standard",
+      "heading": "ABOUT THIS BLOG",
+      "body": "I've been building software for 15 years, from embedded systems to distributed platforms. This blog is where I write about what I learn—architecture decisions that worked (and didn't), performance optimizations that surprised me, and opinions on the state of our industry.\n\nNo fluff, no tutorials, no clickbait. Just technical depth. If you're looking for how to build a to-do app in React, this isn't the place. If you want to understand why your microservices architecture is costing you $200K/month in infrastructure, read on. Every article includes real metrics, real code, and real lessons from production.",
+      "stats": [
+        { "label": "Articles published", "value": "150+" },
+        { "label": "Monthly readers", "value": "50K+" },
+        { "label": "Years writing", "value": "8" },
+        { "label": "Topics covered", "value": "20+" },
+        { "label": "Avg. read time", "value": "12min" },
+        { "label": "Reader retention", "value": "78%" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "list",
+      "heading": "RECENT ARTICLES",
+      "items": [
+        {
+          "id": "p1",
+          "title": "WHY I STOPPED USING MICROSERVICES",
+          "description": "After 5 years of microservices architecture at scale, we migrated back to a modular monolith. Here's why, and the $200K/year infrastructure savings we achieved. Includes real metrics and migration strategy.",
+          "tags": ["Architecture", "Microservices", "Performance"],
+          "accentColor": "#10b981"
+        },
+        {
+          "id": "p2",
+          "title": "THE HIDDEN COST OF ABSTRACTIONS",
+          "description": "Every layer of abstraction adds complexity. When does the cost outweigh the benefit? A deep dive into framework fatigue and the return to fundamentals. Case studies from 3 major rewrites.",
+          "tags": ["Software Design", "Opinion", "Productivity"],
+          "accentColor": "#e2e8f0"
+        },
+        {
+          "id": "p3",
+          "title": "BUILDING A DATABASE FROM SCRATCH",
+          "description": "A series documenting the journey of building a simple KV store in Rust, from basic storage to distributed consensus. Part 1 of 5. Complete with benchmarks and production considerations.",
+          "tags": ["Database", "Rust", "Distributed Systems"],
+          "accentColor": "#10b981"
+        },
+        {
+          "id": "p4",
+          "title": "POSTGRESQL AT 10M QPS",
+          "description": "How we scaled PostgreSQL to handle 10 million queries per second without sharding. Connection pooling, caching strategies, and query optimization. Includes configuration and monitoring setup.",
+          "tags": ["PostgreSQL", "Scaling", "Performance"],
+          "accentColor": "#e2e8f0"
+        },
+        {
+          "id": "p5",
+          "title": "THE DEATH OF THE SENIOR ENGINEER",
+          "description": "Why the industry's obsession with seniority titles is broken, and what we should measure instead. Hint: it's not years of experience. Proposes a new competency framework.",
+          "tags": ["Career", "Industry", "Opinion"],
+          "accentColor": "#10b981"
+        },
+        {
+          "id": "p6",
+          "title": "RUST VS GO FOR BACKEND SERVICES",
+          "description": "A practical comparison after building the same service in both languages. Performance, developer experience, and ecosystem maturity. Includes benchmarks and production deployment costs.",
+          "tags": ["Rust", "Go", "Backend"],
+          "accentColor": "#e2e8f0"
+        },
+        {
+          "id": "p7",
+          "title": "THE END OF CLOUD NATIVE",
+          "description": "Why the cloud native movement has gone too far, and when you should choose a monolith over Kubernetes. Spoiler: more often than you think. Decision framework included.",
+          "tags": ["Architecture", "Cloud", "Opinion"],
+          "accentColor": "#10b981"
+        },
+        {
+          "id": "p8",
+          "title": "ZERO DOWNTIME DEPLOYMENTS",
+          "description": "A comprehensive guide to deploying without downtime. Blue-green deployments, canary releases, and database migrations that don't break things. Includes infrastructure-as-code examples.",
+          "tags": ["DevOps", "Deployment", "Reliability"],
+          "accentColor": "#e2e8f0"
+        }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-1",
+      "layout": "masonry",
+      "heading": "READER FEEDBACK",
+      "items": [
+        {
+          "id": "t1",
+          "quote": "Your article on microservices convinced our team to reconsider our architecture. We saved $200K/year in infrastructure costs after the migration. The ROI was immediate.",
+          "name": "Sarah Kim",
+          "role": "Tech Lead",
+          "company": "StartupXYZ",
+          "outcome": "$200K savings"
+        },
+        {
+          "id": "t2",
+          "quote": "The database series is the best technical writing I've read in years. Clear, practical, and deep without being academic. I've implemented several patterns from it.",
+          "name": "Marcus Johnson",
+          "role": "Senior Engineer",
+          "company": "BigTech",
+          "outcome": "Must-read series"
+        },
+        {
+          "id": "t3",
+          "quote": "The PostgreSQL scaling article helped us go from 1M to 10M QPS without sharding. The connection pooling strategy alone was worth the read.",
+          "name": "Jennifer Wu",
+          "role": "Staff Engineer",
+          "company": "ScaleUp Inc",
+          "outcome": "10x scale achieved"
+        },
+        {
+          "id": "t4",
+          "quote": "Finally, someone writing about the reality of senior engineering instead of the fantasy. Your article on seniority titles sparked real conversations at my company.",
+          "name": "David Park",
+          "role": "Engineering Manager",
+          "company": "CloudNative",
+          "outcome": "Policy change inspired"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "split",
+      "heading": "GET IN TOUCH",
+      "subheading": "Open to consulting, speaking, and interesting conversations about distributed systems. No sales pitches, just technical discussions.",
+      "email": "alex@midnightcoder.dev",
+      "links": [
+        { "label": "GitHub", "href": "https://github.com" },
+        { "label": "Twitter", "href": "https://twitter.com" },
+        { "label": "RSS", "href": "/feed.xml" },
+        { "label": "LinkedIn", "href": "https://linkedin.com" }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 
 import { generateSiteContent } from '@/lib/ai';
 
+// NOTE: This action is no longer used for the landing page demo.
+// The demo now uses prebuilt JSON content files in public/demo-content/.
+// This action is kept for potential future use or other demo scenarios.
+
 export async function generateDemoSite(prompt: string) {
   try {
     // Generate site content using the existing AI function

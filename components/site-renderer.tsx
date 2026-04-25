@@ -130,37 +130,37 @@ function HeroSection({
   // Asymmetric layout - breaks the grid
   if (section.style === 'asymmetric') {
     return (
-      <section className="min-h-screen relative overflow-hidden">
+      <section className="min-h-[70vh] relative overflow-hidden">
         <DecorativeElements type={layout.decorative || 'gradient'} colors={theme.colors} />
-        <div className="container mx-auto px-6 lg:px-12 py-24 lg:py-32">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            <div className="lg:col-span-7 lg:col-start-1">
+        <div className="container mx-auto max-w-7xl px-4 py-12">
+          <div className="grid grid-cols-1 gap-8 items-center">
+            <div className="text-center">
               <div
                 className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
                 {section.tagline && (
-                  <span className="text-sm tracking-[0.2em] uppercase mb-6 block"
+                  <span className="text-xs tracking-[0.2em] uppercase mb-3 block"
                     style={{ color: theme.colors?.muted }}>
                     {section.tagline}
                   </span>
                 )}
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] tracking-tight"
+                <h1 className="text-3xl font-light leading-[0.95] tracking-tight"
                   style={{ fontFamily: theme.fontPairing?.display }}>
                   {section.headline}
                 </h1>
               </div>
             </div>
-            <div className="lg:col-span-4 lg:col-start-9 lg:mt-24">
+            <div className="text-center">
               <div
                 className={`transition-all duration-700 delay-300 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
                 {section.subheadline && (
-                  <p className="text-lg md:text-xl leading-relaxed mb-8"
+                  <p className="text-sm leading-relaxed mb-4"
                     style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
                     {section.subheadline}
                   </p>
                 )}
-                <div className="flex gap-4">
+                <div className="flex flex-col gap-3 justify-center">
                   {section.cta && (
                     <Button href={section.cta.href} variant={section.cta.variant || 'primary'} colors={theme.colors}>
                       {section.cta.text}
@@ -183,20 +183,20 @@ function HeroSection({
   // Full-bleed layout - dramatic and immersive
   if (section.style === 'fullbleed') {
     return (
-      <section className="min-h-screen relative flex items-end">
+      <section className="min-h-[70vh] relative flex items-end">
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-        <div className="container mx-auto px-6 lg:px-12 pb-24 lg:pb-32 relative z-10">
-          <div className="max-w-4xl">
+        <div className="container mx-auto max-w-7xl px-4 pb-16 relative z-10">
+          <div className="max-w-4xl text-center">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
               {section.tagline && (
-                <span className="text-xs tracking-[0.3em] uppercase mb-4 block"
+                <span className="text-[10px] tracking-[0.3em] uppercase mb-2 block"
                   style={{ color: theme.colors?.muted }}>
                   {section.tagline}
                 </span>
               )}
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-none mb-6"
+              <h1 className="text-3xl font-bold tracking-tighter leading-[0.9] mb-4"
                 style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.headline}
               </h1>
@@ -205,15 +205,17 @@ function HeroSection({
               className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
               {section.subheadline && (
-                <p className="text-xl md:text-2xl max-w-xl mb-8"
+                <p className="text-base max-w-xl mx-auto mb-6"
                   style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
                   {section.subheadline}
                 </p>
               )}
               {section.cta && (
-                <Button href={section.cta.href} variant={section.cta.variant || 'secondary'} colors={theme.colors}>
-                  {section.cta.text}
-                </Button>
+                <div className="flex justify-center">
+                  <Button href={section.cta.href} variant={section.cta.variant || 'secondary'} colors={theme.colors}>
+                    {section.cta.text}
+                  </Button>
+                </div>
               )}
             </div>
           </div>
@@ -225,20 +227,20 @@ function HeroSection({
   // Split layout - side by side
   if (section.style === 'split') {
     return (
-      <section className="min-h-screen">
-        <div className="grid lg:grid-cols-2 min-h-screen">
-          <div className="flex items-center px-6 lg:px-12 py-24 lg:py-0">
-            <div className="max-w-lg">
+      <section className="min-h-[70vh]">
+        <div className="grid grid-cols-1 min-h-[70vh]">
+          <div className="flex items-center justify-center px-4 py-12">
+            <div className="max-w-lg text-center">
               <div
                 className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
               >
                 {section.tagline && (
-                  <span className="text-sm tracking-[0.2em] uppercase mb-6 block"
+                  <span className="text-xs tracking-[0.2em] uppercase mb-3 block"
                     style={{ color: theme.colors?.accent }}>
                     {section.tagline}
                   </span>
                 )}
-                <h1 className="text-4xl md:text-6xl font-medium leading-[1.1] tracking-tight mb-6"
+                <h1 className="text-2xl font-medium leading-[1.1] tracking-tight mb-4"
                   style={{ fontFamily: theme.fontPairing?.display }}>
                   {section.headline}
                 </h1>
@@ -247,12 +249,12 @@ function HeroSection({
                 className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
               >
                 {section.subheadline && (
-                  <p className="text-lg leading-relaxed mb-8"
+                  <p className="text-sm leading-relaxed mb-6"
                     style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
                     {section.subheadline}
                   </p>
                 )}
-                <div className="flex gap-4">
+                <div className="flex gap-3 justify-center">
                   {section.cta && (
                     <Button href={section.cta.href} variant={section.cta.variant || 'primary'} colors={theme.colors}>
                       {section.cta.text}
@@ -262,7 +264,7 @@ function HeroSection({
               </div>
             </div>
           </div>
-          <div className="hidden lg:block relative"
+          <div className="hidden relative"
             style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}>
             <DecorativeElements type={layout.decorative || 'shapes'} colors={theme.colors} />
           </div>
@@ -274,26 +276,26 @@ function HeroSection({
   // Minimal layout - extreme restraint
   if (section.style === 'minimal') {
     return (
-      <section className="min-h-[70vh] flex items-center px-6 lg:px-12">
+      <section className="min-h-[60vh] flex items-center px-4">
         <div className="container mx-auto">
           <div
-            className={`max-w-2xl transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`max-w-2xl text-center transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h1 className="text-3xl md:text-5xl font-light leading-tight tracking-tight"
+            <h1 className="text-2xl font-light leading-tight tracking-tight"
               style={{ fontFamily: theme.fontPairing?.display }}>
               {section.headline}
             </h1>
             {section.subheadline && (
-              <p className="mt-6 text-base"
+              <p className="mt-4 text-sm"
                 style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
                 {section.subheadline}
               </p>
             )}
             {section.cta && (
-              <div className="mt-12">
+              <div className="mt-8">
                 <a
                   href={section.cta.href}
-                  className="text-sm tracking-wide hover:opacity-60 transition-opacity"
+                  className="text-xs tracking-wide hover:opacity-60 transition-opacity"
                   style={{ color: theme.colors?.text }}
                 >
                   {section.cta.text} →
@@ -308,19 +310,19 @@ function HeroSection({
 
   // Default centered layout (but better)
   return (
-    <section className={`min-h-[85vh] flex ${verticalClasses[verticalAlign]} px-6 relative overflow-hidden`}>
+    <section className={`min-h-[70vh] flex ${verticalClasses[verticalAlign]} px-4 relative overflow-hidden`}>
       <DecorativeElements type={layout.decorative || 'none'} colors={theme.colors} />
       <div className={`container mx-auto max-w-5xl flex flex-col ${alignClasses[textAlign]}`}>
         <div
           className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
           {section.tagline && (
-            <span className="text-xs tracking-[0.3em] uppercase mb-8 block"
+            <span className="text-[10px] tracking-[0.3em] uppercase mb-4 block"
               style={{ color: theme.colors?.accent }}>
               {section.tagline}
             </span>
           )}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[0.95]"
+          <h1 className="text-3xl font-medium tracking-tight leading-[0.95]"
             style={{ fontFamily: theme.fontPairing?.display }}>
             {section.headline}
           </h1>
@@ -329,19 +331,17 @@ function HeroSection({
           className={`transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
           {section.subheadline && (
-            <p className="mt-8 text-xl md:text-2xl max-w-2xl"
+            <p className="mt-4 text-base max-w-2xl mx-auto"
               style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
               {section.subheadline}
             </p>
           )}
-        </div>
-        <div
-          className={`mt-10 flex gap-4 ${textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start'} transition-all duration-700 delay-300 ease-out-quart ${visible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-        >
           {section.cta && (
-            <Button href={section.cta.href} variant={section.cta.variant || 'primary'} colors={theme.colors}>
-              {section.cta.text}
-            </Button>
+            <div className="flex justify-center">
+              <Button href={section.cta.href} variant={section.cta.variant || 'secondary'} colors={theme.colors}>
+                {section.cta.text}
+              </Button>
+            </div>
           )}
           {section.secondaryCta && (
             <Button href={section.secondaryCta.href} variant="ghost" colors={theme.colors}>
@@ -367,39 +367,39 @@ function AboutSection({
   // Editorial layout - magazine-style asymmetric
   if (layout === 'editorial') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
-            <div className="lg:col-span-4">
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-8">
+            <div className="text-center">
               <div
-                className={`sticky top-24 transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
-                <span className="text-xs tracking-[0.3em] uppercase block mb-4"
+                <span className="text-[10px] tracking-[0.3em] uppercase block mb-2"
                   style={{ color: theme.colors?.muted }}>About</span>
-                <h2 className="text-4xl md:text-5xl font-light leading-tight"
+                <h2 className="text-2xl font-light leading-tight"
                   style={{ fontFamily: theme.fontPairing?.display }}>
                   {section.heading}
                 </h2>
               </div>
             </div>
-            <div className="lg:col-span-6 lg:col-start-6">
+            <div>
               <div
                 className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               >
-                <p className="text-lg md:text-xl leading-relaxed"
+                <p className="text-base leading-relaxed"
                   style={{ color: theme.colors?.text, fontFamily: theme.fontPairing?.body }}>
                   {section.body}
                 </p>
                 {section.stats && (
-                  <div className="grid grid-cols-2 gap-8 mt-12 pt-12"
+                  <div className="flex flex-wrap gap-4 mt-8 pt-8"
                     style={{ borderTop: `1px solid ${theme.colors?.border || '#eee'}` }}>
                     {section.stats.map((stat, i) => (
                       <div key={i}>
-                        <span className="text-3xl md:text-4xl font-light block"
+                        <span className="text-xl font-light block"
                           style={{ fontFamily: theme.fontPairing?.display }}>
                           {stat.value}
                         </span>
-                        <span className="text-sm mt-1 block" style={{ color: theme.colors?.muted }}>
+                        <span className="text-xs mt-1 block" style={{ color: theme.colors?.muted }}>
                           {stat.label}
                         </span>
                       </div>
@@ -417,9 +417,9 @@ function AboutSection({
   // Split layout with image
   if (layout === 'split' && section.avatarUrl) {
     return (
-      <section className="py-24 lg:py-32">
-        <div className="container mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <section className="py-16">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="grid grid-cols-1 gap-8 items-center">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
             >
@@ -428,18 +428,18 @@ function AboutSection({
                 {section.avatarUrl ? (
                   <img src={section.avatarUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">◆</div>
+                  <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-20">◆</div>
                 )}
               </div>
             </div>
             <div
               className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
             >
-              <h2 className="text-4xl md:text-5xl font-light mb-6"
+              <h2 className="text-2xl font-light mb-4"
                 style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.heading}
               </h2>
-              <p className="text-lg leading-relaxed"
+              <p className="text-sm leading-relaxed"
                 style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
                 {section.body}
               </p>
@@ -453,12 +453,12 @@ function AboutSection({
   // Minimal layout - just text, no heading
   if (layout === 'minimal') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
+      <section className="py-16 px-4">
         <div className="container mx-auto max-w-3xl">
           <div
             className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <p className="text-2xl md:text-3xl font-light leading-relaxed"
+            <p className="text-lg font-light leading-relaxed text-center"
               style={{ fontFamily: theme.fontPairing?.body }}>
               {section.body}
             </p>
@@ -470,37 +470,37 @@ function AboutSection({
 
   // Standard layout - improved
   return (
-    <section className="py-24 lg:py-32 px-6 lg:px-12"
+    <section className="py-16 px-4"
       style={{ backgroundColor: theme.colors?.surface || 'transparent' }}>
       <div className="container mx-auto max-w-4xl">
-        <div className="grid md:grid-cols-12 gap-8 md:gap-12">
-          <div className="md:col-span-4">
+        <div className="grid grid-cols-1 gap-6">
+          <div className="text-center">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <h2 className="text-sm tracking-[0.2em] uppercase"
+              <h2 className="text-xs tracking-[0.2em] uppercase"
                 style={{ color: theme.colors?.muted }}>
                 {section.heading}
               </h2>
             </div>
           </div>
-          <div className="md:col-span-8">
+          <div>
             <div
               className={`transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <p className="text-lg md:text-xl leading-relaxed"
+              <p className="text-base leading-relaxed"
                 style={{ color: theme.colors?.text, fontFamily: theme.fontPairing?.body }}>
                 {section.body}
               </p>
               {section.stats && (
-                <div className="flex flex-wrap gap-12 mt-12">
+                <div className="flex flex-wrap gap-6 mt-8 justify-center">
                   {section.stats.map((stat, i) => (
                     <div key={i}>
-                      <span className="text-2xl font-light block"
+                      <span className="text-xl font-light block"
                         style={{ fontFamily: theme.fontPairing?.display, color: theme.colors?.accent }}>
                         {stat.value}
                       </span>
-                      <span className="text-sm mt-1 block" style={{ color: theme.colors?.muted }}>
+                      <span className="text-xs mt-1 block" style={{ color: theme.colors?.muted }}>
                         {stat.label}
                       </span>
                     </div>
@@ -579,30 +579,30 @@ function ProjectsSection({
   // Featured layout - first item large, rest in grid
   if (layout === 'featured') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
-        <div className="container mx-auto">
-          <div className="mb-12">
+      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="mb-8 sm:mb-12">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <span className="text-xs tracking-[0.3em] uppercase block mb-4"
+              <span className="text-[10px] sm:text-xs tracking-[0.3em] uppercase block mb-2 sm:mb-4"
                 style={{ color: theme.colors?.muted }}>Work</span>
-              <h2 className="text-4xl md:text-5xl font-light"
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
                 style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.heading}
               </h2>
               {section.subheading && (
-                <p className="text-lg mt-4 max-w-xl" style={{ color: theme.colors?.muted }}>
+                <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4 max-w-xl" style={{ color: theme.colors?.muted }}>
                   {section.subheading}
                 </p>
               )}
             </div>
           </div>
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {section.items[0] && (
               <ProjectCard item={section.items[0]} index={0} />
             )}
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               {section.items.slice(1).map((item, i) => (
                 <ProjectCard key={item.id} item={item} index={i + 1} />
               ))}
@@ -616,13 +616,13 @@ function ProjectsSection({
   // List layout - clean vertical stack
   if (layout === 'list') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
+      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
         <div className="container mx-auto max-w-4xl">
-          <div className="mb-16">
+          <div className="mb-8 sm:mb-16">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <h2 className="text-4xl font-light" style={{ fontFamily: theme.fontPairing?.display }}>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light" style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.heading}
               </h2>
             </div>
@@ -632,25 +632,25 @@ function ProjectsSection({
               <a
                 key={item.id}
                 href={item.href || '#'}
-                className={`group flex items-center justify-between py-6 border-b transition-all duration-500 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
+                className={`group flex items-center justify-between py-4 sm:py-6 border-b transition-all duration-500 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
                 style={{ borderColor: theme.colors?.border || '#eee' }}
               >
-                <div className="flex items-center gap-6">
-                  <span className="text-sm" style={{ color: theme.colors?.muted }}>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <span className="text-xs sm:text-sm" style={{ color: theme.colors?.muted }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h3 className="text-xl font-light group-hover:translate-x-2 transition-transform"
+                  <h3 className="text-base sm:text-lg md:text-xl font-light group-hover:translate-x-2 transition-transform"
                     style={{ fontFamily: theme.fontPairing?.display }}>
                     {item.title}
                   </h3>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                   {item.tags?.slice(0, 2).map(tag => (
-                    <span key={tag} className="text-xs hidden sm:block" style={{ color: theme.colors?.muted }}>
+                    <span key={tag} className="text-[10px] sm:text-xs hidden sm:block" style={{ color: theme.colors?.muted }}>
                       {tag}
                     </span>
                   ))}
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-sm sm:text-base">→</span>
                 </div>
               </a>
             ))}
@@ -662,19 +662,19 @@ function ProjectsSection({
 
   // Grid layout - masonry-like
   return (
-    <section className="py-24 lg:py-32 px-6 lg:px-12">
-      <div className="container mx-auto">
-        <div className="mb-12 flex items-end justify-between">
+    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-8 sm:mb-12 flex items-end justify-between">
           <div
             className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h2 className="text-4xl md:text-5xl font-light"
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
               style={{ fontFamily: theme.fontPairing?.display }}>
               {section.heading}
             </h2>
           </div>
         </div>
-        <div className={`grid gap-8 ${columns === 1 ? 'grid-cols-1' : columns === 3 ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-2'}`}>
+        <div className={`grid gap-4 sm:gap-6 lg:gap-8 ${columns === 1 ? 'grid-cols-1' : columns === 3 ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'}`}>
           {section.items.map((item, i) => (
             <ProjectCard key={item.id} item={item} index={i} />
           ))}
@@ -697,41 +697,41 @@ function TestimonialsSection({
   // Masonry layout - varied card sizes
   if (layout === 'masonry') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
-        <div className="container mx-auto">
-          <div className="mb-12">
+      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="mb-8 sm:mb-12">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <h2 className="text-4xl md:text-5xl font-light"
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
                 style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.heading}
               </h2>
             </div>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {section.items.map((item, i) => (
               <div
                 key={item.id}
-                className={`p-6 lg:p-8 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`p-4 sm:p-6 lg:p-8 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
               >
-                <p className="text-lg leading-relaxed mb-6"
+                <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6"
                   style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
                   "{item.quote}"
                 </p>
                 <div>
-                  <p className="font-medium" style={{ color: theme.colors?.text }}>
+                  <p className="text-sm sm:text-base font-medium" style={{ color: theme.colors?.text }}>
                     {item.name}
                   </p>
                   {item.role && (
-                    <p className="text-sm mt-1" style={{ color: theme.colors?.muted }}>
+                    <p className="text-xs sm:text-sm mt-1" style={{ color: theme.colors?.muted }}>
                       {item.role}
                       {item.company && ` · ${item.company}`}
                     </p>
                   )}
                   {item.outcome && (
-                    <p className="text-sm mt-2" style={{ color: theme.colors?.accent }}>
+                    <p className="text-xs sm:text-sm mt-2" style={{ color: theme.colors?.accent }}>
                       {item.outcome}
                     </p>
                   )}
@@ -746,35 +746,35 @@ function TestimonialsSection({
 
   // Grid layout - uniform cards
   return (
-    <section className="py-24 lg:py-32 px-6 lg:px-12">
-      <div className="container mx-auto">
-        <div className="mb-12">
+    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-8 sm:mb-12">
           <div
             className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h2 className="text-4xl md:text-5xl font-light"
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
               style={{ fontFamily: theme.fontPairing?.display }}>
               {section.heading}
             </h2>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {section.items.map((item, i) => (
             <div
               key={item.id}
-              className={`p-6 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`p-4 sm:p-6 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
             >
-              <p className="text-base leading-relaxed mb-4"
+              <p className="text-sm sm:text-base leading-relaxed mb-3 sm:mb-4"
                 style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
                 "{item.quote}"
               </p>
               <div>
-                <p className="font-medium text-sm" style={{ color: theme.colors?.text }}>
+                <p className="font-medium text-xs sm:text-sm" style={{ color: theme.colors?.text }}>
                   {item.name}
                 </p>
                 {item.role && (
-                  <p className="text-xs mt-1" style={{ color: theme.colors?.muted }}>
+                  <p className="text-[10px] sm:text-xs mt-1" style={{ color: theme.colors?.muted }}>
                     {item.role}
                   </p>
                 )}
@@ -800,36 +800,36 @@ function ContactSection({
   // Fullbleed - dramatic large CTA
   if (layout === 'fullbleed') {
     return (
-      <section className="py-32 lg:py-48 px-6 lg:px-12"
+      <section className="py-20 lg:py-32 xl:py-48 px-4 sm:px-6 lg:px-12"
         style={{ backgroundColor: theme.colors?.primary, color: theme.colors?.background || '#fff' }}>
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-7xl">
           <div
             className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] max-w-4xl"
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[0.9] sm:leading-[0.85] max-w-4xl"
               style={{ fontFamily: theme.fontPairing?.display }}>
               {section.heading}
             </h2>
           </div>
           <div
-            className={`mt-12 flex flex-wrap gap-8 items-center transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`mt-8 sm:mt-12 flex flex-col sm:flex-wrap sm:flex-row gap-6 sm:gap-8 items-start sm:items-center transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {section.email && (
               <a
                 href={`mailto:${section.email}`}
-                className="text-2xl md:text-3xl font-light hover:opacity-60 transition-opacity"
+                className="text-xl sm:text-2xl md:text-3xl font-light hover:opacity-60 transition-opacity"
                 style={{ fontFamily: theme.fontPairing?.display }}
               >
                 {section.email}
               </a>
             )}
             {section.links && (
-              <div className="flex gap-6">
+              <div className="flex gap-4 sm:gap-6">
                 {section.links.map((link, i) => (
                   <a
                     key={i}
                     href={link.href}
-                    className="text-sm tracking-wide hover:opacity-60 transition-opacity uppercase"
+                    className="text-xs sm:text-sm tracking-wide hover:opacity-60 transition-opacity uppercase"
                   >
                     {link.label}
                   </a>
@@ -845,18 +845,18 @@ function ContactSection({
   // Split layout - asymmetric
   if (layout === 'split') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
+      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-24">
             <div
               className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
-              <h2 className="text-4xl md:text-5xl font-light leading-tight"
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light leading-tight"
                 style={{ fontFamily: theme.fontPairing?.display }}>
                 {section.heading}
               </h2>
               {section.subheading && (
-                <p className="text-lg mt-4" style={{ color: theme.colors?.muted }}>
+                <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4" style={{ color: theme.colors?.muted }}>
                   {section.subheading}
                 </p>
               )}
@@ -867,19 +867,19 @@ function ContactSection({
               {section.email && (
                 <a
                   href={`mailto:${section.email}`}
-                  className="text-xl md:text-2xl font-light hover:opacity-60 transition-opacity mb-8"
+                  className="text-lg sm:text-xl md:text-2xl font-light hover:opacity-60 transition-opacity mb-4 sm:mb-8"
                   style={{ fontFamily: theme.fontPairing?.display, color: theme.colors?.accent }}
                 >
                   {section.email}
                 </a>
               )}
               {section.links && (
-                <div className="flex flex-wrap gap-6">
+                <div className="flex flex-wrap gap-4 sm:gap-6">
                   {section.links.map((link, i) => (
                     <a
                       key={i}
                       href={link.href}
-                      className="text-sm hover:opacity-60 transition-opacity"
+                      className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
                       style={{ color: theme.colors?.muted }}
                     >
                       {link.label}
@@ -897,37 +897,37 @@ function ContactSection({
   // Card layout - contained box
   if (layout === 'card') {
     return (
-      <section className="py-24 lg:py-32 px-6 lg:px-12">
+      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
         <div className="container mx-auto max-w-2xl">
           <div
-            className={`p-12 lg:p-16 transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`p-6 sm:p-8 lg:p-12 xl:p-16 transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}>
-            <h2 className="text-3xl md:text-4xl font-light mb-4"
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light mb-2 sm:mb-4"
               style={{ fontFamily: theme.fontPairing?.display }}>
               {section.heading}
             </h2>
             {section.subheading && (
-              <p className="mb-8" style={{ color: theme.colors?.muted }}>
+              <p className="text-sm sm:text-base mb-4 sm:mb-8" style={{ color: theme.colors?.muted }}>
                 {section.subheading}
               </p>
             )}
             {section.email && (
               <a
                 href={`mailto:${section.email}`}
-                className="text-lg hover:opacity-60 transition-opacity block mb-6"
+                className="text-base sm:text-lg hover:opacity-60 transition-opacity block mb-4 sm:mb-6"
                 style={{ color: theme.colors?.accent }}
               >
                 {section.email}
               </a>
             )}
             {section.links && (
-              <div className="flex gap-4 pt-6"
+              <div className="flex gap-3 sm:gap-4 pt-4 sm:pt-6"
                 style={{ borderTop: `1px solid ${theme.colors?.border || '#ddd'}` }}>
                 {section.links.map((link, i) => (
                   <a
                     key={i}
                     href={link.href}
-                    className="text-sm hover:opacity-60 transition-opacity"
+                    className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
                     style={{ color: theme.colors?.muted }}
                   >
                     {link.label}
@@ -943,28 +943,28 @@ function ContactSection({
 
   // Simple layout - clean and minimal
   return (
-    <section className="py-24 lg:py-32 px-6 lg:px-12">
+    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
       <div className="container mx-auto text-center max-w-2xl">
         <div
           className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          <h2 className="text-4xl md:text-5xl font-light"
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
             style={{ fontFamily: theme.fontPairing?.display }}>
             {section.heading}
           </h2>
           {section.subheading && (
-            <p className="text-lg mt-4" style={{ color: theme.colors?.muted }}>
+            <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4" style={{ color: theme.colors?.muted }}>
               {section.subheading}
             </p>
           )}
         </div>
         <div
-          className={`mt-10 transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`mt-6 sm:mt-10 transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
           {section.email && (
             <a
               href={`mailto:${section.email}`}
-              className="inline-block text-xl hover:opacity-60 transition-opacity"
+              className="inline-block text-lg sm:text-xl hover:opacity-60 transition-opacity"
               style={{ color: theme.colors?.accent }}
             >
               {section.email}
@@ -973,13 +973,13 @@ function ContactSection({
         </div>
         {section.links && (
           <div
-            className={`mt-8 flex gap-6 justify-center transition-all duration-700 delay-300 ease-out-quart ${visible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`mt-6 sm:mt-8 flex gap-4 sm:gap-6 justify-center transition-all duration-700 delay-300 ease-out-quart ${visible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {section.links.map((link, i) => (
               <a
                 key={i}
                 href={link.href}
-                className="text-sm hover:opacity-60 transition-opacity"
+                className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
                 style={{ color: theme.colors?.muted }}
               >
                 {link.label}
@@ -1021,7 +1021,7 @@ function RawSection({
 function Navbar({ content }: { content: SiteContent }) {
   return (
     <nav
-      className="sticky top-0 z-50 px-6 lg:px-12 py-4"
+      className="px-6 lg:px-12 py-4"
       style={{
         backgroundColor: content.theme.colors?.background || '#fff',
         borderBottom: `1px solid ${content.theme.colors?.border || '#e5e5e5'}`,
@@ -1052,7 +1052,6 @@ export function SiteRenderer({ content }: { content: SiteContent }) {
 
   return (
     <div
-      className="min-h-screen"
       style={{
         backgroundColor: content.theme.colors?.background || '#fff',
         color: content.theme.colors?.text || '#000',

@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "meta": {
+    "title": "Savor - Seasonal Dining",
+    "description": "Farm-to-table restaurant celebrating local ingredients and seasonal menus with modern responsive layouts"
+  },
+  "theme": {
+    "preset": "minimal",
+    "aesthetic": "editorial",
+    "background": "light",
+    "font": "serif",
+    "fontPairing": {
+      "display": "Cormorant Garamond",
+      "body": "DM Sans",
+      "weights": {
+        "display": 500,
+        "body": 400
+      }
+    },
+    "colors": {
+      "primary": "#1c1917",
+      "accent": "#b45309",
+      "background": "#fafaf9",
+      "surface": "#f5f5f4",
+      "text": "#1c1917",
+      "muted": "#78716c",
+      "border": "#e7e5e4"
+    }
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "id": "hero-1",
+      "style": "asymmetric",
+      "headline": "SEASONAL. LOCAL. UNFORGETTABLE.",
+      "subheadline": "A celebration of seasonal ingredients sourced from 20+ local farms. Every dish tells a story of the land it came from, prepared with intention and served with care. One Michelin star, eight years of excellence. When ingredients this good, you don't need to hide them.",
+      "tagline": "SAVOR",
+      "cta": {
+        "text": "View current menu",
+        "href": "#projects",
+        "variant": "primary"
+      },
+      "secondaryCta": {
+        "text": "Reserve a table",
+        "href": "#contact"
+      },
+      "layout": {
+        "textAlign": "left",
+        "decorative": "gradient"
+      }
+    },
+    {
+      "type": "about",
+      "id": "about-1",
+      "layout": "editorial",
+      "heading": "OUR PHILOSOPHY",
+      "body": "We believe great food starts with great ingredients. That's why we partner with 20+ local farms to source the freshest seasonal produce. Our menu changes weekly to reflect what's available, ensuring every dish is at its peak. Chef Maria Santos brings 15 years of experience from Michelin-starred kitchens to create simple, elegant dishes that let ingredients shine.\n\nWe don't do molecular gastronomy. We don't do fusion confusion. We do ingredient-driven cooking that respects the source. When you eat at Savor, you're tasting the terroir of our region. Every carrot has a farm. Every fish has a fisherman. Every dish has a story.",
+      "stats": [
+        { "label": "Farm partners", "value": "20+" },
+        { "label": "Menu changes", "value": "Weekly" },
+        { "label": "Years open", "value": "8" },
+        { "label": "Michelin stars", "value": "1" },
+        { "label": "Avg. rating", "value": "4.9" },
+        { "label": "Dishes created", "value": "2,400+" }
+      ]
+    },
+    {
+      "type": "projects",
+      "id": "projects-1",
+      "layout": "featured",
+      "heading": "CURRENT MENU",
+      "subheading": "Changes weekly based on what's available",
+      "items": [
+        {
+          "id": "p1",
+          "title": "ROASTED HEIRLOOM CARROTS",
+          "description": "Rainbow carrots from Green Valley Farm, roasted with honey-thyme glaze, served with whipped ricotta and toasted walnuts. A celebration of spring's sweetness. Vegetarian, gluten-free.",
+          "tags": ["Vegetarian", "Seasonal", "GF"],
+          "size": "large",
+          "accentColor": "#b45309"
+        },
+        {
+          "id": "p2",
+          "title": "PAN-SEARED SCALLOPS",
+          "description": "Day-boat scallops from Pacific Coast, seared to perfection, served with cauliflower purée, crispy pancetta, and lemon butter sauce. Gluten-free.",
+          "tags": ["Seafood", "GF"],
+          "accentColor": "#1c1917"
+        },
+        {
+          "id": "p3",
+          "title": "GRASS-FED RIBEYE",
+          "description": "16oz ribeye from Pasture Prime Ranch, dry-aged 28 days, grilled over oak wood, served with roasted potatoes and red wine reduction. Gluten-free.",
+          "tags": ["Meat", "GF"],
+          "accentColor": "#8b4513"
+        },
+        {
+          "id": "p4",
+          "title": "WILD MUSHROOM RISOTTO",
+          "description": "Arborio rice slow-cooked with foraged mushrooms, aged parmesan, and truffle oil. Finished with fresh herbs and microgreens. Vegetarian, gluten-free.",
+          "tags": ["Vegetarian", "GF"],
+          "accentColor": "#5c3a21"
+        },
+        {
+          "id": "p5",
+          "title": "SEASONAL FRUIT TART",
+          "description": "Buttery tart shell filled with vanilla bean custard, topped with whatever fruit is at its peak—currently strawberries and rhubarb. Vegetarian.",
+          "tags": ["Dessert", "Vegetarian"],
+          "accentColor": "#b45309"
+        },
+        {
+          "id": "p6",
+          "title": "HOUSE-MADE GELATO",
+          "description": "Three rotating flavors made in-house daily. Currently: lavender honey, dark chocolate sea salt, and strawberry basil. Gluten-free, vegan.",
+          "tags": ["Dessert", "GF", "V"],
+          "accentColor": "#1c1917"
+        }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "id": "testimonials-1",
+      "layout": "masonry",
+      "heading": "DINER EXPERIENCES",
+      "items": [
+        {
+          "id": "t1",
+          "quote": "The best meal I've had in years. Every dish was thoughtful, beautifully presented, and absolutely delicious. The seasonal approach really shines—you can taste the difference.",
+          "name": "Amanda Foster",
+          "role": "Food Blogger",
+          "company": "Eats Weekly",
+          "outcome": "5-star review"
+        },
+        {
+          "id": "t2",
+          "quote": "We've been coming here for years and it never disappoints. The commitment to local ingredients is genuine, and you can taste the difference. 50+ visits and counting.",
+          "name": "David Park",
+          "role": "Regular",
+          "company": "Local Resident",
+          "outcome": "50+ visits"
+        },
+        {
+          "id": "t3",
+          "quote": "Chef Maria Santos is a genius. The heirloom carrot dish alone is worth the visit. Simple ingredients, extraordinary execution. This is what farm-to-table should be.",
+          "name": "Sarah Chen",
+          "role": "Chef",
+          "company": "Bistro 7",
+          "outcome": "Industry praise"
+        },
+        {
+          "id": "t4",
+          "quote": "The Michelin star is well-deserved. Every course was a revelation. The wine pairing was exceptional. Worth every penny and more.",
+          "name": "Michael Torres",
+          "role": "Wine Enthusiast",
+          "company": "Portland Monthly",
+          "outcome": "Michelin star review"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "id": "contact-1",
+      "layout": "card",
+      "heading": "JOIN US FOR DINNER",
+      "subheading": "Open Tuesday-Sunday, 5pm-10pm. Reservations strongly recommended for weekends. Private dining available for events up to 20 guests.",
+      "email": "reservations@savor.restaurant",
+      "phone": "(555) 123-4567",
+      "location": "123 Farm Road, Portland, OR",
+      "links": [
+        { "label": "Instagram", "href": "https://instagram.com" },
+        { "label": "Yelp", "href": "https://yelp.com" },
+        { "label": "OpenTable", "href": "https://opentable.com" }
+      ]
+    }
+  ]
+}

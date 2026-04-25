@@ -51,7 +51,7 @@ Analyze the user's request deeply and generate SPECIFIC content:
 
 ### 4. CONTENT DENSITY & SPECIFICITY REQUIREMENTS
 - Hero: Compelling headline (6-12 words that communicate value), descriptive subheadline (15-25 words with specific benefit), memorable tagline
-- About: 3-4 substantial paragraphs (each 3-5 sentences) covering different aspects with SPECIFIC details
+- About: **MAXIMUM 500 CHARACTERS TOTAL** - 2-3 concise sentences covering origin, mission, and unique value. Example: "Founded in 2012, we've helped 200+ brands transform their digital presence. Our data-driven approach combines strategy with creativity to deliver measurable results. We specialize in e-commerce optimization and brand identity systems." (This is 247 characters - well under the limit).
 - Projects/Services: 6-8 items minimum, each with:
   - Title: 3-7 words, specific and descriptive (not "Project 1")
   - Description: 2-3 sentences with specific outcomes, technologies, challenges
@@ -66,6 +66,15 @@ Analyze the user's request deeply and generate SPECIFIC content:
 - FAQ: 4-6 questions with detailed answers (2-4 sentences each), addressing real objections
 - Stats: 4-6 metrics with specific labels and realistic values
 - Contact: Specific, benefit-driven heading (not "Contact Us"), specific email, relevant social links
+
+### 4.5 CRITICAL: DISTRIBUTE CONTENT EVENLY
+- **Do NOT stuff all content into the about section** - The about section has a strict 500 character limit
+- Distribute rich, specific content across ALL sections: projects, testimonials, services, process, FAQ
+- Each section should have substantial, specific content - not just the about section
+- Projects should carry most of the detailed information (6-8 items with specific outcomes)
+- Testimonials should provide social proof with concrete results
+- About section should be a concise summary, not a content dump
+- **EVERY section must have specific, non-placeholder content** - No section should be empty or generic
 
 ## CRITICAL RESPONSIVE DESIGN PRINCIPLES
 
@@ -185,7 +194,7 @@ const CONTENT_STRUCTURE_EXAMPLE = `
       "id": "about-1",
       "layout": "editorial",
       "heading": "Specific, benefit-driven heading (not 'About Us')",
-      "body": "3-4 substantial paragraphs. Paragraph 1: Origin story with specific details. Paragraph 2: Mission and approach. Paragraph 3: What makes you different. Paragraph 4: Results/impact. Be SPECIFIC - names, years, metrics.",
+      "body": "1-3 consice paragraphs. Paragraph 1: Origin story with specific details. Paragraph 2: Mission and approach. Paragraph 3: What makes you different. Paragraph 4: Results/impact.",
       "stats": [
         { "label": "Specific metric (e.g., 'Client retention rate')", "value": "Specific value with % or number (e.g., '94%')" },
         { "label": "Years in business", "value": "12+ years" },
@@ -312,6 +321,12 @@ CRITICAL - MOST COMMON MISTAKES TO AVOID:
 - WRONG: Testimonials with fake names like "John D." or "Jane Smith" - use realistic full names
 - WRONG: Projects without specific outcomes/metrics - every project needs quantified results
 - WRONG: Stats like "100% satisfaction" - use realistic, specific metrics
+- **WRONG: About section body over 500 characters - STRICT LIMIT, will cause validation error**
+- **WRONG: Stuffing all content into about section - distribute evenly across all sections**
+- **WRONG: Project descriptions like "A great project" or "This was fun" - MUST be specific with outcomes**
+- **WRONG: Testimonial quotes like "Great work!" or "Amazing!" - MUST be specific with concrete results**
+- **WRONG: Contact heading "Contact Us" - MUST be benefit-driven like "Let's build something remarkable"**
+- **WRONG: Empty or generic sections - EVERY section must have substantial, specific content**
 - CORRECT: Put "headline", "subheadline", "tagline", "cta" fields DIRECTLY inside the hero object
 - CORRECT: Write SPECIFIC, business-tailored content for EVERY field
 - CORRECT: Include all section types: hero (exactly ONE), about, projects, testimonials, contact
@@ -320,10 +335,12 @@ CRITICAL - MOST COMMON MISTAKES TO AVOID:
 - CORRECT: Use asymmetric layouts (style: asymmetric, layout: editorial) for visual interest
 - CORRECT: Each project gets a distinctive accentColor for visual variety without images
 - CORRECT: Responsive design - text scales from text-5xl (mobile) to lg:text-8xl (desktop)
+- **CORRECT: About body MAXIMUM 500 characters - be extremely concise, distribute details to projects/testimonials**
+- **CORRECT: Every section has specific, non-placeholder content - projects with outcomes, testimonials with results**
 
 REQUIRED FIELDS:
 - hero: type, id, style, headline (specific 6-12 words), subheadline (specific 15-25 words) - EXACTLY ONE
-- about: type, id, heading (specific, not generic), body (3-4 paragraphs with specifics), stats (4-6 realistic metrics)
+- about: type, id, heading (specific, not generic), body (**MAXIMUM 500 CHARACTERS** - 2-3 concise paragraphs)
 - projects: type, id, heading (specific), items (6-8 objects with specific titles, descriptions, outcomes, tags, accentColor)
 - testimonials: type, id, heading (specific), items (3-4 objects with full names, specific quotes, quantified outcomes)
 - contact: type, id, heading (benefit-driven), email (specific business email)
@@ -355,6 +372,13 @@ Now generate content for this request. Remember: Be SPECIFIC, NO IMAGES, respons
     });
 
     const content = result.object as SiteContent;
+
+    // Safety net: Truncate about section body if it exceeds 500 characters
+    const aboutSection = content.sections.find(s => s.type === 'about');
+    if (aboutSection && 'body' in aboutSection && aboutSection.body && aboutSection.body.length > 500) {
+      console.warn(`About section body exceeds 500 characters (${aboutSection.body.length}), truncating...`);
+      aboutSection.body = aboutSection.body.substring(0, 497) + '...';
+    }
 
     // Override the theme with the template's theme to ensure aesthetic consistency
     content.theme = themeToUse;
@@ -420,6 +444,13 @@ CRITICAL RULES:
 
     // Lenient validation - coerce to schema
     const content = SiteContentSchema.parse(parsedContent) as SiteContent;
+
+    // Safety net: Truncate about section body to 500 characters
+    const aboutSection = content.sections.find(s => s.type === 'about');
+    if (aboutSection && 'body' in aboutSection && aboutSection.body && aboutSection.body.length > 500) {
+      console.warn(`About section body exceeds 500 characters (${aboutSection.body.length}), truncating...`);
+      (aboutSection as any).body = aboutSection.body.substring(0, 497) + '...';
+    }
 
     // Override the theme with the template's theme to ensure aesthetic consistency
     content.theme = themeToUse;

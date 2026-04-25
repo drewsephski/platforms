@@ -264,7 +264,7 @@ export const AboutSectionSchema = z.object({
   type: z.literal('about'),
   id: z.string().default(() => `about-${Date.now()}`),
   heading: z.string().optional().default('About Us').transform(v => v || 'About Us'),
-  body: z.string().max(500, 'About body must be under 500 characters').optional().transform(v => v || 'Tell your story here.'),
+  body: z.string().optional().transform(v => v || 'Tell your story here.'),
   avatarUrl: optionalString(),
   layout: permissiveEnum(['standard', 'split', 'editorial', 'minimal'], 'standard').optional(),
   stats: z.array(z.object({ label: z.string(), value: z.string() })).optional().default([]),
