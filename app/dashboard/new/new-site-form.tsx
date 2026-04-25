@@ -27,23 +27,23 @@ type State = {
 };
 
 const templates = [
-  { value: 'auto', label: 'Auto', icon: Wand2, color: 'from-sky-400/40 to-blue-600/50', bgFrom: 'oklch(0.75 0.12 237 / 0.06)', bgTo: 'oklch(0.55 0.18 261 / 0.15)', accent: 'oklch(0.65 0.18 255 / 0.4)' },
-  { value: 'dev', label: 'Developer', icon: TypeScript, color: 'from-blue-500/35 to-indigo-600/50', bgFrom: 'oklch(0.62 0.17 257 / 0.06)', bgTo: 'oklch(0.52 0.2 277 / 0.14)', accent: 'oklch(0.62 0.17 257 / 0.4)' },
-  { value: 'designer', label: 'Designer', icon: Dribbble, color: 'from-rose-400/40 to-pink-500/50', bgFrom: 'oklch(0.72 0.15 15 / 0.06)', bgTo: 'oklch(0.65 0.22 350 / 0.14)', accent: 'oklch(0.7 0.18 5 / 0.4)' },
-  { value: 'founder', label: 'Founder', icon: OpenClaw, color: 'from-orange-400/40 to-red-500/50', bgFrom: 'oklch(0.76 0.14 55 / 0.06)', bgTo: 'oklch(0.6 0.2 30 / 0.14)', accent: 'oklch(0.7 0.16 45 / 0.4)' },
-  { value: 'creator', label: 'Creator', icon: Manus, color: 'from-violet-400/40 to-fuchsia-500/50', bgFrom: 'oklch(0.65 0.18 278 / 0.06)', bgTo: 'oklch(0.6 0.22 314 / 0.14)', accent: 'oklch(0.65 0.2 290 / 0.4)' },
-  { value: 'minimal', label: 'Minimal', icon: Bento, color: 'from-stone-300/40 to-slate-400/50', bgFrom: 'oklch(0.9 0.01 90 / 0.08)', bgTo: 'oklch(0.75 0.02 260 / 0.12)', accent: 'oklch(0.8 0.02 270 / 0.4)' },
+  { value: 'auto', label: 'Auto', desc: 'AI picks', icon: Wand2, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.75 0.15 237 / 0.4), oklch(0.55 0.2 261 / 0.2))', border: 'oklch(0.65 0.18 255 / 0.5)', glow: 'oklch(0.65 0.18 255 / 0.3)' },
+  { value: 'dev', label: 'Developer', desc: 'Code-focused', icon: TypeScript, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.6 0.15 257 / 0.5), oklch(0.45 0.18 277 / 0.25))', border: 'oklch(0.55 0.2 270 / 0.6)', glow: 'oklch(0.6 0.15 260 / 0.35)' },
+  { value: 'designer', label: 'Designer', desc: 'Visual-first', icon: Dribbble, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.7 0.18 15 / 0.5), oklch(0.55 0.2 350 / 0.25))', border: 'oklch(0.65 0.2 10 / 0.6)', glow: 'oklch(0.7 0.18 5 / 0.35)' },
+  { value: 'founder', label: 'Founder', desc: 'Startup ready', icon: OpenClaw, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.72 0.16 55 / 0.5), oklch(0.5 0.18 30 / 0.25))', border: 'oklch(0.6 0.18 45 / 0.6)', glow: 'oklch(0.7 0.16 50 / 0.35)' },
+  { value: 'creator', label: 'Creator', desc: 'Social ready', icon: Manus, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.62 0.2 278 / 0.5), oklch(0.5 0.22 314 / 0.25))', border: 'oklch(0.55 0.2 290 / 0.6)', glow: 'oklch(0.6 0.2 285 / 0.35)' },
+  { value: 'minimal', label: 'Minimal', desc: 'Clean & focused', icon: Bento, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.85 0.03 90 / 0.4), oklch(0.7 0.04 260 / 0.2))', border: 'oklch(0.75 0.03 270 / 0.5)', glow: 'oklch(0.8 0.02 270 / 0.25)' },
 ];
 
 const aestheticStyles = [
-  { value: 'auto', label: 'Auto', icon: Wand2, color: 'from-sky-400/40 to-blue-600/50', bgFrom: 'oklch(0.75 0.12 237 / 0.06)', bgTo: 'oklch(0.55 0.18 261 / 0.15)', accent: 'oklch(0.65 0.18 255 / 0.4)' },
-  { value: 'editorial', label: 'Editorial', icon: Notion, color: 'from-amber-100/60 to-orange-200/70', bgFrom: 'oklch(0.95 0.03 85 / 0.1)', bgTo: 'oklch(0.88 0.06 75 / 0.18)', accent: 'oklch(0.7 0.1 65 / 0.35)' },
-  { value: 'minimal', label: 'Minimal', icon: Linear, color: 'from-slate-300/50 to-gray-300/60', bgFrom: 'oklch(0.92 0.01 260 / 0.08)', bgTo: 'oklch(0.85 0.01 270 / 0.14)', accent: 'oklch(0.75 0.02 260 / 0.4)' },
-  { value: 'brutalist', label: 'Brutalist', icon: Discord, color: 'from-neutral-700/50 to-stone-800/60', bgFrom: 'oklch(0.4 0.01 280 / 0.12)', bgTo: 'oklch(0.3 0.01 280 / 0.2)', accent: 'oklch(0.4 0.01 280 / 0.5)' },
-  { value: 'organic', label: 'Organic', icon: Canva, color: 'from-emerald-400/40 to-teal-500/50', bgFrom: 'oklch(0.75 0.14 158 / 0.06)', bgTo: 'oklch(0.68 0.15 183 / 0.14)', accent: 'oklch(0.7 0.15 165 / 0.4)' },
-  { value: 'maximalist', label: 'Maximalist', icon: Figma, color: 'from-purple-500/40 via-pink-500/40 to-yellow-400/50', bgFrom: 'oklch(0.6 0.2 280 / 0.06)', bgTo: 'oklch(0.85 0.15 95 / 0.14)', accent: 'oklch(0.65 0.2 330 / 0.4)' },
-  { value: 'art-deco', label: 'Art Deco', icon: Hexagon, color: 'from-amber-400/40 to-yellow-500/50', bgFrom: 'oklch(0.78 0.12 80 / 0.06)', bgTo: 'oklch(0.72 0.14 95 / 0.14)', accent: 'oklch(0.75 0.12 85 / 0.4)' },
-  { value: 'industrial', label: 'Industrial', icon: Docker, color: 'from-slate-500/40 to-zinc-600/50', bgFrom: 'oklch(0.6 0.02 260 / 0.06)', bgTo: 'oklch(0.5 0.03 280 / 0.14)', accent: 'oklch(0.6 0.03 270 / 0.4)' },
+  { value: 'auto', label: 'Auto', desc: 'Smart pick', icon: Wand2, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.75 0.15 237 / 0.4), oklch(0.55 0.2 261 / 0.2))', border: 'oklch(0.65 0.18 255 / 0.5)', glow: 'oklch(0.65 0.18 255 / 0.3)' },
+  { value: 'editorial', label: 'Editorial', desc: 'Magazine style', icon: Notion, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.93 0.05 85 / 0.5), oklch(0.82 0.08 75 / 0.25))', border: 'oklch(0.85 0.08 80 / 0.5)', glow: 'oklch(0.88 0.06 78 / 0.3)' },
+  { value: 'minimal', label: 'Minimal', desc: 'Essential only', icon: Linear, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.88 0.02 260 / 0.5), oklch(0.75 0.03 270 / 0.25))', border: 'oklch(0.8 0.03 265 / 0.5)', glow: 'oklch(0.82 0.02 268 / 0.3)' },
+  { value: 'brutalist', label: 'Brutalist', desc: 'Raw & bold', icon: Discord, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.45 0.02 280 / 0.6), oklch(0.3 0.02 280 / 0.3))', border: 'oklch(0.4 0.01 280 / 0.7)', glow: 'oklch(0.35 0.02 280 / 0.4)', isDark: true },
+  { value: 'organic', label: 'Organic', desc: 'Natural flow', icon: Canva, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.72 0.16 158 / 0.5), oklch(0.6 0.17 183 / 0.25))', border: 'oklch(0.65 0.16 165 / 0.6)', glow: 'oklch(0.68 0.15 168 / 0.35)' },
+  { value: 'maximalist', label: 'Maximalist', desc: 'Go all out', icon: Figma, gradient: 'conic-gradient(from 45deg at 30% 30%, oklch(0.6 0.2 280 / 0.4), oklch(0.65 0.18 330 / 0.4), oklch(0.75 0.15 95 / 0.4), oklch(0.6 0.2 280 / 0.4))', border: 'oklch(0.6 0.18 300 / 0.6)', glow: 'oklch(0.65 0.2 290 / 0.35)' },
+  { value: 'art-deco', label: 'Art Deco', desc: 'Geometric glam', icon: Hexagon, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.75 0.14 80 / 0.5), oklch(0.65 0.16 95 / 0.25))', border: 'oklch(0.7 0.14 88 / 0.6)', glow: 'oklch(0.72 0.12 85 / 0.35)' },
+  { value: 'industrial', label: 'Industrial', desc: 'Functional', icon: Docker, gradient: 'radial-gradient(circle at 30% 30%, oklch(0.55 0.03 260 / 0.5), oklch(0.4 0.04 280 / 0.25))', border: 'oklch(0.5 0.03 270 / 0.6)', glow: 'oklch(0.45 0.03 275 / 0.35)' },
 ];
 
 export function NewSiteForm({ userId }: { userId: string }) {
@@ -181,14 +181,17 @@ export function NewSiteForm({ userId }: { userId: string }) {
             </p>
           </div>
 
-          {/* Template - Compact card grid */}
+          {/* Template - Enhanced card grid */}
           <div className={cn("space-y-4 transition-all duration-700 ease-out", isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")} style={{ transitionDelay: '300ms' }}>
-            <label className="text-sm font-medium text-foreground">
-              Choose a template
-            </label>
+            <div className="flex items-baseline justify-between">
+              <label className="text-sm font-medium text-foreground">
+                Choose a template
+              </label>
+              <span className="text-xs text-muted-foreground">{templates.find(t => t.value === template)?.desc}</span>
+            </div>
             <input type="hidden" name="template" value={template} />
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-              {templates.map((t) => {
+              {templates.map((t, index) => {
                 const Icon = t.icon;
                 const isSelected = template === t.value;
                 const isLogo = t.value === 'dev' || t.value === 'designer' || t.value === 'founder' || t.value === 'creator' || t.value === 'minimal';
@@ -199,43 +202,63 @@ export function NewSiteForm({ userId }: { userId: string }) {
                     onClick={() => setTemplate(t.value)}
                     className={cn(
                       "relative group p-4 rounded-xl border transition-all duration-300 ease-out",
-                      "flex flex-col items-center gap-2 text-center",
-                      isSelected && "shadow-lg ring-2 scale-105",
-                      !isSelected && "border-border/40 hover:shadow-md hover:scale-102"
+                      "flex flex-col items-center gap-2.5 text-center",
+                      isSelected && "shadow-lg ring-2 ring-offset-1",
+                      !isSelected && "border-border/40 hover:shadow-md hover:border-border/60"
                     )}
                     style={{
-                      background: isSelected
-                        ? `linear-gradient(135deg, ${t.bgFrom}, ${t.bgTo})`
-                        : `linear-gradient(135deg, ${t.bgFrom.replace(/\/ 0\.[0-9]+\)/, ' / 0.02)')}, ${t.bgTo.replace(/\/ 0\.[0-9]+\)/, ' / 0.05)')})`,
-                      borderColor: isSelected ? t.accent : undefined,
-                      '--tw-ring-color': isSelected ? t.accent : undefined,
+                      background: isSelected ? t.gradient : `linear-gradient(135deg, oklch(0.97 0.01 260 / 0.5), oklch(0.95 0.01 270 / 0.6))`,
+                      borderColor: isSelected ? t.border : undefined,
+                      '--tw-ring-color': isSelected ? t.border : undefined,
+                      boxShadow: isSelected ? `0 4px 20px -4px ${t.glow}` : undefined,
+                      transitionDelay: `${index * 50}ms`,
                     } as React.CSSProperties}
-                    onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.borderColor = t.accent; }}
-                    onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.borderColor = ''; }}
                   >
+                    {/* Glow effect background */}
                     <div
                       className={cn(
-                        "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ease-out",
-                        "bg-gradient-to-br",
-                        t.color,
-                        isSelected ? "scale-110 rotate-0" : "group-hover:scale-110 group-hover:rotate-3"
+                        "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
+                        isSelected && "opacity-100"
                       )}
+                      style={{
+                        background: t.gradient,
+                        filter: 'blur(20px)',
+                        transform: 'scale(0.9)',
+                        zIndex: -1,
+                      }}
+                    />
+
+                    <div
+                      className={cn(
+                        "w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
+                        isSelected ? "scale-105" : "group-hover:scale-105"
+                      )}
+                      style={{
+                        background: t.gradient,
+                        boxShadow: isSelected ? `0 2px 12px -2px ${t.glow}` : 'none',
+                      }}
                     >
+                      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       {isLogo ? (
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-6 h-6 relative z-10" />
                       ) : (
-                        <Icon className="w-5 h-5 text-foreground/80" />
+                        <Icon className="w-5 h-5 text-foreground/80 relative z-10" />
                       )}
                     </div>
+
                     <span className={cn(
                       "text-xs font-medium",
                       isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                     )}>
                       {t.label}
                     </span>
+
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-primary flex items-center justify-center animate-pulse">
-                        <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                      <div
+                        className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                        style={{ background: t.border }}
+                      >
+                        <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
                   </button>
@@ -244,14 +267,17 @@ export function NewSiteForm({ userId }: { userId: string }) {
             </div>
           </div>
 
-          {/* Aesthetic - Compact card grid */}
+          {/* Aesthetic - Enhanced card grid */}
           <div className={cn("space-y-4 transition-all duration-700 ease-out", isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4")} style={{ transitionDelay: '400ms' }}>
-            <label className="text-sm font-medium text-foreground">
-              Choose visual style
-            </label>
+            <div className="flex items-baseline justify-between">
+              <label className="text-sm font-medium text-foreground">
+                Choose visual style
+              </label>
+              <span className="text-xs text-muted-foreground">{aestheticStyles.find(s => s.value === aesthetic)?.desc}</span>
+            </div>
             <input type="hidden" name="aesthetic" value={aesthetic} />
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
-              {aestheticStyles.map((s) => {
+              {aestheticStyles.map((s, index) => {
                 const Icon = s.icon;
                 const isSelected = aesthetic === s.value;
                 const isLogo = s.value === 'editorial' || s.value === 'minimal' || s.value === 'brutalist' || s.value === 'organic' || s.value === 'maximalist' || s.value === 'industrial';
@@ -262,43 +288,63 @@ export function NewSiteForm({ userId }: { userId: string }) {
                     onClick={() => setAesthetic(s.value)}
                     className={cn(
                       "relative group p-4 rounded-xl border transition-all duration-300 ease-out",
-                      "flex flex-col items-center gap-2 text-center",
-                      isSelected && "shadow-lg ring-2 scale-105",
-                      !isSelected && "border-border/40 hover:shadow-md hover:scale-102"
+                      "flex flex-col items-center gap-2.5 text-center",
+                      isSelected && "shadow-lg ring-2 ring-offset-1",
+                      !isSelected && "border-border/40 hover:shadow-md hover:border-border/60"
                     )}
                     style={{
-                      background: isSelected
-                        ? `linear-gradient(135deg, ${s.bgFrom}, ${s.bgTo})`
-                        : `linear-gradient(135deg, ${s.bgFrom.replace(/\/ 0\.[0-9]+\)/, ' / 0.02)')}, ${s.bgTo.replace(/\/ 0\.[0-9]+\)/, ' / 0.05)')})`,
-                      borderColor: isSelected ? s.accent : undefined,
-                      '--tw-ring-color': isSelected ? s.accent : undefined,
+                      background: isSelected ? s.gradient : (s.isDark ? 'linear-gradient(135deg, oklch(0.25 0.01 280 / 0.8), oklch(0.2 0.01 280 / 0.9))' : `linear-gradient(135deg, oklch(0.97 0.01 260 / 0.5), oklch(0.95 0.01 270 / 0.6))`),
+                      borderColor: isSelected ? s.border : undefined,
+                      '--tw-ring-color': isSelected ? s.border : undefined,
+                      boxShadow: isSelected ? `0 4px 20px -4px ${s.glow}` : undefined,
+                      transitionDelay: `${index * 50}ms`,
                     } as React.CSSProperties}
-                    onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.borderColor = s.accent; }}
-                    onMouseLeave={(e) => { if (!isSelected) e.currentTarget.style.borderColor = ''; }}
                   >
+                    {/* Glow effect background */}
                     <div
                       className={cn(
-                        "w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ease-out",
-                        "bg-gradient-to-br",
-                        s.color,
-                        isSelected ? "scale-110 rotate-0" : "group-hover:scale-110 group-hover:rotate-3"
+                        "absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300",
+                        isSelected && "opacity-100"
                       )}
+                      style={{
+                        background: s.gradient,
+                        filter: 'blur(20px)',
+                        transform: 'scale(0.9)',
+                        zIndex: -1,
+                      }}
+                    />
+
+                    <div
+                      className={cn(
+                        "w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ease-out relative overflow-hidden",
+                        isSelected ? "scale-105" : "group-hover:scale-105"
+                      )}
+                      style={{
+                        background: s.gradient,
+                        boxShadow: isSelected ? `0 2px 12px -2px ${s.glow}` : 'none',
+                      }}
                     >
+                      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       {isLogo ? (
-                        <Icon className="w-6 h-6" />
+                        <Icon className={cn("w-6 h-6 relative z-10", s.isDark && "text-white")} />
                       ) : (
-                        <Icon className="w-5 h-5 text-foreground/80" />
+                        <Icon className={cn("w-5 h-5 relative z-10", s.isDark ? "text-white/90" : "text-foreground/80")} />
                       )}
                     </div>
+
                     <span className={cn(
                       "text-xs font-medium",
-                      isSelected ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                      isSelected ? (s.isDark ? "text-white" : "text-foreground") : (s.isDark ? "text-white/70 group-hover:text-white" : "text-muted-foreground group-hover:text-foreground")
                     )}>
                       {s.label}
                     </span>
+
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-primary flex items-center justify-center animate-pulse">
-                        <Check className="w-2.5 h-2.5 text-primary-foreground" />
+                      <div
+                        className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
+                        style={{ background: s.border }}
+                      >
+                        <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
                   </button>
