@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { rootDomain } from '@/lib/utils';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/server';
 import { SignOutButton } from '@/components/sign-out-button';
 import { InteractiveDemo } from '@/components/interactive-demo';
+import { PlatformsLogo } from '@/components/platforms-logo';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -21,19 +23,22 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-background" />
+              <PlatformsLogo className="w-4 h-4 text-background" />
             </div>
             <span className="font-medium text-sm tracking-tight">{rootDomain}</span>
           </div>
-          {isAuthenticated ? (
-            <SignOutButton />
-          ) : (
-            <Link href="/auth/signin">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                Sign In
-              </Button>
-            </Link>
-          )}
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            {isAuthenticated ? (
+              <SignOutButton />
+            ) : (
+              <Link href="/auth/signin">
+                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                  Sign In
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
       </nav>
 

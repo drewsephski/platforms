@@ -1,6 +1,6 @@
-# Next.js Multi-Tenant Example
+# Platforms
 
-A production-ready example of a multi-tenant application built with Next.js 15, featuring custom subdomains for each tenant.
+A production-ready multi-tenant application built with Next.js 15, featuring custom subdomains for each tenant. Transform prompts into production-ready websites instantly.
 
 ## Features
 

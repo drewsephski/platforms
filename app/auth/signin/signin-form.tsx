@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, AlertCircle, ArrowLeft, Check } from 'lucide-react';
-import { AuthIcon } from '@/components/auth-icon';
+import { PlatformsLogo } from '@/components/platforms-logo';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { rootDomain } from '@/lib/utils';
@@ -120,7 +120,7 @@ export function SignInForm() {
             }}
           >
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-foreground mb-5 shadow-lg shadow-foreground/5">
-              <AuthIcon className="w-7 h-7 text-background" />
+              <PlatformsLogo className="w-7 h-7 text-background" />
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-1.5">
               Welcome back

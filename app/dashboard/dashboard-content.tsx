@@ -17,6 +17,7 @@ import { Plus, ExternalLink, Edit, ArrowLeft, Sparkles, LayoutGrid, Trash2, Load
 import { deleteSiteAction } from '@/app/actions';
 import { protocol, rootDomain, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 type Site = {
   id: string;
@@ -318,10 +319,13 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
               <PlanBadge hasActiveSubscription={subscriptionStatus.hasActiveSubscription} />
             )}
           </div>
-          <Link href="/" className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200">
-            <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
-            <span>Back to home</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link href="/" className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200">
+              <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <span>Back to home</span>
+            </Link>
+          </div>
         </div>
       </nav>
 
