@@ -55,8 +55,8 @@ export async function POST(request: Request) {
             stripe_customer_id: subscription.customer as string,
             stripe_price_id: subscription.items.data[0].price.id,
             status: subscription.status,
-            current_period_start: new Date(subData.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subData.current_period_end * 1000).toISOString(),
+            current_period_start: subData.current_period_start ? new Date(subData.current_period_start * 1000).toISOString() : null,
+            current_period_end: subData.current_period_end ? new Date(subData.current_period_end * 1000).toISOString() : null,
             cancel_at_period_end: subData.cancel_at_period_end,
           });
 
@@ -85,8 +85,8 @@ export async function POST(request: Request) {
           .from('subscriptions')
           .update({
             status: subscription.status,
-            current_period_start: new Date(subData.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(subData.current_period_end * 1000).toISOString(),
+            current_period_start: subData.current_period_start ? new Date(subData.current_period_start * 1000).toISOString() : null,
+            current_period_end: subData.current_period_end ? new Date(subData.current_period_end * 1000).toISOString() : null,
             cancel_at_period_end: subData.cancel_at_period_end,
           })
           .eq('stripe_subscription_id', subscription.id);
@@ -138,8 +138,8 @@ export async function POST(request: Request) {
             .from('subscriptions')
             .update({
               status: subscription.status,
-              current_period_start: new Date(subData.current_period_start * 1000).toISOString(),
-              current_period_end: new Date(subData.current_period_end * 1000).toISOString(),
+              current_period_start: subData.current_period_start ? new Date(subData.current_period_start * 1000).toISOString() : null,
+              current_period_end: subData.current_period_end ? new Date(subData.current_period_end * 1000).toISOString() : null,
             })
             .eq('stripe_subscription_id', subscription.id);
 
