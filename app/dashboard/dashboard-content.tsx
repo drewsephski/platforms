@@ -27,6 +27,11 @@ type Site = {
   updated_at: string;
 };
 
+type SubscriptionStatus = {
+  hasActiveSubscription: boolean;
+  plan?: 'free' | 'pro';
+};
+
 function StatusBadge({ status }: { status: string }) {
   return (
     <span className={cn(
@@ -40,6 +45,29 @@ function StatusBadge({ status }: { status: string }) {
         status === 'published' ? "bg-emerald-500" : "bg-amber-500"
       )} />
       {status === 'published' ? 'Published' : 'Draft'}
+    </span>
+  );
+}
+
+function PlanBadge({ hasActiveSubscription }: { hasActiveSubscription: boolean }) {
+  return (
+    <span className={cn(
+      "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium",
+      hasActiveSubscription
+        ? "bg-amber-50 text-amber-700 border border-amber-200"
+        : "bg-slate-50 text-slate-700 border border-slate-200"
+    )}>
+      {hasActiveSubscription ? (
+        <>
+          <Crown className="w-3 h-3 mr-1.5 text-amber-500" />
+          Pro
+        </>
+      ) : (
+        <>
+          <Zap className="w-3 h-3 mr-1.5 text-slate-500" />
+          Free
+        </>
+      )}
     </span>
   );
 }
@@ -234,6 +262,7 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
   const [isLoadingSubscription, setIsLoadingSubscription] = useState(true);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<SubscriptionStatus | null>(null);
 
   // Check subscription status on mount
   useEffect(() => {
@@ -242,8 +271,13 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
         const response = await fetch('/api/subscription/status');
         const data = await response.json();
         setHasSubscription(data.hasActiveSubscription);
+        setSubscriptionStatus({
+          hasActiveSubscription: data.hasActiveSubscription,
+          plan: data.hasActiveSubscription ? 'pro' : 'free'
+        });
       } catch (error) {
         console.error('Failed to check subscription:', error);
+        setSubscriptionStatus({ hasActiveSubscription: false, plan: 'free' });
       } finally {
         setIsLoadingSubscription(false);
       }
@@ -275,11 +309,14 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
       {/* Navigation */}
       <nav className="border-b border-border/60">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-background" />
             </div>
             <span className="font-medium text-sm tracking-tight">{rootDomain}</span>
+            {!isLoadingSubscription && subscriptionStatus && (
+              <PlanBadge hasActiveSubscription={subscriptionStatus.hasActiveSubscription} />
+            )}
           </div>
           <Link href="/" className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200">
             <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
