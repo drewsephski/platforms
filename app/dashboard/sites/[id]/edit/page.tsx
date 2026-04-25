@@ -26,5 +26,5 @@ export default async function EditSitePage({
     redirect('/dashboard');
   }
 
-  return <SiteEditor site={site} userId={user.id} />;
+  return <SiteEditor site={site} />;
 }
