@@ -1,26 +1,67 @@
 'use client';
 
 import type { SiteContent, Section, Theme } from '@/lib/types/site';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
-// Animation helper - staggered reveal
+// Enhanced animation helper with intersection observer for scroll-triggered reveals
 function useStaggeredReveal(itemCount: number, baseDelay = 100) {
   const [visible, setVisible] = useState<boolean[]>(new Array(itemCount).fill(false));
+  const [hasTriggered, setHasTriggered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timers = visible.map((_, i) =>
-      setTimeout(() => {
-        setVisible(prev => {
-          const next = [...prev];
-          next[i] = true;
-          return next;
-        });
-      }, i * baseDelay)
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasTriggered) {
+          setHasTriggered(true);
+          const timers = visible.map((_, i) =>
+            setTimeout(() => {
+              setVisible(prev => {
+                const next = [...prev];
+                next[i] = true;
+                return next;
+              });
+            }, i * baseDelay)
+          );
+          return () => timers.forEach(t => clearTimeout(t));
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
-    return () => timers.forEach(t => clearTimeout(t));
-  }, [itemCount, baseDelay]);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [itemCount, baseDelay, hasTriggered]);
 
   return visible;
+}
+
+// Hook for single element reveal
+function useReveal() {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { isVisible, ref };
 }
 
 // Decorative elements based on aesthetic
@@ -56,6 +97,18 @@ function DecorativeElements({ type, colors }: { type: string; colors?: Theme['co
   return null;
 }
 
+// Fluid type scale using clamp for responsive typography
+const fluidType = {
+  hero: 'clamp(2.5rem, 8vw + 1rem, 6rem)',
+  headline: 'clamp(1.75rem, 5vw + 0.5rem, 3.5rem)',
+  subheadline: 'clamp(1rem, 2vw + 0.5rem, 1.5rem)',
+  body: 'clamp(0.875rem, 1vw + 0.5rem, 1.125rem)',
+  small: 'clamp(0.75rem, 0.5vw + 0.5rem, 0.875rem)',
+};
+
+// Easing functions
+const easeOutQuart = 'cubic-bezier(0.25, 1, 0.5, 1)';
+
 // Button variants
 function Button({
   href,
@@ -68,12 +121,12 @@ function Button({
   variant?: 'primary' | 'secondary' | 'ghost';
   colors?: Theme['colors'];
 }) {
-  const baseStyles = "inline-flex items-center font-medium transition-all duration-200 ease-out";
+  const baseStyles = "inline-flex items-center font-medium transition-all duration-300";
 
   const variants = {
-    primary: `px-8 py-4 text-base tracking-wide hover:opacity-90`,
-    secondary: `px-6 py-3 border-2 text-sm hover:bg-opacity-10 hover:bg-black`,
-    ghost: `px-6 py-3 text-sm hover:underline underline-offset-4`,
+    primary: `px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base tracking-wide hover:scale-[1.02] active:scale-[0.98]`,
+    secondary: `px-5 sm:px-6 py-2.5 sm:py-3 border-2 text-sm hover:bg-opacity-10 hover:bg-black`,
+    ghost: `px-5 sm:px-6 py-2.5 sm:py-3 text-sm hover:opacity-70`,
   };
 
   const getStyles = () => {
@@ -127,40 +180,55 @@ function HeroSection({
     bottom: 'justify-end pb-32',
   };
 
-  // Asymmetric layout - breaks the grid
+  // Asymmetric layout - enhanced with fluid typography and better responsive behavior
   if (section.style === 'asymmetric') {
+    const { ref: asymmetricRef, isVisible: asymmetricVisible } = useReveal();
     return (
-      <section className="min-h-[70vh] relative overflow-hidden">
+      <section ref={asymmetricRef} className="min-h-[80vh] sm:min-h-[85vh] relative overflow-hidden">
         <DecorativeElements type={layout.decorative || 'gradient'} colors={theme.colors} />
-        <div className="container mx-auto max-w-7xl px-4 py-12">
-          <div className="grid grid-cols-1 gap-8 items-center">
-            <div className="text-center">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className={`lg:col-span-7 ${textAlign === 'left' ? 'lg:pr-12' : textAlign === 'right' ? 'lg:pl-12' : ''}`}>
               <div
-                className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`transition-all duration-1000 ${easeOutQuart} ${asymmetricVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               >
                 {section.tagline && (
-                  <span className="text-xs tracking-[0.2em] uppercase mb-3 block"
-                    style={{ color: theme.colors?.muted }}>
+                  <span 
+                    className="text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-4 sm:mb-6 block"
+                    style={{ color: theme.colors?.accent || theme.colors?.muted }}
+                  >
                     {section.tagline}
                   </span>
                 )}
-                <h1 className="text-3xl font-light leading-[0.95] tracking-tight"
-                  style={{ fontFamily: theme.fontPairing?.display }}>
+                <h1 
+                  className="font-semibold leading-[0.9] tracking-tight mb-6 sm:mb-8"
+                  style={{ 
+                    fontFamily: theme.fontPairing?.display,
+                    fontSize: fluidType.hero,
+                    color: theme.colors?.text
+                  }}
+                >
                   {section.headline}
                 </h1>
               </div>
             </div>
-            <div className="text-center">
+            <div className="lg:col-span-5">
               <div
-                className={`transition-all duration-700 delay-300 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`transition-all duration-1000 delay-200 ${easeOutQuart} ${asymmetricVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               >
                 {section.subheadline && (
-                  <p className="text-sm leading-relaxed mb-4"
-                    style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+                  <p 
+                    className="leading-relaxed mb-6 sm:mb-8 max-w-lg"
+                    style={{ 
+                      fontSize: fluidType.subheadline,
+                      color: theme.colors?.muted, 
+                      fontFamily: theme.fontPairing?.body 
+                    }}
+                  >
                     {section.subheadline}
                   </p>
                 )}
-                <div className="flex flex-col gap-3 justify-center">
+                <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 ${textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
                   {section.cta && (
                     <Button href={section.cta.href} variant={section.cta.variant || 'primary'} colors={theme.colors}>
                       {section.cta.text}
@@ -180,38 +248,61 @@ function HeroSection({
     );
   }
 
-  // Full-bleed layout - dramatic and immersive
+  // Full-bleed layout - dramatic and immersive with enhanced responsive design
   if (section.style === 'fullbleed') {
+    const { ref: sectionRef, isVisible: sectionVisible } = useReveal();
     return (
-      <section className="min-h-[70vh] relative flex items-end">
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-        <div className="container mx-auto max-w-7xl px-4 pb-16 relative z-10">
-          <div className="max-w-4xl text-center">
+      <section ref={sectionRef} className="min-h-[85vh] sm:min-h-[90vh] relative flex items-end">
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `linear-gradient(to top, ${theme.colors?.background} 0%, ${theme.colors?.background}dd 40%, transparent 100%)`
+          }}
+        />
+        <DecorativeElements type={layout.decorative || 'gradient'} colors={theme.colors} />
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24 lg:pb-32 relative z-10">
+          <div className={`max-w-4xl ${textAlign === 'left' ? 'text-left' : textAlign === 'right' ? 'text-right' : 'text-center mx-auto'}`}>
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
               {section.tagline && (
-                <span className="text-[10px] tracking-[0.3em] uppercase mb-2 block"
-                  style={{ color: theme.colors?.muted }}>
+                <span 
+                  className="text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-4 block"
+                  style={{ color: theme.colors?.accent || theme.colors?.muted }}
+                >
                   {section.tagline}
                 </span>
               )}
-              <h1 className="text-3xl font-bold tracking-tighter leading-[0.9] mb-4"
-                style={{ fontFamily: theme.fontPairing?.display }}>
+              <h1 
+                className="font-bold leading-[0.85] tracking-tighter mb-6 sm:mb-8"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.hero,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.headline}
               </h1>
             </div>
             <div
-              className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 delay-200 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
               {section.subheadline && (
-                <p className="text-base max-w-xl mx-auto mb-6"
-                  style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+                <p 
+                  className="max-w-xl mb-8 leading-relaxed"
+                  style={{ 
+                    fontSize: fluidType.subheadline,
+                    color: theme.colors?.muted, 
+                    fontFamily: theme.fontPairing?.body,
+                    marginLeft: textAlign === 'center' ? 'auto' : textAlign === 'right' ? 'auto' : '0',
+                    marginRight: textAlign === 'center' ? 'auto' : textAlign === 'left' ? 'auto' : '0'
+                  }}
+                >
                   {section.subheadline}
                 </p>
               )}
               {section.cta && (
-                <div className="flex justify-center">
+                <div className={`flex ${textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
                   <Button href={section.cta.href} variant={section.cta.variant || 'secondary'} colors={theme.colors}>
                     {section.cta.text}
                   </Button>
@@ -224,48 +315,70 @@ function HeroSection({
     );
   }
 
-  // Split layout - side by side
+  // Split layout - side by side with enhanced responsive behavior
   if (section.style === 'split') {
+    const { ref, isVisible } = useReveal();
     return (
-      <section className="min-h-[70vh]">
-        <div className="grid grid-cols-1 min-h-[70vh]">
-          <div className="flex items-center justify-center px-4 py-12">
-            <div className="max-w-lg text-center">
+      <section ref={ref} className="min-h-[80vh] sm:min-h-[85vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] sm:min-h-[85vh]">
+          <div className="flex items-center justify-center px-4 sm:px-8 lg:px-12 py-16 sm:py-24">
+            <div className={`max-w-lg ${textAlign === 'left' ? 'text-left' : textAlign === 'right' ? 'text-right' : 'text-center'}`}>
               <div
-                className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+                className={`transition-all duration-1000 ${easeOutQuart} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
               >
                 {section.tagline && (
-                  <span className="text-xs tracking-[0.2em] uppercase mb-3 block"
-                    style={{ color: theme.colors?.accent }}>
+                  <span 
+                    className="text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-4 sm:mb-6 block"
+                    style={{ color: theme.colors?.accent || theme.colors?.muted }}
+                  >
                     {section.tagline}
                   </span>
                 )}
-                <h1 className="text-2xl font-medium leading-[1.1] tracking-tight mb-4"
-                  style={{ fontFamily: theme.fontPairing?.display }}>
+                <h1 
+                  className="font-medium leading-[0.95] tracking-tight mb-4 sm:mb-6"
+                  style={{ 
+                    fontFamily: theme.fontPairing?.display,
+                    fontSize: fluidType.headline,
+                    color: theme.colors?.text
+                  }}
+                >
                   {section.headline}
                 </h1>
               </div>
               <div
-                className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+                className={`transition-all duration-1000 delay-200 ${easeOutQuart} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
               >
                 {section.subheadline && (
-                  <p className="text-sm leading-relaxed mb-6"
-                    style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+                  <p 
+                    className="leading-relaxed mb-6 sm:mb-8"
+                    style={{ 
+                      fontSize: fluidType.subheadline,
+                      color: theme.colors?.muted, 
+                      fontFamily: theme.fontPairing?.body 
+                    }}
+                  >
                     {section.subheadline}
                   </p>
                 )}
-                <div className="flex gap-3 justify-center">
+                <div className={`flex gap-3 sm:gap-4 ${textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
                   {section.cta && (
                     <Button href={section.cta.href} variant={section.cta.variant || 'primary'} colors={theme.colors}>
                       {section.cta.text}
+                    </Button>
+                  )}
+                  {section.secondaryCta && (
+                    <Button href={section.secondaryCta.href} variant="ghost" colors={theme.colors}>
+                      {section.secondaryCta.text}
                     </Button>
                   )}
                 </div>
               </div>
             </div>
           </div>
-          <div className="hidden relative"
-            style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}>
+          <div 
+            className="hidden lg:flex relative items-center justify-center"
+            style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+          >
             <DecorativeElements type={layout.decorative || 'shapes'} colors={theme.colors} />
           </div>
         </div>
@@ -273,32 +386,46 @@ function HeroSection({
     );
   }
 
-  // Minimal layout - extreme restraint
+  // Minimal layout - extreme restraint with fluid typography
   if (section.style === 'minimal') {
+    const { ref, isVisible } = useReveal();
     return (
-      <section className="min-h-[60vh] flex items-center px-4">
-        <div className="container mx-auto">
+      <section ref={ref} className="min-h-[70vh] sm:min-h-[75vh] flex items-center px-4 sm:px-6">
+        <div className="container mx-auto max-w-3xl">
           <div
-            className={`max-w-2xl text-center transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`text-center transition-all duration-1000 ${easeOutQuart} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
-            <h1 className="text-2xl font-light leading-tight tracking-tight"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            <h1 
+              className="font-light leading-[1.1] tracking-tight mb-6 sm:mb-8"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.headline,
+                color: theme.colors?.text
+              }}
+            >
               {section.headline}
             </h1>
             {section.subheadline && (
-              <p className="mt-4 text-sm"
-                style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+              <p 
+                className="max-w-xl mx-auto leading-relaxed"
+                style={{ 
+                  fontSize: fluidType.subheadline,
+                  color: theme.colors?.muted, 
+                  fontFamily: theme.fontPairing?.body 
+                }}
+              >
                 {section.subheadline}
               </p>
             )}
             {section.cta && (
-              <div className="mt-8">
+              <div className="mt-8 sm:mt-10">
                 <a
                   href={section.cta.href}
-                  className="text-xs tracking-wide hover:opacity-60 transition-opacity"
+                  className="text-xs sm:text-sm tracking-wide hover:opacity-60 transition-opacity inline-flex items-center gap-2 group"
                   style={{ color: theme.colors?.text }}
                 >
-                  {section.cta.text} →
+                  {section.cta.text}
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
               </div>
             )}
@@ -308,46 +435,63 @@ function HeroSection({
     );
   }
 
-  // Default centered layout (but better)
+  // Default centered layout - enhanced with fluid typography and better responsive behavior
+  const { ref: defaultRef, isVisible: defaultVisible } = useReveal();
   return (
-    <section className={`min-h-[70vh] flex ${verticalClasses[verticalAlign]} px-4 relative overflow-hidden`}>
+    <section ref={defaultRef} className={`min-h-[80vh] sm:min-h-[85vh] flex ${verticalClasses[verticalAlign]} px-4 sm:px-6 relative overflow-hidden`}>
       <DecorativeElements type={layout.decorative || 'none'} colors={theme.colors} />
       <div className={`container mx-auto max-w-5xl flex flex-col ${alignClasses[textAlign]}`}>
         <div
-          className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`transition-all duration-1000 ${easeOutQuart} ${defaultVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
         >
           {section.tagline && (
-            <span className="text-[10px] tracking-[0.3em] uppercase mb-4 block"
-              style={{ color: theme.colors?.accent }}>
+            <span 
+              className="text-[10px] sm:text-xs tracking-[0.25em] uppercase mb-4 sm:mb-6 block"
+              style={{ color: theme.colors?.accent || theme.colors?.muted }}
+            >
               {section.tagline}
             </span>
           )}
-          <h1 className="text-3xl font-medium tracking-tight leading-[0.95]"
-            style={{ fontFamily: theme.fontPairing?.display }}>
+          <h1 
+            className="font-semibold leading-[0.9] tracking-tight"
+            style={{ 
+              fontFamily: theme.fontPairing?.display,
+              fontSize: fluidType.hero,
+              color: theme.colors?.text
+            }}
+          >
             {section.headline}
           </h1>
         </div>
         <div
-          className={`transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`transition-all duration-1000 delay-150 ${easeOutQuart} ${defaultVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
         >
           {section.subheadline && (
-            <p className="mt-4 text-base max-w-2xl mx-auto"
-              style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+            <p 
+              className="mt-4 sm:mt-6 max-w-2xl leading-relaxed"
+              style={{ 
+                fontSize: fluidType.subheadline,
+                color: theme.colors?.muted, 
+                fontFamily: theme.fontPairing?.body,
+                marginLeft: textAlign === 'center' ? 'auto' : '0',
+                marginRight: textAlign === 'center' ? 'auto' : '0'
+              }}
+            >
               {section.subheadline}
             </p>
           )}
-          {section.cta && (
-            <div className="flex justify-center">
+          <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 sm:mt-10 ${textAlign === 'center' ? 'justify-center' : textAlign === 'right' ? 'justify-end' : 'justify-start'}`}>
+            {section.cta && (
               <Button href={section.cta.href} variant={section.cta.variant || 'secondary'} colors={theme.colors}>
                 {section.cta.text}
               </Button>
-            </div>
-          )}
-          {section.secondaryCta && (
-            <Button href={section.secondaryCta.href} variant="ghost" colors={theme.colors}>
-              {section.secondaryCta.text}
-            </Button>
-          )}
+            )}
+            {section.secondaryCta && (
+              <Button href={section.secondaryCta.href} variant="ghost" colors={theme.colors}>
+                {section.secondaryCta.text}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </section>
@@ -361,45 +505,72 @@ function AboutSection({
   section: Extract<Section, { type: 'about' }>;
   theme: Theme;
 }) {
-  const visible = useStaggeredReveal(3, 100);
+  const { ref: sectionRef, isVisible: sectionVisible } = useReveal();
   const layout = section.layout || 'standard';
 
-  // Editorial layout - magazine-style asymmetric
+  // Editorial layout - magazine-style asymmetric with enhanced responsive design
   if (layout === 'editorial') {
     return (
-      <section className="py-16 px-4">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-8">
-            <div className="text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+            <div className="lg:col-span-4">
               <div
-                className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               >
-                <span className="text-[10px] tracking-[0.3em] uppercase block mb-2"
-                  style={{ color: theme.colors?.muted }}>About</span>
-                <h2 className="text-2xl font-light leading-tight"
-                  style={{ fontFamily: theme.fontPairing?.display }}>
+                <span 
+                  className="text-[10px] sm:text-xs tracking-[0.25em] uppercase block mb-4"
+                  style={{ color: theme.colors?.accent || theme.colors?.muted }}
+                >
+                  About
+                </span>
+                <h2 
+                  className="font-light leading-tight"
+                  style={{ 
+                    fontFamily: theme.fontPairing?.display,
+                    fontSize: fluidType.headline,
+                    color: theme.colors?.text
+                  }}
+                >
                   {section.heading}
                 </h2>
               </div>
             </div>
-            <div>
+            <div className="lg:col-span-8">
               <div
-                className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`transition-all duration-1000 delay-200 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               >
-                <p className="text-base leading-relaxed"
-                  style={{ color: theme.colors?.text, fontFamily: theme.fontPairing?.body }}>
+                <p 
+                  className="leading-relaxed mb-8"
+                  style={{ 
+                    fontSize: fluidType.body,
+                    color: theme.colors?.text, 
+                    fontFamily: theme.fontPairing?.body 
+                  }}
+                >
                   {section.body}
                 </p>
                 {section.stats && (
-                  <div className="flex flex-wrap gap-4 mt-8 pt-8"
-                    style={{ borderTop: `1px solid ${theme.colors?.border || '#eee'}` }}>
+                  <div 
+                    className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 pt-8"
+                    style={{ borderTop: `1px solid ${theme.colors?.border || '#eee'}` }}
+                  >
                     {section.stats.map((stat, i) => (
                       <div key={i}>
-                        <span className="text-xl font-light block"
-                          style={{ fontFamily: theme.fontPairing?.display }}>
+                        <span 
+                          className="font-light block"
+                          style={{ 
+                            fontFamily: theme.fontPairing?.display,
+                            fontSize: fluidType.headline,
+                            color: theme.colors?.text
+                          }}
+                        >
                           {stat.value}
                         </span>
-                        <span className="text-xs mt-1 block" style={{ color: theme.colors?.muted }}>
+                        <span 
+                          className="text-xs sm:text-sm mt-2 block" 
+                          style={{ color: theme.colors?.muted }}
+                        >
                           {stat.label}
                         </span>
                       </div>
@@ -414,33 +585,48 @@ function AboutSection({
     );
   }
 
-  // Split layout with image
+  // Split layout with image - enhanced responsive design
   if (layout === 'split' && section.avatarUrl) {
+    const { ref: splitRef, isVisible: splitVisible } = useReveal();
     return (
-      <section className="py-16">
-        <div className="container mx-auto max-w-7xl px-4">
-          <div className="grid grid-cols-1 gap-8 items-center">
+      <section ref={splitRef} className="py-20 sm:py-28 lg:py-36">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${splitVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}
             >
-              <div className="aspect-[4/5] relative overflow-hidden"
-                style={{ backgroundColor: theme.colors?.surface }}>
+              <div 
+                className="aspect-[4/5] relative overflow-hidden rounded-lg"
+                style={{ backgroundColor: theme.colors?.surface }}
+              >
                 {section.avatarUrl ? (
                   <img src={section.avatarUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-20">◆</div>
+                  <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">◆</div>
                 )}
               </div>
             </div>
             <div
-              className={`transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'}`}
+              className={`transition-all duration-1000 delay-200 ${easeOutQuart} ${splitVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}
             >
-              <h2 className="text-2xl font-light mb-4"
-                style={{ fontFamily: theme.fontPairing?.display }}>
+              <h2 
+                className="font-light mb-4 sm:mb-6"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.headline,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.heading}
               </h2>
-              <p className="text-sm leading-relaxed"
-                style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+              <p 
+                className="leading-relaxed"
+                style={{ 
+                  fontSize: fluidType.body,
+                  color: theme.colors?.muted, 
+                  fontFamily: theme.fontPairing?.body 
+                }}
+              >
                 {section.body}
               </p>
             </div>
@@ -452,14 +638,21 @@ function AboutSection({
 
   // Minimal layout - just text, no heading
   if (layout === 'minimal') {
+    const { ref: minimalRef, isVisible: minimalVisible } = useReveal();
     return (
-      <section className="py-16 px-4">
+      <section ref={minimalRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6">
         <div className="container mx-auto max-w-3xl">
           <div
-            className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`transition-all duration-1000 ${easeOutQuart} ${minimalVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
-            <p className="text-lg font-light leading-relaxed text-center"
-              style={{ fontFamily: theme.fontPairing?.body }}>
+            <p 
+              className="font-light leading-relaxed text-center"
+              style={{ 
+                fontFamily: theme.fontPairing?.body,
+                fontSize: fluidType.subheadline,
+                color: theme.colors?.text
+              }}
+            >
               {section.body}
             </p>
           </div>
@@ -468,39 +661,63 @@ function AboutSection({
     );
   }
 
-  // Standard layout - improved
+  // Standard layout - enhanced with responsive design
+  const { ref: standardRef, isVisible: standardVisible } = useReveal();
   return (
-    <section className="py-16 px-4"
-      style={{ backgroundColor: theme.colors?.surface || 'transparent' }}>
+    <section 
+      ref={standardRef}
+      className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6"
+      style={{ backgroundColor: theme.colors?.surface || 'transparent' }}
+    >
       <div className="container mx-auto max-w-4xl">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8">
           <div className="text-center">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${standardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <h2 className="text-xs tracking-[0.2em] uppercase"
-                style={{ color: theme.colors?.muted }}>
+              <h2 
+                className="tracking-[0.2em] uppercase"
+                style={{ 
+                  fontSize: fluidType.small,
+                  color: theme.colors?.muted 
+                }}
+              >
                 {section.heading}
               </h2>
             </div>
           </div>
           <div>
             <div
-              className={`transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 delay-150 ${easeOutQuart} ${standardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <p className="text-base leading-relaxed"
-                style={{ color: theme.colors?.text, fontFamily: theme.fontPairing?.body }}>
+              <p 
+                className="leading-relaxed text-center max-w-2xl mx-auto"
+                style={{ 
+                  fontSize: fluidType.body,
+                  color: theme.colors?.text, 
+                  fontFamily: theme.fontPairing?.body 
+                }}
+              >
                 {section.body}
               </p>
               {section.stats && (
-                <div className="flex flex-wrap gap-6 mt-8 justify-center">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8 mt-10 sm:mt-12">
                   {section.stats.map((stat, i) => (
-                    <div key={i}>
-                      <span className="text-xl font-light block"
-                        style={{ fontFamily: theme.fontPairing?.display, color: theme.colors?.accent }}>
+                    <div key={i} className="text-center">
+                      <span 
+                        className="font-light block"
+                        style={{ 
+                          fontFamily: theme.fontPairing?.display, 
+                          fontSize: fluidType.headline,
+                          color: theme.colors?.accent 
+                        }}
+                      >
                         {stat.value}
                       </span>
-                      <span className="text-xs mt-1 block" style={{ color: theme.colors?.muted }}>
+                      <span 
+                        className="text-xs sm:text-sm mt-2 block" 
+                        style={{ color: theme.colors?.muted }}
+                      >
                         {stat.label}
                       </span>
                     </div>
@@ -522,48 +739,68 @@ function ProjectsSection({
   section: Extract<Section, { type: 'projects' }>;
   theme: Theme;
 }) {
-  const visible = useStaggeredReveal(section.items.length + 2, 100);
+  const { ref: sectionRef, isVisible: sectionVisible } = useReveal();
   const layout = section.layout || 'grid';
   const columns = section.columns || 2;
 
   const ProjectCard = ({ item, index }: { item: typeof section.items[0]; index: number }) => {
+    const { ref: cardRef, isVisible: cardVisible } = useReveal();
     const isLarge = item.size === 'large';
     const isFeatured = layout === 'featured' && index === 0;
 
     return (
-      <a
-        href={item.href || '#'}
-        className={`group block transition-all duration-500 ease-out-quart ${visible[index + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      <div
+        ref={cardRef}
+        className={`transition-all duration-700 ${easeOutQuart} ${cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+        style={{ transitionDelay: `${index * 100}ms` }}
       >
-        <div className={`relative overflow-hidden ${isFeatured ? 'aspect-[21/9]' : isLarge ? 'aspect-[4/3]' : 'aspect-square'}`}
-          style={{ backgroundColor: item.accentColor || theme.colors?.surface || '#f5f5f5' }}>
+        <a
+          href={item.href || '#'}
+          className="group block"
+        >
+          <div 
+            className={`relative overflow-hidden rounded-lg ${isFeatured ? 'aspect-[16/9] sm:aspect-[21/9]' : isLarge ? 'aspect-[4/3]' : 'aspect-square'}`}
+            style={{ backgroundColor: item.accentColor || theme.colors?.surface || '#f5f5f5' }}
+          >
           {item.imageUrl ? (
-            <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />
+            <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center opacity-20">
-              <span className="text-6xl">◆</span>
+              <span className="text-5xl sm:text-6xl">◆</span>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 sm:mt-6">
           <div className="flex items-start justify-between gap-4">
-            <h3 className="text-lg font-medium group-hover:opacity-60 transition-opacity"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            <h3 
+              className="font-medium group-hover:opacity-70 transition-opacity leading-tight"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.body,
+                color: theme.colors?.text
+              }}
+            >
               {item.title}
             </h3>
-            <span className="text-sm opacity-0 group-hover:opacity-60 transition-opacity">→</span>
+            <span className="text-sm opacity-0 group-hover:opacity-70 transition-all duration-300 transform group-hover:translate-x-1">→</span>
           </div>
-          <p className="text-sm mt-1 line-clamp-2"
-            style={{ color: theme.colors?.muted, fontFamily: theme.fontPairing?.body }}>
+          <p 
+            className="mt-2 line-clamp-2 leading-relaxed"
+            style={{ 
+              fontSize: fluidType.small,
+              color: theme.colors?.muted, 
+              fontFamily: theme.fontPairing?.body 
+            }}
+          >
             {item.description}
           </p>
           {item.tags && (
-            <div className="flex gap-2 flex-wrap mt-3">
-              {item.tags.map((tag) => (
+            <div className="flex gap-2 flex-wrap mt-3 sm:mt-4">
+              {item.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-1"
+                  className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full"
                   style={{ backgroundColor: theme.colors?.surface, color: theme.colors?.muted }}
                 >
                   {tag}
@@ -572,27 +809,44 @@ function ProjectsSection({
             </div>
           )}
         </div>
-      </a>
+        </a>
+      </div>
     );
   };
 
   // Featured layout - first item large, rest in grid
   if (layout === 'featured') {
     return (
-      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           <div className="mb-8 sm:mb-12">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <span className="text-[10px] sm:text-xs tracking-[0.3em] uppercase block mb-2 sm:mb-4"
-                style={{ color: theme.colors?.muted }}>Work</span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
-                style={{ fontFamily: theme.fontPairing?.display }}>
+              <span 
+                className="text-[10px] sm:text-xs tracking-[0.25em] uppercase block mb-3 sm:mb-4"
+                style={{ color: theme.colors?.accent || theme.colors?.muted }}
+              >
+                Work
+              </span>
+              <h2 
+                className="font-light"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.headline,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.heading}
               </h2>
               {section.subheading && (
-                <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4 max-w-xl" style={{ color: theme.colors?.muted }}>
+                <p 
+                  className="mt-3 sm:mt-4 max-w-xl"
+                  style={{ 
+                    fontSize: fluidType.subheadline,
+                    color: theme.colors?.muted 
+                  }}
+                >
                   {section.subheading}
                 </p>
               )}
@@ -616,13 +870,20 @@ function ProjectsSection({
   // List layout - clean vertical stack
   if (layout === 'list') {
     return (
-      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-4xl">
           <div className="mb-8 sm:mb-16">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light" style={{ fontFamily: theme.fontPairing?.display }}>
+              <h2 
+                className="font-light"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.headline,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.heading}
               </h2>
             </div>
@@ -632,15 +893,24 @@ function ProjectsSection({
               <a
                 key={item.id}
                 href={item.href || '#'}
-                className={`group flex items-center justify-between py-4 sm:py-6 border-b transition-all duration-500 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`}
-                style={{ borderColor: theme.colors?.border || '#eee' }}
+                className={`group flex items-center justify-between py-4 sm:py-6 border-b transition-all duration-700 ${easeOutQuart}`}
+                style={{ 
+                  borderColor: theme.colors?.border || '#eee',
+                  transitionDelay: `${i * 100}ms`
+                }}
               >
                 <div className="flex items-center gap-3 sm:gap-6">
                   <span className="text-xs sm:text-sm" style={{ color: theme.colors?.muted }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h3 className="text-base sm:text-lg md:text-xl font-light group-hover:translate-x-2 transition-transform"
-                    style={{ fontFamily: theme.fontPairing?.display }}>
+                  <h3 
+                    className="font-light group-hover:translate-x-2 transition-transform"
+                    style={{ 
+                      fontFamily: theme.fontPairing?.display,
+                      fontSize: fluidType.body,
+                      color: theme.colors?.text
+                    }}
+                  >
                     {item.title}
                   </h3>
                 </div>
@@ -662,14 +932,20 @@ function ProjectsSection({
 
   // Grid layout - masonry-like
   return (
-    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+    <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-8 sm:mb-12 flex items-end justify-between">
           <div
-            className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            <h2 
+              className="font-light"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.headline,
+                color: theme.colors?.text
+              }}
+            >
               {section.heading}
             </h2>
           </div>
@@ -691,47 +967,80 @@ function TestimonialsSection({
   section: Extract<Section, { type: 'testimonials' }>;
   theme: Theme;
 }) {
-  const visible = useStaggeredReveal(section.items.length + 1, 100);
+  const { ref: sectionRef, isVisible: sectionVisible } = useReveal();
   const layout = section.layout || 'grid';
 
-  // Masonry layout - varied card sizes
+  // Masonry layout - varied card sizes with enhanced responsive design
   if (layout === 'masonry') {
     return (
-      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           <div className="mb-8 sm:mb-12">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
-                style={{ fontFamily: theme.fontPairing?.display }}>
+              <h2 
+                className="font-light"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.headline,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.heading}
               </h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {section.items.map((item, i) => (
               <div
                 key={item.id}
-                className={`p-4 sm:p-6 lg:p-8 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+                className={`p-5 sm:p-6 lg:p-8 rounded-lg transition-all duration-700 ${easeOutQuart}`}
+                style={{ 
+                  backgroundColor: theme.colors?.surface || '#f5f5f5',
+                  transitionDelay: `${i * 100}ms`
+                }}
               >
-                <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-6"
-                  style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
+                <p 
+                  className="leading-relaxed mb-4 sm:mb-6"
+                  style={{ 
+                    fontSize: fluidType.body,
+                    fontFamily: theme.fontPairing?.body, 
+                    color: theme.colors?.text 
+                  }}
+                >
                   "{item.quote}"
                 </p>
                 <div>
-                  <p className="text-sm sm:text-base font-medium" style={{ color: theme.colors?.text }}>
+                  <p 
+                    className="font-medium"
+                    style={{ 
+                      fontSize: fluidType.small,
+                      color: theme.colors?.text 
+                    }}
+                  >
                     {item.name}
                   </p>
                   {item.role && (
-                    <p className="text-xs sm:text-sm mt-1" style={{ color: theme.colors?.muted }}>
+                    <p 
+                      className="mt-1"
+                      style={{ 
+                        fontSize: fluidType.small,
+                        color: theme.colors?.muted 
+                      }}
+                    >
                       {item.role}
                       {item.company && ` · ${item.company}`}
                     </p>
                   )}
                   {item.outcome && (
-                    <p className="text-xs sm:text-sm mt-2" style={{ color: theme.colors?.accent }}>
+                    <p 
+                      className="mt-2"
+                      style={{ 
+                        fontSize: fluidType.small,
+                        color: theme.colors?.accent 
+                      }}
+                    >
                       {item.outcome}
                     </p>
                   )}
@@ -746,14 +1055,20 @@ function TestimonialsSection({
 
   // Grid layout - uniform cards
   return (
-    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+    <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <div className="mb-8 sm:mb-12">
           <div
-            className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            <h2 
+              className="font-light"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.headline,
+                color: theme.colors?.text
+              }}
+            >
               {section.heading}
             </h2>
           </div>
@@ -762,19 +1077,40 @@ function TestimonialsSection({
           {section.items.map((item, i) => (
             <div
               key={item.id}
-              className={`p-4 sm:p-6 transition-all duration-700 ease-out-quart ${visible[i + 1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+              className={`p-4 sm:p-6 rounded-lg transition-all duration-700 ${easeOutQuart}`}
+              style={{ 
+                backgroundColor: theme.colors?.surface || '#f5f5f5',
+                transitionDelay: `${i * 100}ms`
+              }}
             >
-              <p className="text-sm sm:text-base leading-relaxed mb-3 sm:mb-4"
-                style={{ fontFamily: theme.fontPairing?.body, color: theme.colors?.text }}>
+              <p 
+                className="leading-relaxed mb-3 sm:mb-4"
+                style={{ 
+                  fontSize: fluidType.body,
+                  fontFamily: theme.fontPairing?.body, 
+                  color: theme.colors?.text 
+                }}
+              >
                 "{item.quote}"
               </p>
               <div>
-                <p className="font-medium text-xs sm:text-sm" style={{ color: theme.colors?.text }}>
+                <p 
+                  className="font-medium"
+                  style={{ 
+                    fontSize: fluidType.small,
+                    color: theme.colors?.text 
+                  }}
+                >
                   {item.name}
                 </p>
                 {item.role && (
-                  <p className="text-[10px] sm:text-xs mt-1" style={{ color: theme.colors?.muted }}>
+                  <p 
+                    className="mt-1"
+                    style={{ 
+                      fontSize: fluidType.small,
+                      color: theme.colors?.muted 
+                    }}
+                  >
                     {item.role}
                   </p>
                 )}
@@ -794,31 +1130,43 @@ function ContactSection({
   section: Extract<Section, { type: 'contact' }>;
   theme: Theme;
 }) {
-  const visible = useStaggeredReveal(3, 150);
+  const { ref: sectionRef, isVisible: sectionVisible } = useReveal();
   const layout = section.layout || 'simple';
 
-  // Fullbleed - dramatic large CTA
+  // Fullbleed - dramatic large CTA with enhanced responsive design
   if (layout === 'fullbleed') {
     return (
-      <section className="py-20 lg:py-32 xl:py-48 px-4 sm:px-6 lg:px-12"
-        style={{ backgroundColor: theme.colors?.primary, color: theme.colors?.background || '#fff' }}>
+      <section 
+        ref={sectionRef}
+        className="py-24 sm:py-32 lg:py-48 px-4 sm:px-6 lg:px-8"
+        style={{ backgroundColor: theme.colors?.primary, color: theme.colors?.background || '#fff' }}
+      >
         <div className="container mx-auto max-w-7xl">
           <div
-            className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[0.9] sm:leading-[0.85] max-w-4xl"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            <h2 
+              className="font-light leading-[0.9] max-w-4xl"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.hero,
+                color: theme.colors?.background || '#fff'
+              }}
+            >
               {section.heading}
             </h2>
           </div>
           <div
-            className={`mt-8 sm:mt-12 flex flex-col sm:flex-wrap sm:flex-row gap-6 sm:gap-8 items-start sm:items-center transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`mt-8 sm:mt-12 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center transition-all duration-1000 delay-200 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
             {section.email && (
               <a
                 href={`mailto:${section.email}`}
-                className="text-xl sm:text-2xl md:text-3xl font-light hover:opacity-60 transition-opacity"
-                style={{ fontFamily: theme.fontPairing?.display }}
+                className="font-light hover:opacity-70 transition-opacity"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.subheadline
+                }}
               >
                 {section.email}
               </a>
@@ -829,7 +1177,7 @@ function ContactSection({
                   <a
                     key={i}
                     href={link.href}
-                    className="text-xs sm:text-sm tracking-wide hover:opacity-60 transition-opacity uppercase"
+                    className="text-xs sm:text-sm tracking-wide hover:opacity-70 transition-opacity uppercase"
                   >
                     {link.label}
                   </a>
@@ -842,33 +1190,49 @@ function ContactSection({
     );
   }
 
-  // Split layout - asymmetric
+  // Split layout - asymmetric with enhanced responsive design
   if (layout === 'split') {
     return (
-      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-24">
             <div
-              className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light leading-tight"
-                style={{ fontFamily: theme.fontPairing?.display }}>
+              <h2 
+                className="font-light leading-tight"
+                style={{ 
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.headline,
+                  color: theme.colors?.text
+                }}
+              >
                 {section.heading}
               </h2>
               {section.subheading && (
-                <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4" style={{ color: theme.colors?.muted }}>
+                <p 
+                  className="mt-3 sm:mt-4"
+                  style={{ 
+                    fontSize: fluidType.subheadline,
+                    color: theme.colors?.muted 
+                  }}
+                >
                   {section.subheading}
                 </p>
               )}
             </div>
             <div
-              className={`flex flex-col justify-center transition-all duration-700 delay-200 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              className={`flex flex-col justify-center transition-all duration-1000 delay-200 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
             >
               {section.email && (
                 <a
                   href={`mailto:${section.email}`}
-                  className="text-lg sm:text-xl md:text-2xl font-light hover:opacity-60 transition-opacity mb-4 sm:mb-8"
-                  style={{ fontFamily: theme.fontPairing?.display, color: theme.colors?.accent }}
+                  className="font-light hover:opacity-70 transition-opacity mb-4 sm:mb-8"
+                  style={{ 
+                    fontFamily: theme.fontPairing?.display, 
+                    fontSize: fluidType.subheadline,
+                    color: theme.colors?.accent 
+                  }}
                 >
                   {section.email}
                 </a>
@@ -879,7 +1243,7 @@ function ContactSection({
                     <a
                       key={i}
                       href={link.href}
-                      className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
+                      className="text-xs sm:text-sm hover:opacity-70 transition-opacity"
                       style={{ color: theme.colors?.muted }}
                     >
                       {link.label}
@@ -894,40 +1258,58 @@ function ContactSection({
     );
   }
 
-  // Card layout - contained box
+  // Card layout - contained box with enhanced responsive design
   if (layout === 'card') {
     return (
-      <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+      <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-2xl">
           <div
-            className={`p-6 sm:p-8 lg:p-12 xl:p-16 transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light mb-2 sm:mb-4"
-              style={{ fontFamily: theme.fontPairing?.display }}>
+            className={`p-6 sm:p-8 lg:p-12 xl:p-16 rounded-lg transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+            style={{ backgroundColor: theme.colors?.surface || '#f5f5f5' }}
+          >
+            <h2 
+              className="font-light mb-2 sm:mb-4"
+              style={{ 
+                fontFamily: theme.fontPairing?.display,
+                fontSize: fluidType.headline,
+                color: theme.colors?.text
+              }}
+            >
               {section.heading}
             </h2>
             {section.subheading && (
-              <p className="text-sm sm:text-base mb-4 sm:mb-8" style={{ color: theme.colors?.muted }}>
+              <p 
+                className="mb-4 sm:mb-8"
+                style={{ 
+                  fontSize: fluidType.body,
+                  color: theme.colors?.muted 
+                }}
+              >
                 {section.subheading}
               </p>
             )}
             {section.email && (
               <a
                 href={`mailto:${section.email}`}
-                className="text-base sm:text-lg hover:opacity-60 transition-opacity block mb-4 sm:mb-6"
-                style={{ color: theme.colors?.accent }}
+                className="hover:opacity-70 transition-opacity block mb-4 sm:mb-6"
+                style={{ 
+                  fontSize: fluidType.subheadline,
+                  color: theme.colors?.accent 
+                }}
               >
                 {section.email}
               </a>
             )}
             {section.links && (
-              <div className="flex gap-3 sm:gap-4 pt-4 sm:pt-6"
-                style={{ borderTop: `1px solid ${theme.colors?.border || '#ddd'}` }}>
+              <div 
+                className="flex gap-3 sm:gap-4 pt-4 sm:pt-6"
+                style={{ borderTop: `1px solid ${theme.colors?.border || '#ddd'}` }}
+              >
                 {section.links.map((link, i) => (
                   <a
                     key={i}
                     href={link.href}
-                    className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
+                    className="text-xs sm:text-sm hover:opacity-70 transition-opacity"
                     style={{ color: theme.colors?.muted }}
                   >
                     {link.label}
@@ -941,31 +1323,46 @@ function ContactSection({
     );
   }
 
-  // Simple layout - clean and minimal
+  // Simple layout - clean and minimal with enhanced responsive design
   return (
-    <section className="py-16 lg:py-24 xl:py-32 px-4 sm:px-6 lg:px-12">
+    <section ref={sectionRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto text-center max-w-2xl">
         <div
-          className={`transition-all duration-700 ease-out-quart ${visible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`transition-all duration-1000 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light"
-            style={{ fontFamily: theme.fontPairing?.display }}>
+          <h2 
+            className="font-light"
+            style={{ 
+              fontFamily: theme.fontPairing?.display,
+              fontSize: fluidType.headline,
+              color: theme.colors?.text
+            }}
+          >
             {section.heading}
           </h2>
           {section.subheading && (
-            <p className="text-sm sm:text-base md:text-lg mt-2 sm:mt-4" style={{ color: theme.colors?.muted }}>
+            <p 
+              className="mt-3 sm:mt-4"
+              style={{ 
+                fontSize: fluidType.subheadline,
+                color: theme.colors?.muted 
+              }}
+            >
               {section.subheading}
             </p>
           )}
         </div>
         <div
-          className={`mt-6 sm:mt-10 transition-all duration-700 delay-150 ease-out-quart ${visible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`mt-8 sm:mt-10 transition-all duration-1000 delay-150 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
         >
           {section.email && (
             <a
               href={`mailto:${section.email}`}
-              className="inline-block text-lg sm:text-xl hover:opacity-60 transition-opacity"
-              style={{ color: theme.colors?.accent }}
+              className="inline-block hover:opacity-70 transition-opacity"
+              style={{ 
+                fontSize: fluidType.subheadline,
+                color: theme.colors?.accent 
+              }}
             >
               {section.email}
             </a>
@@ -973,13 +1370,13 @@ function ContactSection({
         </div>
         {section.links && (
           <div
-            className={`mt-6 sm:mt-8 flex gap-4 sm:gap-6 justify-center transition-all duration-700 delay-300 ease-out-quart ${visible[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`mt-6 sm:mt-8 flex gap-4 sm:gap-6 justify-center transition-all duration-1000 delay-300 ${easeOutQuart} ${sectionVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
           >
             {section.links.map((link, i) => (
               <a
                 key={i}
                 href={link.href}
-                className="text-xs sm:text-sm hover:opacity-60 transition-opacity"
+                className="text-xs sm:text-sm hover:opacity-70 transition-opacity"
                 style={{ color: theme.colors?.muted }}
               >
                 {link.label}
@@ -1043,7 +1440,28 @@ function Navbar({ content }: { content: SiteContent }) {
   );
 }
 
-export function SiteRenderer({ content }: { content: SiteContent }) {
+// Subtle badge for free tier sites - drives referral traffic
+function PoweredByBadge({ theme }: { theme: Theme }) {
+  return (
+    <a
+      href="https://platforms.so?ref=badge"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-4 right-4 z-50 flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[11px] font-medium tracking-tight opacity-40 hover:opacity-100 transition-all duration-300 hover:scale-105 shadow-sm"
+      style={{
+        backgroundColor: theme.colors?.surface || theme.colors?.background || '#fff',
+        color: theme.colors?.text || '#000',
+        border: `1px solid ${theme.colors?.border || '#e5e5e5'}`,
+        fontFamily: theme.fontPairing?.body || 'system-ui',
+      }}
+    >
+      <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: theme.colors?.accent || '#000' }} />
+      Made with Platforms
+    </a>
+  );
+}
+
+export function SiteRenderer({ content, showBadge = true }: { content: SiteContent; showBadge?: boolean }) {
   // Generate CSS variables for custom fonts and colors
   const fontStyles = content.theme.fontPairing ? {
     '--font-display': content.theme.fontPairing.display,
@@ -1077,6 +1495,7 @@ export function SiteRenderer({ content }: { content: SiteContent }) {
             return null;
         }
       })}
+      {showBadge && <PoweredByBadge theme={content.theme} />}
     </div>
   );
 }
