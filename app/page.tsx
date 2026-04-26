@@ -1,46 +1,15 @@
 import Link from 'next/link';
-import { rootDomain } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { createClient } from '@/lib/supabase/server';
-import { SignOutButton } from '@/components/sign-out-button';
 import { InteractiveDemo } from '@/components/interactive-demo';
-import { PlatformsLogo } from '@/components/platforms-logo';
-import { ThemeToggle } from '@/components/theme-toggle';
+import SvglTechLogos from '@/components/ui/svgl-icons';
+import TextReveal from '@/components/ui/text-reveal';
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  const isAuthenticated = !!user;
-
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/5 pointer-events-none" />
-      
-      {/* Navigation */}
-      <nav className="relative z-10 border-b border-border/60">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
-              <PlatformsLogo className="w-4 h-4 text-background" />
-            </div>
-            <span className="font-medium text-sm tracking-tight">{rootDomain}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            {isAuthenticated ? (
-              <SignOutButton />
-            ) : (
-              <Link href="/auth/signin">
-                <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                  Sign In
-                </Button>
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
 
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-20 md:py-28">
         <div className="text-center max-w-2xl mx-auto animate-fade-in">
@@ -50,11 +19,9 @@ export default async function HomePage() {
           </div>
 
           {/* Heading */}
-          <h1 className="text-[clamp(2.5rem,7vw,4rem)] font-semibold tracking-tight leading-[1.05] text-foreground mb-5">
-            Describe it.
-            <br />
-            <span className="text-muted-foreground">We ship it.</span>
-          </h1>
+          <div className="mb-5">
+            <TextReveal word="Describe it. We ship it." className="!border-none !bg-transparent !p-0 !min-h-auto" showButton={false} />
+          </div>
 
           {/* Subheadline */}
           <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-lg mx-auto">
@@ -114,6 +81,11 @@ export default async function HomePage() {
             <p className="text-sm text-muted-foreground">
               <span className="font-medium text-foreground">10,000+</span> sites built and counting
             </p>
+          </div>
+
+          {/* Brand logos */}
+          <div className="mt-16 animate-fade-in delay-300">
+            <SvglTechLogos />
           </div>
         </div>
       </main>

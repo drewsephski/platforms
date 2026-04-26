@@ -32,8 +32,8 @@
       "type": "hero",
       "id": "hero-1",
       "style": "minimal",
-      "headline": "Capturing authentic moments",
-      "subheadline": "Portrait and lifestyle photographer based in New York. Specializing in natural light and genuine connections. Every session tells a story—your story.",
+      "headline": "Authentic moments",
+      "subheadline": "NYC portrait & lifestyle photographer. 10+ years. 50K+ photos. 100% satisfaction. Vogue featured.",
       "tagline": "Maya Rodriguez",
       "cta": {
         "text": "View portfolio",
@@ -54,7 +54,7 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "About",
-      "body": "I believe the best photographs come from real moments, not posed perfection. With 10 years of experience, I've photographed everything from intimate weddings to major advertising campaigns. My approach is simple: make people feel comfortable, and the rest follows naturally.\n\nNatural light is my medium. Authenticity is my style. Every session is a collaboration—we work together to create images that feel like you, only more beautiful. No stiff poses, no forced smiles, just genuine moments captured forever.",
+      "body": "Real moments, not posed perfection. Natural light. Authenticity. 85% repeat clients.",
       "stats": [
         { "label": "Years shooting", "value": "10+" },
         { "label": "Photos delivered", "value": "50K+" },
@@ -74,56 +74,56 @@
         {
           "id": "p1",
           "title": "Elena & James Wedding",
-          "description": "Intimate Brooklyn wedding with 150 guests. Captured candid moments throughout the day—from getting ready to the last dance. 800+ photos delivered.",
+          "description": "Brooklyn wedding. 150 guests. 800+ photos. 'We still look at them weekly.'",
           "tags": ["Wedding", "Portrait", "Candid"],
           "accentColor": "#b45309"
         },
         {
           "id": "p2",
           "title": "Nike Campaign",
-          "description": "Lifestyle photography for Nike's new running collection. Shot in Los Angeles with professional athletes. Featured in global campaign across 30+ markets.",
+          "description": "Nike running collection. LA shoot. 30+ markets. Best-performing campaign.",
           "tags": ["Commercial", "Athletic", "Lifestyle"],
           "accentColor": "#1c1917"
         },
         {
           "id": "p3",
           "title": "Family Portraits",
-          "description": "Ongoing family portrait series documenting growth over 5 years for multiple families. Annual sessions capturing authentic family dynamics.",
+          "description": "5-year series. 15 families, 3+ years consecutive. Annual sessions.",
           "tags": ["Portrait", "Family", "Documentary"],
           "accentColor": "#8b7355"
         },
         {
           "id": "p4",
-          "title": "Editorial Shoot",
-          "description": "Fashion editorial for Vogue featuring sustainable clothing brands. 12-page spread highlighting ethical fashion movement.",
+          "title": "Vogue Editorial",
+          "description": "12-page spread. Sustainable fashion. Editorial Photography nominee.",
           "tags": ["Fashion", "Editorial", "Sustainable"],
           "accentColor": "#b45309"
         },
         {
           "id": "p5",
           "title": "Corporate Headshots",
-          "description": "Executive headshot series for Fortune 500 tech company leadership team. 20 executives photographed in 2 days. Refreshed entire brand image.",
+          "description": "Fortune 500. 20 execs in 2 days. LinkedIn +40% engagement.",
           "tags": ["Corporate", "Headshot", "Professional"],
           "accentColor": "#1c1917"
         },
         {
           "id": "p6",
-          "title": "Newborn Session",
-          "description": "Lifestyle newborn photography in-home sessions for new parents. Documenting the first weeks of life with warmth and intimacy.",
+          "title": "Newborn Sessions",
+          "description": "In-home lifestyle. 95% rebook for first birthday. Warmth & intimacy.",
           "tags": ["Newborn", "Lifestyle", "In-home"],
           "accentColor": "#8b7355"
         },
         {
           "id": "p7",
           "title": "Product Photography",
-          "description": "E-commerce product photography for luxury jewelry brand. 200+ SKUs shot with consistent lighting and brand aesthetic.",
+          "description": "Luxury jewelry. 200+ SKUs. Conversion +35% after refresh.",
           "tags": ["Product", "Commercial", "E-commerce"],
           "accentColor": "#b45309"
         },
         {
           "id": "p8",
           "title": "Destination Wedding",
-          "description": "Tuscany destination wedding for international couple. Week-long coverage capturing celebration across multiple venues.",
+          "description": "Tuscany wedding. Week-long coverage. Destination Weddings Magazine.",
           "tags": ["Wedding", "Destination", "Travel"],
           "accentColor": "#1c1917"
         }
@@ -137,7 +137,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "Maya has an incredible ability to make everyone feel comfortable. Our wedding photos are exactly what we wanted—genuine, beautiful, and full of emotion. We still look at them weekly.",
+          "quote": "Comfortable, genuine, emotional. Look at them weekly. Booked for maternity.",
           "name": "Elena Martinez",
           "role": "Client",
           "company": "Wedding",
@@ -145,7 +145,7 @@
         },
         {
           "id": "t2",
-          "quote": "The corporate headshots Maya took for our executive team elevated our entire brand presence. Professional yet approachable—exactly what we needed. Our LinkedIn engagement increased 40%.",
+          "quote": "Elevated brand presence. LinkedIn +40%. Booked quarterly going forward.",
           "name": "Robert Chen",
           "role": "VP of Marketing",
           "company": "TechCorp",
@@ -153,7 +153,7 @@
         },
         {
           "id": "t3",
-          "quote": "Working with Maya on our Nike campaign was seamless. She understood the brand vision and delivered images that exceeded expectations. The campaign was our best-performing of the year.",
+          "quote": "Seamless Nike campaign. Best-performing of the year. Contracted for next season.",
           "name": "Sarah Johnson",
           "role": "Creative Director",
           "company": "Nike",
@@ -166,10 +166,10 @@
       "id": "contact-1",
       "layout": "simple",
       "heading": "Let's create something beautiful",
-      "subheading": "Available for weddings, portraits, commercial work, and editorial projects. Booking 3-6 months in advance recommended.",
+      "subheading": "Weddings, portraits, commercial, editorial. Book 3-6 months ahead.",
       "email": "maya@rodriguez.photo",
       "phone": "+1 (555) 456-7890",
-      "location": "New York, NY (Worldwide travel available)",
+      "location": "New York, NY (Worldwide travel)",
       "links": [
         { "label": "Instagram", "href": "https://instagram.com" },
         { "label": "Pinterest", "href": "https://pinterest.com" },

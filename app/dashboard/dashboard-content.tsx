@@ -13,12 +13,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Plus, ExternalLink, Edit, ArrowLeft, Sparkles, LayoutGrid, Trash2, Loader2, AlertCircle, Check, Crown, Zap } from 'lucide-react';
+import { Plus, ExternalLink, Edit, LayoutGrid, Trash2, Loader2, AlertCircle, Check, Crown, Zap, Coins } from 'lucide-react';
 import { deleteSiteAction } from '@/app/actions';
 import { protocol, rootDomain, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { SignOutButton } from '@/components/sign-out-button';
+import TextReveal from '@/components/ui/text-reveal';
+import { PlatformsLogo } from '@/components/platforms-logo';
 
 type Site = {
   id: string;
@@ -31,45 +31,36 @@ type Site = {
 
 type SubscriptionStatus = {
   hasActiveSubscription: boolean;
-  plan?: 'free' | 'pro';
+  tier?: 'free' | 'indie' | 'pro' | 'agency';
+  credits?: {
+    totalAvailable: number;
+    monthlyCredits: number;
+    purchasedCredits: number;
+  };
 };
 
-function StatusBadge({ status }: { status: string }) {
-  return (
+function Badge({ variant, label }: { variant: 'published' | 'draft' | 'indie' | 'pro' | 'agency' | 'free'; label?: string }) {
+  const icon = variant === 'published' || variant === 'draft' ? (
     <span className={cn(
-      "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium",
-      status === 'published'
-        ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-        : "bg-amber-50 text-amber-700 border border-amber-200"
-    )}>
-      <span className={cn(
-        "w-1.5 h-1.5 rounded-full mr-1.5",
-        status === 'published' ? "bg-emerald-500" : "bg-amber-500"
-      )} />
-      {status === 'published' ? 'Published' : 'Draft'}
-    </span>
+      "w-1.5 h-1.5 rounded-full mr-1.5",
+      variant === 'published' ? "bg-emerald-500" : "bg-amber-500"
+    )} />
+  ) : variant === 'agency' ? (
+    <Crown className="w-3 h-3 mr-1.5 text-purple-500" />
+  ) : variant === 'pro' ? (
+    <Crown className="w-3 h-3 mr-1.5 text-amber-500" />
+  ) : variant === 'indie' ? (
+    <Zap className="w-3 h-3 mr-1.5 text-blue-500" />
+  ) : (
+    <Zap className="w-3 h-3 mr-1.5 text-muted-foreground" />
   );
-}
 
-function PlanBadge({ hasActiveSubscription }: { hasActiveSubscription: boolean }) {
+  const text = label || (variant === 'published' ? 'Published' : variant === 'draft' ? 'Draft' : variant === 'agency' ? 'Agency' : variant === 'pro' ? 'Pro' : variant === 'indie' ? 'Indie' : 'Free');
+
   return (
-    <span className={cn(
-      "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium",
-      hasActiveSubscription
-        ? "bg-amber-50 text-amber-700 border border-amber-200"
-        : "bg-slate-50 text-slate-700 border border-slate-200"
-    )}>
-      {hasActiveSubscription ? (
-        <>
-          <Crown className="w-3 h-3 mr-1.5 text-amber-500" />
-          Pro
-        </>
-      ) : (
-        <>
-          <Zap className="w-3 h-3 mr-1.5 text-slate-500" />
-          Free
-        </>
-      )}
+    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-muted/40 text-muted-foreground border border-border/60">
+      {icon}
+      {text}
     </span>
   );
 }
@@ -179,55 +170,36 @@ function UpgradeDialog({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleUpgrade = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-      });
-      const { url } = await response.json();
-      if (url) {
-        window.location.href = url;
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
             <Crown className="w-5 h-5 text-amber-500" />
-            Upgrade to Pro
+            Upgrade Your Plan
           </DialogTitle>
           <DialogDescription className="text-base">
-            You've reached the 1 site limit on the free plan. Upgrade to unlock unlimited sites and custom domains.
+            You've reached the 1 site limit on the free plan. Upgrade to unlock more sites, custom subdomains, and additional credits.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 rounded-lg p-4 border border-amber-200 dark:border-amber-800">
             <div className="flex items-center justify-between mb-3">
-              <span className="font-semibold text-foreground">Pro Plan</span>
-              <span className="text-2xl font-bold">$9<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
+              <span className="font-semibold text-foreground">Indie Plan</span>
+              <span className="text-2xl font-bold">$5<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
             </div>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-500" />
-                <span>Unlimited sites</span>
+                <span>50 credits/month</span>
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-500" />
-                <span>Custom domains</span>
+                <span>1 custom subdomain</span>
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-500" />
-                <span>Priority support</span>
+                <span>All templates</span>
               </li>
             </ul>
           </div>
@@ -236,21 +208,15 @@ function UpgradeDialog({
           <Button
             variant="outline"
             onClick={onClose}
-            disabled={isLoading}
           >
             Maybe Later
           </Button>
           <Button
-            onClick={handleUpgrade}
-            disabled={isLoading}
+            onClick={() => window.location.href = '/pricing'}
             className="gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600"
           >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Zap className="w-4 h-4" />
-            )}
-            Upgrade Now
+            <Zap className="w-4 h-4" />
+            View Plans
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -275,11 +241,12 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
         setHasSubscription(data.hasActiveSubscription);
         setSubscriptionStatus({
           hasActiveSubscription: data.hasActiveSubscription,
-          plan: data.hasActiveSubscription ? 'pro' : 'free'
+          tier: data.tier || 'free',
+          credits: data.credits
         });
       } catch (error) {
         console.error('Failed to check subscription:', error);
-        setSubscriptionStatus({ hasActiveSubscription: false, plan: 'free' });
+        setSubscriptionStatus({ hasActiveSubscription: false, tier: 'free' });
       } finally {
         setIsLoadingSubscription(false);
       }
@@ -308,29 +275,6 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border/60">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-background" />
-            </div>
-            <span className="font-medium text-sm tracking-tight">{rootDomain}</span>
-            {!isLoadingSubscription && subscriptionStatus && (
-              <PlanBadge hasActiveSubscription={subscriptionStatus.hasActiveSubscription} />
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <SignOutButton />
-            <Link href="/" className="group flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-all duration-200">
-              <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
-              <span>Back to home</span>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       <main className="max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 animate-fade-in">
@@ -339,9 +283,9 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
               <LayoutGrid className="w-4 h-4 text-muted-foreground" />
               <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Dashboard</span>
             </div>
-            <h1 className="text-[clamp(1.5rem,3vw,1.875rem)] font-semibold tracking-tight text-foreground">
-              Your Sites
-            </h1>
+            <div className="text-[clamp(1.5rem,3vw,1.875rem)] font-semibold tracking-tight text-foreground">
+              <TextReveal word="Your Sites" className="!border-none !bg-transparent !p-0 !min-h-auto" showButton={false} tag="h1" />
+            </div>
             <p className="text-sm text-muted-foreground mt-1">
               {sites.length === 0 
                 ? 'No sites yet — create your first one' 
@@ -349,17 +293,31 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
               }
             </p>
           </div>
-          <Button onClick={handleCreateClick} disabled={isLoadingSubscription} className="h-10 group transition-all duration-200">
-            <Plus className="w-4 h-4 transition-transform duration-200 group-hover:rotate-90" />
-            Create New Site
-          </Button>
+          <div className="flex items-center gap-3">
+            {!isLoadingSubscription && subscriptionStatus && (
+              <div className="flex items-center gap-2 text-sm">
+                <Badge variant={subscriptionStatus.tier || 'free'} />
+                {subscriptionStatus.credits && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted/40 border border-border/60">
+                    <Coins className="w-3.5 h-3.5 text-amber-500" />
+                    <span className="font-medium">{subscriptionStatus.credits.totalAvailable}</span>
+                    <span className="text-muted-foreground text-xs">credits</span>
+                  </div>
+                )}
+              </div>
+            )}
+            <Button onClick={handleCreateClick} disabled={isLoadingSubscription} className="h-10 group transition-all duration-200">
+              <Plus className="w-4 h-4 transition-transform duration-200 group-hover:rotate-90" />
+              Create New Site
+            </Button>
+          </div>
         </div>
 
         {/* Empty state */}
         {sites.length === 0 ? (
           <Card className="border-dashed border-border/60 bg-muted/20 p-12 text-center animate-fade-in delay-75">
             <div className="w-12 h-12 rounded-full bg-secondary mx-auto mb-4 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-muted-foreground" />
+              <PlatformsLogo className="w-16 h-16 text-muted-foreground" />
             </div>
             <h3 className="text-base font-medium text-foreground mb-2">No sites yet</h3>
             <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">
@@ -391,7 +349,7 @@ export function DashboardContent({ sites, userId }: { sites: Site[]; userId: str
                         /s/{site.subdomain}
                       </p>
                     </div>
-                    <StatusBadge status={site.status} />
+                    <Badge variant={site.status === 'published' ? 'published' : 'draft'} />
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-5 px-5">

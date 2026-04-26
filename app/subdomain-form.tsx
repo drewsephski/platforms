@@ -37,21 +37,16 @@ function SubdomainInput({ defaultValue }: { defaultValue?: string }) {
       >
         Site name
       </Label>
-      <div className="flex items-center">
-        <Input
-          id="subdomain"
-          name="subdomain"
-          placeholder="my-app"
-          defaultValue={defaultValue}
-          className="w-full rounded-r-none border-r-0 bg-background focus-visible:ring-0 focus-visible:ring-offset-0"
-          required
-          autoComplete="off"
-          spellCheck={false}
-        />
-        <span className="px-3 py-2 border border-l-0 border-input rounded-r-md bg-muted/30 text-muted-foreground text-sm font-medium">
-          /s/
-        </span>
-      </div>
+      <Input
+        id="subdomain"
+        name="subdomain"
+        placeholder="my-app"
+        defaultValue={defaultValue}
+        className="w-full bg-background focus-visible:ring-0 focus-visible:ring-offset-0"
+        required
+        autoComplete="off"
+        spellCheck={false}
+      />
       <p className="text-xs text-muted-foreground/80">
         Letters, numbers, and hyphens only. 3-63 characters.
       </p>

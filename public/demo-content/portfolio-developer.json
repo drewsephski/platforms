@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "split",
       "headline": "PERFORMANCE. ACCESSIBILITY. SCALE.",
-      "subheadline": "I build frontend systems that handle millions of users. Currently architecting UI infrastructure at Stripe. Previously led frontend performance at Vercel.",
+      "subheadline": "Frontend systems for millions. Stripe architect. Vercel performance lead. 100M+ users impacted. $5M+ saved.",
       "tagline": "ALEX CHEN",
       "cta": {
         "text": "VIEW SPECS",
@@ -51,7 +51,7 @@
       "id": "about-1",
       "layout": "standard",
       "heading": "SYSTEM ARCHITECTURE",
-      "body": "My approach to frontend engineering is systematic: measure everything, optimize what matters, document decisions. I've built component libraries used by 500+ developers, reduced page load times by 60% for Fortune 500 companies, and contributed core features to Next.js.",
+      "body": "Systematic approach. 500+ developers use my libraries. 60% performance gains. Airbnb, Netflix, Shopify adopted.",
       "stats": [
         { "label": "Systems architected", "value": "12" },
         { "label": "Performance gains", "value": "60% avg" },
@@ -64,47 +64,47 @@
       "id": "projects-1",
       "layout": "grid",
       "heading": "DEPLOYMENTS",
-      "subheading": "Production systems in operation",
+      "subheading": "Production systems. 100M+ users impacted.",
       "items": [
         {
           "id": "p1",
           "title": "STRIPE DASHBOARD",
-          "description": "Led frontend redesign reducing load times by 60%. Implemented design system used across 50+ products. 99.99% uptime.",
+          "description": "60% load time reduction. 50+ products. 99.99% uptime. Conversion +15%.",
           "tags": ["React", "TypeScript", "Performance"],
           "accentColor": "#00ff88"
         },
         {
           "id": "p2",
           "title": "VERCEL ANALYTICS",
-          "description": "Real-time dashboard processing 10M+ events daily. Sub-100ms query times. Edge-based architecture.",
+          "description": "10M+ events daily. Sub-100ms queries. Edge architecture. 50K+ developers.",
           "tags": ["Next.js", "Edge Functions", "WebSocket"],
           "accentColor": "#e8e8e8"
         },
         {
           "id": "p3",
           "title": "COMPONENT LIBRARY",
-          "description": "Design system used by 500+ developers. 98% test coverage. Comprehensive documentation. Zero breaking changes.",
+          "description": "500+ developers. 98% coverage. Zero breaking changes. Airbnb, Netflix, Shopify.",
           "tags": ["Design Systems", "Storybook", "Testing"],
           "accentColor": "#00ff88"
         },
         {
           "id": "p4",
           "title": "E-COMMERCE PLATFORM",
-          "description": "Headless architecture handling 10K+ daily orders. 2-second page loads. 99.9% uptime. GraphQL API.",
+          "description": "10K+ daily orders. 2-second loads. 99.9% uptime. Revenue +40%.",
           "tags": ["Next.js", "GraphQL", "Stripe"],
           "accentColor": "#e8e8e8"
         },
         {
           "id": "p5",
           "title": "PERFORMANCE MONITORING",
-          "description": "Custom RUM dashboard tracking Core Web Vitals. Automated regression detection. 40% performance improvement.",
+          "description": "Core Web Vitals tracking. 40% improvement. $2M infrastructure savings annually.",
           "tags": ["Observability", "Web Vitals", "Automation"],
           "accentColor": "#00ff88"
         },
         {
           "id": "p6",
           "title": "NEXT.JS CONTRIBUTIONS",
-          "description": "47 merged PRs to core. Server components optimization. Image optimization improvements. Cache strategy work.",
+          "description": "47 merged PRs. Server components, image optimization, cache strategy. Millions of developers.",
           "tags": ["Open Source", "React", "Core"],
           "accentColor": "#e8e8e8"
         }
@@ -118,7 +118,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "Alex's systematic approach to performance optimization reduced our page load times by 60%. The impact on conversion was immediate and measurable.",
+          "quote": "60% load time reduction. Immediate conversion impact. Adopted across all products.",
           "name": "Sarah Miller",
           "role": "Engineering Manager",
           "company": "Stripe",
@@ -126,7 +126,7 @@
         },
         {
           "id": "t2",
-          "quote": "The component library Alex architected transformed our development velocity. 500+ developers now ship with confidence and consistency.",
+          "quote": "500+ developers ship with confidence. Time-to-market -40%. Velocity transformed.",
           "name": "James Park",
           "role": "Staff Engineer",
           "company": "Vercel",
@@ -134,7 +134,7 @@
         },
         {
           "id": "t3",
-          "quote": "Alex's contributions to Next.js core have benefited the entire ecosystem. His work on server components is foundational.",
+          "quote": "Server components work is foundational. Millions of developers use his features daily.",
           "name": "Guillermo Rauch",
           "role": "CEO",
           "company": "Vercel",
@@ -147,7 +147,7 @@
       "id": "contact-1",
       "layout": "split",
       "heading": "INITIATE CONTACT",
-      "subheading": "Available for consulting and full-time roles",
+      "subheading": "Consulting and full-time roles available.",
       "email": "alex@systems.dev",
       "links": [
         { "label": "GitHub", "href": "https://github.com" },

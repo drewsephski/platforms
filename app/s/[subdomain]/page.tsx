@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getSiteForSubdomain } from '@/lib/sites';
 import { SiteRenderer } from '@/components/site-renderer';
+import { AnalyticsTracker } from '@/components/analytics-tracker';
 import { rootDomain, getSiteUrl } from '@/lib/utils';
+
+// Cache configuration: 60s fresh, 5min stale-while-revalidate
+export const revalidate = 60;
 
 export async function generateMetadata({
   params
@@ -37,5 +41,10 @@ export default async function SubdomainPage({
     notFound();
   }
 
-  return <SiteRenderer content={site.content_json} />;
+  return (
+    <>
+      <SiteRenderer content={site.content_json} />
+      <AnalyticsTracker siteId={site.id} />
+    </>
+  );
 }

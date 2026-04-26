@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "asymmetric",
       "headline": "I BUILD THINGS",
-      "subheadline": "NO FLUFF. NO BULLSHIT. JUST WORK THAT WORKS. SHIP FAST. MEASURE REAL. ITERATE HARD.",
+      "subheadline": "Ship fast. Measure real. Iterate hard.",
       "tagline": "FULL-STACK DEVELOPER",
       "cta": {
         "text": "SEE THE WORK",
@@ -55,7 +55,7 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "WHO I AM",
-      "body": "I'm a developer who cares about shipping. Not shipping features—shipping products that people actually use. I've been doing this for 8 years, working with startups and Fortune 500 companies alike.\n\nMy philosophy is simple: build fast, measure, iterate. Don't overthink it. The best code is code that ships. Complexity is the enemy. Simplicity wins.\n\nCurrently based in Brooklyn, working remotely with teams around the world. I write clean code, make tough decisions, and deliver results.",
+      "body": "I ship products people use. 8 years with startups and Fortune 500s.\n\nPhilosophy: build fast, measure, iterate. Best code ships. Complexity is the enemy.\n\nBrooklyn-based, remote. Clean code, tough decisions, results.",
       "stats": [
         { "label": "Years shipping", "value": "8" },
         { "label": "Projects shipped", "value": "47" },
@@ -75,7 +75,7 @@
         {
           "id": "project-1",
           "title": "E-COMMERCE PLATFORM",
-          "description": "Built a headless e-commerce platform handling $50M+ in annual transactions. 99.9% uptime. Zero downtime deployments. Real-time inventory sync.",
+          "description": "Headless e-commerce handling $50M+ annually. 99.9% uptime. Zero downtime.",
           "href": "#",
           "tags": ["React", "Node.js", "PostgreSQL", "Redis"],
           "size": "large",
@@ -84,7 +84,7 @@
         {
           "id": "project-2",
           "title": "REAL-TIME ANALYTICS",
-          "description": "Dashboard processing 1M+ events per second. Built with Go and WebSockets. Sub-millisecond latency. Custom time-series database.",
+          "description": "Dashboard processing 1M+ events/sec. Go + WebSockets. Sub-ms latency.",
           "href": "#",
           "tags": ["Go", "WebSockets", "Redis", "TimescaleDB"],
           "accentColor": "#0a0a0a"
@@ -92,7 +92,7 @@
         {
           "id": "project-3",
           "title": "MOBILE APP",
-          "description": "React Native app with 500K+ downloads. 4.8 star rating. Offline-first architecture. Push notifications. Biometric auth.",
+          "description": "React Native app: 500K+ downloads, 4.8★. Offline-first, biometric auth.",
           "href": "#",
           "tags": ["React Native", "iOS", "Android", "Firebase"],
           "accentColor": "#ff2d00"
@@ -100,7 +100,7 @@
         {
           "id": "project-4",
           "title": "API INFRASTRUCTURE",
-          "description": "Scaled API from 10K to 10M requests per day. Implemented rate limiting, caching, and circuit breaking. Cost reduced by 60%.",
+          "description": "Scaled API 10K→10M requests/day. Rate limiting, caching, circuit breaking. 60% cost reduction.",
           "href": "#",
           "tags": ["AWS", "Lambda", "API Gateway", "CloudFront"],
           "accentColor": "#0a0a0a"
@@ -108,7 +108,7 @@
         {
           "id": "project-5",
           "title": "INTERNAL TOOLING",
-          "description": "Built developer platform that reduced onboarding time from 2 weeks to 2 days. Automated deployments, monitoring, and documentation.",
+          "description": "Dev platform: onboarding 2 weeks→2 days. Automated deployments and monitoring.",
           "href": "#",
           "tags": ["TypeScript", "Docker", "Kubernetes", "ArgoCD"],
           "accentColor": "#ff2d00"
@@ -116,7 +116,7 @@
         {
           "id": "project-6",
           "title": "DATA PIPELINE",
-          "description": "ETL pipeline processing 100TB daily. Real-time data warehouse. ML model serving. Automated data quality checks.",
+          "description": "ETL pipeline: 100TB daily. Real-time warehouse, ML serving, automated quality checks.",
           "href": "#",
           "tags": ["Python", "Airflow", "Snowflake", "TensorFlow"],
           "accentColor": "#0a0a0a"
@@ -131,7 +131,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "They don't just write code—they solve problems. Our platform uptime went from 99.5% to 99.9% after their refactoring.",
+          "quote": "They solve problems. Our uptime went 99.5%→99.9% after their refactoring.",
           "name": "Sarah Chen",
           "role": "CTO",
           "company": "TechStartup",
@@ -139,7 +139,7 @@
         },
         {
           "id": "t2",
-          "quote": "Fast, reliable, and no bullshit. Exactly what we needed. Delivered ahead of schedule and under budget.",
+          "quote": "Fast, reliable, no bullshit. Delivered ahead of schedule, under budget.",
           "name": "Marcus Rodriguez",
           "role": "VP Engineering",
           "company": "ScaleUp Inc",
@@ -152,7 +152,7 @@
       "id": "contact-1",
       "layout": "split",
       "heading": "LET'S WORK TOGETHER",
-      "subheading": "IF YOU HAVE SOMETHING REAL TO BUILD",
+      "subheading": "Let's build something real",
       "email": "dev@example.com",
       "phone": "+1 (555) 123-4567",
       "location": "Brooklyn, NY (Remote available)",

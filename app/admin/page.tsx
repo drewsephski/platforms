@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default async function AdminPage() {
   // TODO: You can add authentication here with your preferred auth provider
-  const tenants = await getAllSubdomains();
+  const sites = await getAllSubdomains();
 
-  return <AdminDashboard tenants={tenants} />;
+  return <AdminDashboard sites={sites} />;
 }

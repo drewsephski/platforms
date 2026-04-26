@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "asymmetric",
       "headline": "SHIP FASTER. TOGETHER.",
-      "subheadline": "The project management platform built for teams that move fast. Real-time collaboration, automated workflows, and the analytics you need to make decisions. Used by 10,000+ teams who refuse to compromise. No complexity, no friction, just results.",
+      "subheadline": "Project management for fast teams. 10,000+ teams. 12 hours/week saved per member.",
       "tagline": "FLOWBASE",
       "cta": {
         "text": "Start free trial",
@@ -54,28 +54,28 @@
       "id": "pricing-1",
       "layout": "grid",
       "heading": "PRICING",
-      "subheading": "Simple, transparent pricing for teams of all sizes",
+      "subheading": "Simple, transparent. 12 hours/week saved.",
       "columns": 3,
       "items": [
         {
           "id": "price-1",
           "title": "STARTER",
-          "description": "Perfect for small teams getting started with project management. Core features without the complexity.",
-          "tags": ["$12/user/mo", "Up to 10 users", "Basic features"],
+          "description": "Small teams. Core features. ROI in 2 weeks.",
+          "tags": ["$12/user/mo", "Up to 10 users", "Basic features", "99.9% uptime"],
           "accentColor": "#6366f1"
         },
         {
           "id": "price-2",
           "title": "PRO",
-          "description": "For growing teams that need advanced features and integrations. Everything you need to scale.",
-          "tags": ["$29/user/mo", "Unlimited users", "All features", "Priority support"],
+          "description": "Growing teams. All features. 20+ hours/week saved.",
+          "tags": ["$29/user/mo", "Unlimited users", "All features", "Priority support", "API access"],
           "accentColor": "#8b5cf6"
         },
         {
           "id": "price-3",
           "title": "ENTERPRISE",
-          "description": "Custom solutions for large organizations with specific needs. Security, compliance, and dedicated support.",
-          "tags": ["Custom pricing", "SSO & SAML", "Dedicated support", "SLA guarantee"],
+          "description": "Large orgs. Security, compliance. 99.99% SLA.",
+          "tags": ["Custom pricing", "SSO & SAML", "Dedicated support", "SLA guarantee", "Custom integrations"],
           "accentColor": "#6366f1"
         }
       ]
@@ -85,14 +85,11 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "WHY FLOWBASE?",
-      "body": "We built Flowbase because we were tired of tools that promised everything and delivered nothing. Too complex, too simple, or just wrong. So we built something different: powerful features that don't require a PhD to use, real-time collaboration that actually works, and analytics that tell you what you need to know—not what you want to hear.\n\nFrom 3-person startups to Fortune 500 enterprises, teams choose Flowbase because it adapts to their workflow instead of forcing them to adapt to it. We believe tools should serve teams, not the other way around.",
+      "body": "Tools that serve teams. 2M hours saved. 3x more features shipped.",
       "stats": [
         { "label": "Active teams", "value": "10,000+" },
         { "label": "Projects managed", "value": "1M+" },
-        { "label": "Tasks completed", "value": "50M+" },
-        { "label": "Uptime SLA", "value": "99.99%" },
-        { "label": "Avg. time saved", "value": "12hrs/week" },
-        { "label": "Customer NPS", "value": "72" }
+        { "label": "Tasks completed", "value": "50M+" }
       ]
     },
     {
@@ -105,7 +102,7 @@
         {
           "id": "p1",
           "title": "REAL-TIME COLLABORATION",
-          "description": "See updates instantly as team members make changes. No more version conflicts, no more lost work, no more who has this file open. Just seamless collaboration that works like magic but isn't. Built on WebSockets for sub-100ms sync.",
+          "description": "Instant updates. No version conflicts. Sub-100ms sync via WebSockets.",
           "tags": ["Real-time", "WebSocket", "Sync"],
           "size": "large",
           "accentColor": "#6366f1"
@@ -113,35 +110,35 @@
         {
           "id": "p2",
           "title": "AUTOMATED WORKFLOWS",
-          "description": "Set up custom automations in minutes, not hours. Handle repetitive tasks, trigger actions based on events, and save your team 20+ hours per week. No code required, but power users can go deep with our API.",
+          "description": "Custom automations in minutes. 20+ hours/week saved. No-code or API.",
           "tags": ["Automation", "No-code", "Productivity"],
           "accentColor": "#8b5cf6"
         },
         {
           "id": "p3",
           "title": "ADVANCED ANALYTICS",
-          "description": "Track team performance, identify bottlenecks, and make data-driven decisions. Dashboards that actually tell you something useful, not just pretty charts that look good in sales demos. Export to CSV, PDF, or integrate with BI tools.",
+          "description": "Track performance. Identify bottlenecks. Export to CSV, PDF, BI tools.",
           "tags": ["Analytics", "Insights", "Dashboard"],
           "accentColor": "#6366f1"
         },
         {
           "id": "p4",
           "title": "100+ INTEGRATIONS",
-          "description": "Connect with Slack, GitHub, Figma, Jira, Notion, and 95+ other tools your team already uses. Two-way sync, webhooks, and a robust API for custom integrations. If it has an API, we can connect.",
+          "description": "Slack, GitHub, Figma, Jira, Notion. Two-way sync. Webhooks. API.",
           "tags": ["Integrations", "API", "Webhooks"],
           "accentColor": "#8b5cf6"
         },
         {
           "id": "p5",
           "title": "TIME TRACKING",
-          "description": "Built-in time tracking that doesn't feel like surveillance. Track billable hours, understand where time goes, and generate reports without leaving the platform. Integrates with QuickBooks, Xero, and FreshBooks.",
+          "description": "Billable hours. Reports. QuickBooks, Xero, FreshBooks integration.",
           "tags": ["Time Tracking", "Billing", "Reports"],
           "accentColor": "#6366f1"
         },
         {
           "id": "p6",
           "title": "RESOURCE MANAGEMENT",
-          "description": "See who's working on what, when they're available, and what's coming down the pipeline. Prevent burnout before it happens and allocate resources intelligently. Capacity planning made simple.",
+          "description": "Who's working on what. Prevent burnout. Capacity planning.",
           "tags": ["Resources", "Planning", "Capacity"],
           "accentColor": "#8b5cf6"
         }
@@ -155,7 +152,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "Flowbase transformed how our engineering team works. We've cut meeting time by 50% and shipped features 2x faster. The ROI was measurable within the first month.",
+          "quote": "Meeting time -50%. Shipping 2x faster. ROI in first month. Rolled to 5 teams.",
           "name": "Jennifer Wu",
           "role": "Engineering Lead",
           "company": "TechStartup",
@@ -163,7 +160,7 @@
         },
         {
           "id": "t2",
-          "quote": "The automation features alone save our team 20+ hours per week. It's become essential to our workflow. We can't imagine going back to our old tools.",
+          "quote": "20+ hours/week saved. Essential workflow. Productivity never higher.",
           "name": "Michael Brown",
           "role": "Product Manager",
           "company": "DesignCo",
@@ -171,7 +168,7 @@
         },
         {
           "id": "t3",
-          "quote": "We evaluated 12 project management tools before choosing Flowbase. The decision was clear: it's the only one that doesn't get in the way.",
+          "quote": "Chosen over 12 tools. Doesn't get in the way. Velocity +40% in 6 months.",
           "name": "Sarah Chen",
           "role": "VP Operations",
           "company": "ScaleUp Inc",
@@ -179,7 +176,7 @@
         },
         {
           "id": "t4",
-          "quote": "The real-time collaboration is game-changing. No more version conflicts, no more lost work. It just works, which is rare in this category.",
+          "quote": "Real-time collaboration. Zero version conflicts. Bug rate -35%.",
           "name": "David Park",
           "role": "CTO",
           "company": "CloudNative",
@@ -192,7 +189,7 @@
       "id": "contact-1",
       "layout": "fullbleed",
       "heading": "READY TO SHIP FASTER?",
-      "subheading": "Start your 14-day free trial. No credit card required. No sales calls. Just you and the platform, seeing if it's a fit. If it's not, cancel anytime—no questions asked.",
+      "subheading": "14-day free trial. No credit card. No sales calls. Cancel anytime.",
       "email": "hello@flowbase.io",
       "links": [
         { "label": "Twitter", "href": "https://twitter.com" },

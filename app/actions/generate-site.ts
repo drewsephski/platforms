@@ -3,7 +3,10 @@
 import { createClient } from '@/lib/supabase/server';
 import { generateSiteContent } from '@/lib/ai';
 import { createSite } from '@/lib/sites';
+import { checkRateLimit, getUserRateLimitTier } from '@/lib/rate-limit';
+import { hasEnoughCredits, deductCredits, getCreditCost, recordAIGeneration } from '@/lib/credits';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 export async function generateSiteAction(
   prevState: any,
@@ -32,6 +35,33 @@ export async function generateSiteAction(
       return { success: false, error: 'You must be logged in to create a site' };
     }
 
+    // Check rate limit
+    const tier = await getUserRateLimitTier(user.id, supabase);
+    const userRateLimit = await checkRateLimit(user.id, tier, 'user');
+
+    if (!userRateLimit.allowed) {
+      const resetTime = userRateLimit.resetAt.toLocaleTimeString();
+      return {
+        success: false,
+        error: `Rate limit exceeded. You can generate ${userRateLimit.limit} sites per ${userRateLimit.window}. Try again after ${resetTime}.`,
+      };
+    }
+
+    // Defense in depth: also check IP-based rate limit
+    const headersList = await headers();
+    const forwardedFor = headersList.get('x-forwarded-for');
+    const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : null;
+
+    if (clientIP) {
+      const ipRateLimit = await checkRateLimit(clientIP, 'free', 'ip');
+      if (!ipRateLimit.allowed) {
+        return {
+          success: false,
+          error: 'Too many requests from this location. Please try again later.',
+        };
+      }
+    }
+
     // Check if user has active subscription
     const { data: subscription } = await supabase
       .from('subscriptions')
@@ -57,6 +87,29 @@ export async function generateSiteAction(
       }
     }
 
+    // Check AI credits
+    const creditCheck = await hasEnoughCredits(user.id, 'full_site');
+    if (!creditCheck.hasCredits) {
+      const required = creditCheck.required;
+      const available = creditCheck.available;
+      return {
+        success: false,
+        error: `Insufficient AI credits. This action requires ${required} credits. You have ${available} credits remaining. Purchase more credits to continue.`,
+        needsCredits: true,
+        requiredCredits: required,
+        availableCredits: available,
+      };
+    }
+
+    // Deduct credits before generating
+    const deducted = await deductCredits(user.id, 'full_site');
+    if (!deducted) {
+      return {
+        success: false,
+        error: 'Failed to deduct credits. Please try again.',
+      };
+    }
+
     // Generate site content with AI
     const content = await generateSiteContent(prompt, template, aesthetic);
 
@@ -72,14 +125,15 @@ export async function generateSiteAction(
       change_summary: 'Initial AI generation',
     });
 
-    // Log AI generation
-    await supabase.from('ai_generations').insert({
-      site_id: site.id,
+    // Log AI generation with credits
+    await recordAIGeneration(
+      site.id,
       prompt,
-      model: 'google/gemini-2.0-flash-exp',
-      output: content,
-      version: '1.0',
-    });
+      'google/gemini-2.0-flash-exp',
+      content,
+      'full_site',
+      getCreditCost('full_site')
+    );
 
     redirect(`/dashboard/sites/${site.id}/edit`);
   } catch (error: any) {

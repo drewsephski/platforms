@@ -82,7 +82,16 @@ export async function middleware(request: NextRequest) {
 
     // For the root path on a subdomain, rewrite to the subdomain page
     if (pathname === '/') {
-      return NextResponse.rewrite(new URL(`/s/${subdomain}`, request.url));
+      const rewrite = NextResponse.rewrite(new URL(`/s/${subdomain}`, request.url));
+
+      // Add CDN cache headers for public sites
+      // 60s fresh, 5min stale-while-revalidate (background refresh)
+      rewrite.headers.set(
+        'Cache-Control',
+        'public, max-age=60, stale-while-revalidate=300'
+      );
+
+      return rewrite;
     }
   }
 

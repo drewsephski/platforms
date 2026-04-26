@@ -32,16 +32,16 @@
       "type": "hero",
       "id": "hero-1",
       "style": "asymmetric",
-      "headline": "WE DON'T DESIGN LOGOS. WE BUILD BRANDS.",
-      "subheadline": "Strategic design for companies ready to dominate their market. No templates, no compromises, no bullshit. Just work that converts and systems that scale. Every pixel serves revenue. Every interaction drives growth.",
+      "headline": "WE BUILD EMPIRES.",
+      "subheadline": "Strategic design that converts. $47M+ generated for clients. 67% avg conversion lift.",
       "tagline": "METHOD STUDIO",
       "cta": {
-        "text": "START A PROJECT",
+        "text": "Start a project",
         "href": "#contact",
         "variant": "primary"
       },
       "secondaryCta": {
-        "text": "View case studies",
+        "text": "View results",
         "href": "#projects"
       },
       "layout": {
@@ -54,10 +54,10 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "THE METHOD",
-      "body": "We're not a design agency. We're a strategic partner that happens to design. Since 2018, we've helped 100+ brands find their voice, dominate their markets, and build systems that scale. Our approach is simple: understand the business first, design the solution second, measure the results always.\n\nWe don't care about awards. We care about revenue. We don't care about aesthetics. We care about conversion. Every pixel we place, every word we write, every interaction we design serves one purpose: making our clients more money. This isn't design for design's sake—it's design for business impact.",
+      "body": "Design that drives revenue. 100+ brands. 67% avg conversion lift. Every pixel serves business impact.",
       "stats": [
         { "label": "Revenue generated", "value": "$47M+" },
-        { "label": "Conversion lift avg", "value": "67%" },
+        { "label": "Conversion lift", "value": "67%" },
         { "label": "Client retention", "value": "94%" },
         { "label": "Team size", "value": "18" },
         { "label": "Years in business", "value": "7" },
@@ -69,48 +69,48 @@
       "id": "projects-1",
       "layout": "featured",
       "heading": "CASE STUDIES",
-      "subheading": "Real results for real businesses",
+      "subheading": "$47M in revenue generated.",
       "items": [
         {
           "id": "p1",
-          "title": "NEXUS FINTECH: $12M ARR INCREASE",
-          "description": "Complete brand overhaul and digital transformation for Series B fintech. Rebuilt onboarding from 14 steps to 4. Implemented design system across 8 products. Result: 3x brand awareness, 45% increase in qualified leads, $12M additional ARR within 6 months.",
+          "title": "NEXUS FINTECH: $12M ARR",
+          "description": "Brand overhaul. Onboarding 14→4 steps. $12M ARR in 6 months. 3x brand awareness.",
           "tags": ["Branding", "Strategy", "UX"],
           "size": "large",
           "accentColor": "#0a0a0a"
         },
         {
           "id": "p2",
-          "title": "VERTEX FASHION: 67% CONVERSION LIFT",
-          "description": "E-commerce replatform from Shopify to custom Next.js solution. Built subscription management, dynamic product storytelling, and integrated inventory visibility. Result: 3x increase in DTC revenue, 67% conversion rate improvement, 65% repeat purchase rate increase.",
+          "title": "VERTEX FASHION: 67% LIFT",
+          "description": "E-commerce replatform. 3x DTC revenue. 67% conversion improvement. Mobile +89%.",
           "tags": ["E-commerce", "Design System", "Next.js"],
           "accentColor": "#ff4500"
         },
         {
           "id": "p3",
           "title": "APEX ANALYTICS: 32% CHURN REDUCTION",
-          "description": "Product design and UX overhaul for B2B analytics platform. Redesigned onboarding, simplified dashboard, and improved data visualization. Result: 32% churn reduction, NPS increase from 45 to 72, 40% improvement in feature adoption.",
+          "description": "UX overhaul. 32% churn reduction. NPS 45→72. Time-to-value -60%.",
           "tags": ["Product Design", "SaaS", "Dashboard"],
           "accentColor": "#0a0a0a"
         },
         {
           "id": "p4",
-          "title": "FLUX STUDIO: 3 AWARDS IN YEAR ONE",
-          "description": "Complete brand identity and website for creative agency. Created visual system, portfolio showcase, and client portal. Result: Won 3 design awards in first year, 200% increase in inbound leads, featured in Communication Arts.",
+          "title": "FLUX STUDIO: 200% LEADS",
+          "description": "Brand identity. 3 design awards. 200% lead increase. Project value +40%.",
           "tags": ["Branding", "Web Design", "Identity"],
           "accentColor": "#ff4500"
         },
         {
           "id": "p5",
-          "title": "BREW COFFEE: 2X ORDER VALUE",
-          "description": "Mobile-first ordering experience for specialty coffee chain. Redesigned menu navigation, implemented dynamic upselling, and streamlined checkout. Result: 98% increase in average order value, 55% mobile conversion improvement, 20% table turnover increase.",
+          "title": "BREW COFFEE: 98% ORDER VALUE",
+          "description": "Mobile ordering. 98% order value increase. 55% mobile conversion. 12x ROI.",
           "tags": ["Mobile UX", "E-commerce", "Food & Beverage"],
           "accentColor": "#0a0a0a"
         },
         {
           "id": "p6",
-          "title": "VERTEX LEGAL: 60% INTAKE REDUCTION",
-          "description": "Client intake and case management platform for boutique law firm. Replaced paper processes with digital workflows, automated document generation, and built client portal. Result: Intake time reduced from 3 days to 4 hours, 35% staff efficiency improvement.",
+          "title": "VERTEX LEGAL: 18X FASTER",
+          "description": "Intake platform. 3 days→4 hours. 35% efficiency gain. Satisfaction +45%.",
           "tags": ["Legal Tech", "Workflow", "Dashboard"],
           "accentColor": "#ff4500"
         }
@@ -124,7 +124,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "Method didn't just redesign our brand—they redefined how we think about our business. The ROI was immediate and measurable. $12M in additional ARR within 6 months.",
+          "quote": "$12M ARR in 6 months. Immediate ROI. Hired for 3 more projects.",
           "name": "David Kim",
           "role": "CEO",
           "company": "Nexus Fintech",
@@ -132,7 +132,7 @@
         },
         {
           "id": "t2",
-          "quote": "Working with Method felt like having an extension of our team. They understood our market and delivered work that converted. 67% conversion rate improvement.",
+          "quote": "67% conversion improvement. Board impressed. Extension of our team.",
           "name": "Lisa Thompson",
           "role": "CMO",
           "company": "Vertex Fashion",
@@ -140,7 +140,7 @@
         },
         {
           "id": "t3",
-          "quote": "The product redesign Method delivered reduced our churn by 32% and increased NPS to 72. This is what happens when design is strategic, not decorative.",
+          "quote": "32% churn reduction. NPS 45→72. Best investment this year.",
           "name": "Marcus Rodriguez",
           "role": "VP Product",
           "company": "Apex Analytics",
@@ -148,7 +148,7 @@
         },
         {
           "id": "t4",
-          "quote": "Method's mobile ordering system increased our average order value by 98%. The ROI on this project was 12x. We've already hired them for our next project.",
+          "quote": "98% order value increase. 12x ROI. They get results.",
           "name": "Sarah Chen",
           "role": "Founder",
           "company": "Brew Coffee",
@@ -160,8 +160,8 @@
       "type": "contact",
       "id": "contact-1",
       "layout": "fullbleed",
-      "heading": "READY TO DOMINATE YOUR MARKET?",
-      "subheading": "Book a free 30-minute strategy call. No pitch, no pressure, just actionable insights you can use immediately. If we're not the right fit, we'll tell you who is.",
+      "heading": "READY TO DOMINATE?",
+      "subheading": "Free 30-min strategy call. No pitch. Just actionable insights.",
       "email": "hello@method.studio",
       "phone": "+1 (555) 234-5678",
       "location": "New York & Remote",

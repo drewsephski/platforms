@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Navbar5 } from '@/components/ui/navbar-5';
+import { Footer } from '@/components/navigation';
+import { createClient } from '@/lib/supabase/server';
 import { Toaster } from 'sonner';
 import './globals.css';
 
@@ -15,16 +18,36 @@ export const metadata: Metadata = {
   description: 'Transform prompts into production-ready websites instantly. Multi-tenant SaaS platform built with Next.js.'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Check if user is admin
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+    isAdmin = profile?.role === 'admin';
+  }
+
+  const userData = user ? { email: user.email, isAdmin } : null;
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} antialiased`}>
+      <body className={`${geistSans.variable} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider defaultTheme="light" storageKey="platforms-ui-theme">
-          {children}
+          <Navbar5 user={userData} />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
           <Toaster position="bottom-right" />
           <SpeedInsights />
         </ThemeProvider>

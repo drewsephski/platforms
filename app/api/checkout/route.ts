@@ -1,10 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { PRICING_PLANS, PricingTier } from '@/lib/pricing';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const PRO_PRICE_ID = 'price_1TQ97uRZE8Whwvf0aIGLZ1w0';
 
 export async function POST(request: Request) {
   try {
@@ -15,10 +14,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const body = await request.json();
+    const { tier, interval = 'month' } = body as { tier: PricingTier; interval: 'month' | 'year' };
+
+    if (!tier || tier === 'free') {
+      return NextResponse.json({ error: 'Invalid tier' }, { status: 400 });
+    }
+
+    const plan = PRICING_PLANS[tier];
+    const priceId = interval === 'year' 
+      ? plan.stripeYearlyPriceId 
+      : plan.stripeMonthlyPriceId;
+
+    if (!priceId) {
+      return NextResponse.json({ error: 'Price ID not configured' }, { status: 500 });
+    }
+
     // Check if user already has an active subscription
     const { data: existingSubscription } = await supabase
       .from('subscriptions')
-      .select('id, status, stripe_customer_id')
+      .select('id, status, stripe_customer_id, plan_tier')
       .eq('user_id', user.id)
       .eq('status', 'active')
       .single();
@@ -43,12 +58,12 @@ export async function POST(request: Request) {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: PRO_PRICE_ID,
+          price: priceId,
           quantity: 1,
         },
       ],
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?checkout=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?checkout=canceled`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?checkout=canceled`,
       allow_promotion_codes: true,
       customer_update: {
         address: 'auto',
@@ -56,6 +71,13 @@ export async function POST(request: Request) {
       },
       metadata: {
         user_id: user.id,
+        tier,
+        interval,
+      },
+      subscription_data: {
+        metadata: {
+          tier,
+        },
       },
     });
 

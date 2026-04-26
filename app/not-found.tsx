@@ -62,8 +62,8 @@ export default function NotFound() {
           <h1 className="text-[clamp(1.5rem,4vw,2rem)] font-semibold tracking-tight text-foreground mb-3">
             {subdomain ? (
               <>
-                <span className="text-muted-foreground">{subdomain}</span>
-                <span className="text-foreground">.{rootDomain}</span>
+                <span className="text-muted-foreground">{rootDomain}/s/</span>
+                <span className="text-foreground">{subdomain}</span>
               </>
             ) : (
               'Page not found'
@@ -73,7 +73,7 @@ export default function NotFound() {
           {/* Description */}
           <p className="text-base text-muted-foreground leading-relaxed mb-8">
             {subdomain 
-              ? `This subdomain hasn't been created yet. You can claim it now.`
+              ? `This site hasn't been created yet. You can claim it now.`
               : `The page you're looking for doesn't exist or has been moved.`
             }
           </p>

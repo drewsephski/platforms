@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "split",
       "headline": "ENGINEERED SOLUTIONS",
-      "subheadline": "I build robust systems with predictable outcomes. No magic, just solid engineering. Precision. Reliability. Scale. Every system is architected with failure in mind and measured with data.",
+      "subheadline": "Robust systems with predictable outcomes. No magic, just solid engineering.",
       "tagline": "SYSTEMS ENGINEER",
       "cta": {
         "text": "VIEW SPECS",
@@ -55,7 +55,7 @@
       "id": "about-1",
       "layout": "standard",
       "heading": "SPECIFICATIONS",
-      "body": "I approach software engineering like mechanical engineering: understand the requirements, design the system, implement with precision, test thoroughly, and document everything.\n\nMy background is in distributed systems, infrastructure, and developer tooling. I care about observability, maintainability, and operational excellence. If it can't be measured, it doesn't exist. If it can't be automated, it's not scalable.\n\nCurrently based in Seattle, working on infrastructure that powers millions of requests per day. I build systems that fail gracefully, scale horizontally, and are a joy to operate.",
+      "body": "Software engineering like mechanical: understand, design, implement, test, document.\n\nBackground: distributed systems, infrastructure, dev tooling. Focus: observability, maintainability, operational excellence. If it can't be measured, it doesn't exist.\n\nSeattle-based. Infrastructure powering millions of requests/day. Systems that fail gracefully, scale horizontally.",
       "stats": [
         { "label": "Systems architected", "value": "15" },
         { "label": "99.99% uptime achieved", "value": "12" },
@@ -70,12 +70,12 @@
       "id": "projects-1",
       "layout": "grid",
       "heading": "DEPLOYMENTS",
-      "subheading": "Production systems in operation",
+      "subheading": "Production systems",
       "items": [
         {
           "id": "project-1",
           "title": "MESSAGE QUEUE",
-          "description": "Distributed message queue handling 10M+ messages/day. Exactly-once semantics, dead letter queues, and comprehensive monitoring. Built with Go and Kafka.",
+          "description": "Distributed message queue: 10M+ messages/day. Exactly-once semantics, dead letter queues, monitoring. Go + Kafka.",
           "href": "#",
           "tags": ["Go", "Kafka", "Monitoring", "Distributed Systems"],
           "accentColor": "#f97316"
@@ -83,7 +83,7 @@
         {
           "id": "project-2",
           "title": "API GATEWAY",
-          "description": "High-performance API gateway with rate limiting, circuit breaking, and request routing. Handles 50K+ RPS. Built with Rust and Kubernetes.",
+          "description": "High-performance API gateway: rate limiting, circuit breaking, routing. 50K+ RPS. Rust + Kubernetes.",
           "href": "#",
           "tags": ["Rust", "Kubernetes", "Networking", "High Performance"],
           "accentColor": "#e2e8f0"
@@ -91,7 +91,7 @@
         {
           "id": "project-3",
           "title": "OBSERVABILITY STACK",
-          "description": "Custom observability platform with metrics, traces, and logs. Built on Prometheus, Jaeger, and Elasticsearch. Unified monitoring across all services.",
+          "description": "Custom observability platform: metrics, traces, logs. Prometheus, Jaeger, Elasticsearch. Unified monitoring.",
           "href": "#",
           "tags": ["Observability", "Prometheus", "Grafana", "Monitoring"],
           "accentColor": "#f97316"
@@ -99,7 +99,7 @@
         {
           "id": "project-4",
           "title": "CI/CD PIPELINE",
-          "description": "Internal developer platform for automated deployments. GitOps-based with progressive delivery and automated rollback. Reduced deployment time by 80%.",
+          "description": "Internal dev platform for automated deployments. GitOps, progressive delivery, automated rollback. 80% deployment time reduction.",
           "href": "#",
           "tags": ["DevOps", "ArgoCD", "Kubernetes", "Automation"],
           "accentColor": "#e2e8f0"
@@ -107,7 +107,7 @@
         {
           "id": "project-5",
           "title": "DATABASE MIGRATION",
-          "description": "Zero-downtime migration tool for PostgreSQL. Handles schema changes, data transformation, and rollback safely. Migrated 5TB without downtime.",
+          "description": "Zero-downtime PostgreSQL migration tool. Schema changes, data transformation, rollback. 5TB migrated without downtime.",
           "href": "#",
           "tags": ["PostgreSQL", "Go", "Migration", "Database"],
           "accentColor": "#f97316"
@@ -115,7 +115,7 @@
         {
           "id": "project-6",
           "title": "SERVICE MESH",
-          "description": "Implementation of service mesh for microservices architecture. mTLS, traffic management, and policy enforcement. Secured 200+ microservices.",
+          "description": "Service mesh for microservices. mTLS, traffic management, policy enforcement. Secured 200+ microservices.",
           "href": "#",
           "tags": ["Istio", "Envoy", "Security", "Microservices"],
           "accentColor": "#e2e8f0"
@@ -123,7 +123,7 @@
         {
           "id": "project-7",
           "title": "LOAD BALANCER",
-          "description": "Custom L7 load balancer with intelligent routing, health checks, and autoscaling. Handles 100K+ concurrent connections. Built with Go.",
+          "description": "Custom L7 load balancer: intelligent routing, health checks, autoscaling. 100K+ concurrent connections. Go.",
           "href": "#",
           "tags": ["Go", "Networking", "Load Balancing", "High Availability"],
           "accentColor": "#f97316"
@@ -131,7 +131,7 @@
         {
           "id": "project-8",
           "title": "LOG AGGREGATION",
-          "description": "Centralized logging platform processing 1TB+ daily logs. Real-time search, alerting, and retention policies. Built with ELK stack.",
+          "description": "Centralized logging: 1TB+ daily logs. Real-time search, alerting, retention policies. ELK stack.",
           "href": "#",
           "tags": ["Elasticsearch", "Logging", "Monitoring", "Big Data"],
           "accentColor": "#e2e8f0"
@@ -146,7 +146,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "The most reliable engineer I've worked with. Their systems never break, and when they do, they've already fixed it before anyone notices.",
+          "quote": "Most reliable engineer I've worked with. Systems never break—or they fix it before anyone notices.",
           "name": "Sarah Kim",
           "role": "Staff Engineer",
           "company": "BigTech",
@@ -154,7 +154,7 @@
         },
         {
           "id": "t2",
-          "quote": "They saved us $2M in infrastructure costs through optimization. The migration they led was flawless—zero downtime, zero data loss.",
+          "quote": "Saved us $2M in infrastructure costs. Migration was flawless—zero downtime, zero data loss.",
           "name": "Marcus Johnson",
           "role": "VP Engineering",
           "company": "ScaleUp Inc",
@@ -167,7 +167,7 @@
       "id": "contact-1",
       "layout": "split",
       "heading": "INITIATE CONTACT",
-      "subheading": "Available for consulting and full-time roles. Open to interesting infrastructure challenges.",
+      "subheading": "Available for consulting and full-time roles. Open to infrastructure challenges.",
       "email": "engineer@systems.io",
       "phone": "+1 (555) 987-6543",
       "location": "Seattle, WA (Remote available)",

@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "minimal",
       "headline": "Design matters",
-      "subheadline": "I create digital experiences with intention and restraint. Every element earns its place. Every pixel serves a purpose. Less, but better.",
+      "subheadline": "Digital experiences with intention and restraint. Every element earns its place.",
       "layout": {
         "textAlign": "left",
         "verticalAlign": "center",
@@ -45,7 +45,7 @@
       "id": "about-1",
       "layout": "minimal",
       "heading": "",
-      "body": "I believe in the power of subtraction. Every element should earn its place. Every pixel should serve a purpose. This philosophy guides everything I create—from brand identities to digital products.\n\nBased in San Francisco, I work with companies who value craft over trends, substance over style, and long-term thinking over quick wins. My work has been featured in Awwwards, CSS Design Awards, and Communication Arts.",
+      "body": "Philosophy: subtraction. Every element earns its place, every pixel serves a purpose. Guides everything from brand identities to digital products.\n\nSan Francisco-based. Work with companies valuing craft over trends, substance over style, long-term thinking over quick wins. Featured in Awwwards, CSS Design Awards, Communication Arts.",
       "stats": [
         { "label": "Years in practice", "value": "8" },
         { "label": "Projects completed", "value": "42" },
@@ -57,12 +57,12 @@
       "id": "projects-1",
       "layout": "list",
       "heading": "Work",
-      "subheading": "Selected projects",
+      "subheading": "Projects",
       "items": [
         {
           "id": "project-1",
           "title": "Stripe Design System",
-          "description": "Led the redesign of Stripe's component library, focusing on accessibility and developer experience. Created comprehensive documentation and migration guides.",
+          "description": "Led Stripe component library redesign. Focus: accessibility, developer experience. Comprehensive documentation and migration guides.",
           "href": "#",
           "tags": ["Design Systems", "React", "Accessibility"],
           "accentColor": "#171717"
@@ -70,7 +70,7 @@
         {
           "id": "project-2",
           "title": "Linear Brand Identity",
-          "description": "Created the visual identity for Linear, including logo, typography system, and brand guidelines. Established a cohesive design language across all touchpoints.",
+          "description": "Created Linear visual identity: logo, typography, brand guidelines. Cohesive design language across all touchpoints.",
           "href": "#",
           "tags": ["Branding", "Identity", "Typography"],
           "accentColor": "#171717"
@@ -78,7 +78,7 @@
         {
           "id": "project-3",
           "title": "Vercel Website",
-          "description": "Redesigned Vercel's marketing site with focus on performance and developer experience. Achieved 98/100 Lighthouse score and sub-second load times.",
+          "description": "Redesigned Vercel marketing site. Focus: performance, developer experience. 98/100 Lighthouse, sub-second load times.",
           "href": "#",
           "tags": ["Web Design", "Performance", "Next.js"],
           "accentColor": "#171717"
@@ -86,7 +86,7 @@
         {
           "id": "project-4",
           "title": "Notion Brand Refresh",
-          "description": "Refreshed Notion's visual identity while maintaining brand recognition. Updated color palette, typography, and illustration style for modern appeal.",
+          "description": "Refreshed Notion visual identity while maintaining recognition. Updated color palette, typography, illustration style.",
           "href": "#",
           "tags": ["Branding", "Identity", "Design System"],
           "accentColor": "#171717"
@@ -94,7 +94,7 @@
         {
           "id": "project-5",
           "title": "Figma Plugin Ecosystem",
-          "description": "Designed and built a suite of Figma plugins used by 50K+ designers. Focused on discoverability, performance, and seamless integration.",
+          "description": "Designed and built Figma plugin suite used by 50K+ designers. Focus: discoverability, performance, seamless integration.",
           "href": "#",
           "tags": ["Product Design", "Figma", "Plugins"],
           "accentColor": "#171717"
@@ -109,7 +109,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "Their work is characterized by remarkable restraint and intentionality. Every decision feels considered and purposeful.",
+          "quote": "Remarkable restraint and intentionality. Every decision feels considered and purposeful.",
           "name": "Design Jury",
           "role": "Awwwards",
           "company": "Site of the Day",
@@ -122,7 +122,7 @@
       "id": "contact-1",
       "layout": "simple",
       "heading": "Get in touch",
-      "subheading": "Open to interesting projects and collaborations",
+      "subheading": "Open to interesting projects",
       "email": "hello@example.com",
       "links": [
         { "label": "Twitter", "href": "https://twitter.com" },

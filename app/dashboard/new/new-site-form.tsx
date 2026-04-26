@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { generateSiteAction } from '@/app/actions/generate-site';
-import { Loader2, ArrowLeft, AlertCircle, Wand2, Code2, Palette, Rocket, User, Minimize2, BookOpen, Hexagon, Factory } from 'lucide-react';
+import { Loader2, Sparkles, Wand2, Code2, Minimize2, Hexagon, Rocket, Palette, Factory, BookOpen, AlertCircle } from 'lucide-react';
 import { rootDomain } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
@@ -84,20 +84,6 @@ export function NewSiteForm({ userId }: { userId: string }) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border">
-        <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="text-sm font-medium">{rootDomain}</span>
-          <a 
-            href="/dashboard" 
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
-          </a>
-        </div>
-      </nav>
-
       <main className="max-w-3xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="mb-10">
@@ -110,23 +96,18 @@ export function NewSiteForm({ userId }: { userId: string }) {
         </div>
 
         <form action={action} className="space-y-10">
-          {/* Subdomain */}
+          {/* Site name */}
           <div className="space-y-2">
-            <Label htmlFor="subdomain">Subdomain</Label>
-            <div className="flex items-center max-w-sm">
-              <Input
-                id="subdomain"
-                name="subdomain"
-                placeholder="my-portfolio"
-                className="rounded-r-none border-r-0"
-                required
-                autoComplete="off"
-                spellCheck={false}
-              />
-              <span className="px-3 py-2 border border-l-0 border-input rounded-r-md bg-muted text-muted-foreground text-sm">
-                .{rootDomain}
-              </span>
-            </div>
+            <Label htmlFor="subdomain">Site name</Label>
+            <Input
+              id="subdomain"
+              name="subdomain"
+              placeholder="my-portfolio"
+              className="max-w-sm"
+              required
+              autoComplete="off"
+              spellCheck={false}
+            />
             <p className="text-xs text-muted-foreground">
               Letters, numbers, and hyphens only. 3-32 characters.
             </p>

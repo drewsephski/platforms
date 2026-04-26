@@ -6,11 +6,11 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, AlertCircle, ArrowLeft, Check } from 'lucide-react';
+import { Loader2, AlertCircle, Check } from 'lucide-react';
 import { PlatformsLogo } from '@/components/platforms-logo';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { rootDomain } from '@/lib/utils';
+import TextReveal from '@/components/ui/text-reveal';
 
 export function SignInForm() {
   const router = useRouter();
@@ -75,30 +75,17 @@ export function SignInForm() {
   return (
     <div className="min-h-screen w-full bg-background relative overflow-hidden flex flex-col">
       {/* Subtle grid pattern background */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none opacity-[0.015]"
         style={{
           backgroundImage: `linear-gradient(oklch(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, oklch(var(--foreground)) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
-      
+
       {/* Gradient orbs for depth */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/[0.03] rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent/30 rounded-full blur-3xl pointer-events-none" />
-      
-      {/* Navigation - fixed at top */}
-      <nav className="relative z-10 w-full">
-        <div className="max-w-md mx-auto px-6 py-5">
-          <Link 
-            href="/" 
-            className="group inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-            <span>Back to home</span>
-          </Link>
-        </div>
-      </nav>
 
       {/* Main content - properly centered */}
       <main className="relative z-10 flex-1 flex items-center justify-center px-6 py-12">
@@ -125,9 +112,9 @@ export function SignInForm() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-foreground mb-5 shadow-lg shadow-foreground/5">
               <PlatformsLogo className="w-7 h-7 text-background" />
             </div>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground mb-1.5">
-              Welcome back
-            </h1>
+            <div className="text-2xl font-semibold tracking-tight text-foreground mb-1.5">
+              <TextReveal word="Welcome back" className="!border-none !bg-transparent !p-0 !min-h-auto" showButton={false} tag="h1" />
+            </div>
             <p className="text-sm text-muted-foreground">
               Sign in to {rootDomain}
             </p>

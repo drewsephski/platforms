@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "asymmetric",
       "headline": "Digital craft for ambitious brands",
-      "subheadline": "Strategic design and development that transforms how businesses connect with their audiences. Every project starts with understanding and ends with impact. No templates, no compromises—just work that matters.",
+      "subheadline": "Strategic design and development that transforms how businesses connect.",
       "tagline": "Independent Studio",
       "cta": {
         "text": "Explore the work",
@@ -54,7 +54,7 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "Where strategy meets craft",
-      "body": "Since 2014, I've partnered with startups and established brands to build digital experiences that resonate. The approach is simple: understand the business deeply, challenge assumptions, and craft solutions that stand the test of time.\n\nWhat started as a one-person operation has grown into a selective practice. I take on a limited number of projects each year to ensure every client receives focused attention and strategic thinking. This isn't about volume—it's about creating work that matters.\n\nThe studio sits at the intersection of design thinking and technical execution. Whether it's a complete brand platform or a targeted product redesign, the goal is always the same: measurable business impact through exceptional craft.\n\nRecognition includes Awwwards Site of the Day, CSS Design Awards, and features in Communication Arts. But the real metric of success? Clients who return for their next venture and refer colleagues without being asked.",
+      "body": "Since 2014, partnered with startups and brands to build resonant digital experiences. Approach: understand deeply, challenge assumptions, craft lasting solutions.\n\nSelective practice with limited projects for focused attention. Not about volume—about work that matters.\n\nIntersection of design thinking and technical execution. Goal: measurable business impact through exceptional craft.\n\nRecognition: Awwwards Site of the Day, CSS Design Awards, Communication Arts. Real metric: returning clients and referrals.",
       "stats": [
         { "label": "Years in practice", "value": "10+" },
         { "label": "Projects delivered", "value": "87" },
@@ -69,12 +69,12 @@
       "id": "projects-1",
       "layout": "featured",
       "heading": "Selected work",
-      "subheading": "A curated collection of projects where strategic thinking met exceptional execution",
+      "subheading": "Strategic thinking meets exceptional execution",
       "items": [
         {
           "id": "project-1",
           "title": "Meridian Finance: 40% conversion lift",
-          "description": "Complete digital transformation for a B2B fintech startup. Rebuilt the onboarding flow from 14 steps to 4, implemented a component-based design system, and optimized performance to sub-2-second load times. Result: 40% increase in trial-to-paid conversion and $2.3M in additional ARR within six months.",
+          "description": "Digital transformation for B2B fintech. Onboarding 14→4 steps, design system, sub-2s load times. Result: 40% conversion lift, $2.3M ARR.",
           "href": "#",
           "tags": ["Fintech", "UX Strategy", "Design System", "React"],
           "size": "large",
@@ -83,7 +83,7 @@
         {
           "id": "project-2",
           "title": "Artisan Coffee Roasters: Tripled DTC revenue",
-          "description": "E-commerce replatform from Shopify to custom Next.js solution. Built subscription management, dynamic product storytelling, and integrated roasting schedule visibility. Result: 3x increase in direct-to-consumer revenue and 65% improvement in repeat purchase rate.",
+          "description": "E-commerce replatform: Shopify→Next.js. Subscription management, dynamic storytelling, roasting schedule. Result: 3x DTC revenue, 65% repeat purchase improvement.",
           "href": "#",
           "tags": ["E-commerce", "Next.js", "Headless CMS", "Subscription"],
           "accentColor": "#8b4513"
@@ -91,7 +91,7 @@
         {
           "id": "project-3",
           "title": "Catalyst Ventures: Fund II close in 8 weeks",
-          "description": "Brand and digital presence for a Series A venture fund. Created visual identity, investor portal with real-time portfolio tracking, and automated LP reporting. Result: Fund II closed at $45M (2x target) in record time, with 40% of commitments coming through the digital platform.",
+          "description": "Brand and digital presence for Series A fund. Visual identity, investor portal with real-time tracking, automated LP reporting. Result: Fund II closed at $45M (2x target), 40% via digital platform.",
           "href": "#",
           "tags": ["Branding", "Investor Portal", "Web Application", "Next.js"],
           "accentColor": "#2d4a3e"
@@ -99,7 +99,7 @@
         {
           "id": "project-4",
           "title": "Harvest Kitchen: 2x order value increase",
-          "description": "Mobile-first ordering experience for farm-to-table restaurant group. Redesigned menu navigation, implemented dynamic upselling, and streamlined checkout. Result: Average order value increased 98%, mobile conversion improved 55%, and table turnover increased 20%.",
+          "description": "Mobile-first ordering for restaurant group. Menu redesign, dynamic upselling, streamlined checkout. Result: 98% order value increase, 55% mobile conversion improvement.",
           "href": "#",
           "tags": ["Food & Beverage", "Mobile UX", "Ordering System", "Stripe"],
           "accentColor": "#5c3a21"
@@ -107,7 +107,7 @@
         {
           "id": "project-5",
           "title": "Atlas Legal: 60% reduction in intake time",
-          "description": "Client intake and case management platform for boutique law firm. Replaced paper-based processes with digital workflows, automated document generation, and built client communication portal. Result: New client intake time reduced from 3 days to 4 hours, staff efficiency improved 35%.",
+          "description": "Client intake platform for law firm. Digital workflows, automated document generation, client portal. Result: intake 3 days→4 hours, 35% efficiency improvement.",
           "href": "#",
           "tags": ["Legal Tech", "Workflow Automation", "Dashboard", "React"],
           "accentColor": "#3d4a5c"
@@ -115,7 +115,7 @@
         {
           "id": "project-6",
           "title": "Sonder Hotels: 4.8 star guest experience",
-          "description": "In-room tablet experience for boutique hotel chain. Created digital concierge, room controls, local recommendations, and service requests. Result: Guest satisfaction scores increased to 4.8/5, operational requests reduced front desk load by 40%.",
+          "description": "In-room tablet for hotel chain. Digital concierge, room controls, local recommendations, service requests. Result: 4.8/5 satisfaction, 40% front desk load reduction.",
           "href": "#",
           "tags": ["Hospitality", "Tablet UX", "IoT Integration", "React Native"],
           "accentColor": "#1a3a5c"
@@ -123,7 +123,7 @@
         {
           "id": "project-7",
           "title": "Nova Health: Patient portal redesign",
-          "description": "Patient-facing portal for multi-location health clinic. Simplified appointment scheduling, lab results access, and provider messaging. Result: Phone appointment scheduling reduced 70%, patient portal adoption increased from 23% to 78%.",
+          "description": "Patient portal for health clinic. Simplified scheduling, lab results, provider messaging. Result: 70% phone scheduling reduction, adoption 23%→78%.",
           "href": "#",
           "tags": ["Healthcare", "Patient UX", "HIPAA Compliance", "React"],
           "accentColor": "#2a5a4a"
@@ -131,7 +131,7 @@
         {
           "id": "project-8",
           "title": "Northbound Supply: B2B wholesale platform",
-          "description": "Wholesale ordering platform for outdoor gear distributor. Built tiered pricing, bulk ordering workflows, and inventory visibility. Result: B2B order volume increased 150%, average order size up 85%, customer service inquiries down 45%.",
+          "description": "Wholesale platform for outdoor gear. Tiered pricing, bulk ordering, inventory visibility. Result: 150% B2B volume increase, 85% order size increase, 45% inquiry reduction.",
           "href": "#",
           "tags": ["B2B Commerce", "Wholesale", "ERP Integration", "Next.js"],
           "accentColor": "#5c4a3a"
@@ -142,11 +142,11 @@
       "type": "testimonials",
       "id": "testimonials-1",
       "layout": "masonry",
-      "heading": "What clients say about the work",
+      "heading": "Client testimonials",
       "items": [
         {
           "id": "t1",
-          "quote": "The team at this studio doesn't just design—they think. They challenged our assumptions about what our customers wanted and built something that genuinely moved the needle. Our conversion rate increased 40% in the first quarter after launch.",
+          "quote": "They don't just design—they think. Challenged our assumptions and built something that moved the needle. 40% conversion increase first quarter.",
           "name": "Sarah Chen",
           "role": "VP of Product",
           "company": "Meridian Finance",
@@ -154,7 +154,7 @@
         },
         {
           "id": "t2",
-          "quote": "Working with them felt like having a strategic partner, not just a vendor. They understood our brand intimately and translated it into a digital experience that our customers genuinely love. The attention to detail is unmatched.",
+          "quote": "Strategic partner, not vendor. Understood our brand intimately and translated it into an experience customers love. Unmatched attention to detail.",
           "name": "Marcus Rodriguez",
           "role": "Founder",
           "company": "Artisan Coffee Roasters",
@@ -162,7 +162,7 @@
         },
         {
           "id": "t3",
-          "quote": "Our Fund II closed in record time, and I credit a significant portion of that to the digital presence they created. The investor portal alone saved us countless hours and presented our portfolio in a way that LP's found genuinely impressive.",
+          "quote": "Fund II closed in record time, largely due to their digital presence. Investor portal saved countless hours and impressed LPs.",
           "name": "Elena Vasquez",
           "role": "Managing Partner",
           "company": "Catalyst Ventures",
@@ -170,7 +170,7 @@
         },
         {
           "id": "t4",
-          "quote": "They took the time to understand our kitchen operations, not just our brand. The result was an ordering experience that actually improved our operational efficiency while delighting our guests. That's rare.",
+          "quote": "Understood our kitchen operations, not just brand. Ordering experience improved operational efficiency while delighting guests. Rare.",
           "name": "James Nakamura",
           "role": "Executive Chef & Owner",
           "company": "Harvest Kitchen",
@@ -183,7 +183,7 @@
       "id": "contact-1",
       "layout": "fullbleed",
       "heading": "Let's build something that matters together",
-      "subheading": "Currently accepting projects for Q2 2025. Initial consultations are free and typically result in actionable insights, regardless of whether we work together.",
+      "subheading": "Accepting projects for Q2 2025. Free initial consultations with actionable insights.",
       "email": "hello@studiocraft.co",
       "phone": "+1 (555) 234-5678",
       "location": "San Francisco & Remote",

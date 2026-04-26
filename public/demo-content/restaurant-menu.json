@@ -33,7 +33,7 @@
       "id": "hero-1",
       "style": "asymmetric",
       "headline": "SEASONAL. LOCAL. UNFORGETTABLE.",
-      "subheadline": "A celebration of seasonal ingredients sourced from 20+ local farms. Every dish tells a story of the land it came from, prepared with intention and served with care. One Michelin star, eight years of excellence. When ingredients this good, you don't need to hide them.",
+      "subheadline": "20+ local farms. 1 Michelin star. 8 years. 4.9 rating. 95% return rate.",
       "tagline": "SAVOR",
       "cta": {
         "text": "View current menu",
@@ -54,7 +54,7 @@
       "id": "about-1",
       "layout": "editorial",
       "heading": "OUR PHILOSOPHY",
-      "body": "We believe great food starts with great ingredients. That's why we partner with 20+ local farms to source the freshest seasonal produce. Our menu changes weekly to reflect what's available, ensuring every dish is at its peak. Chef Maria Santos brings 15 years of experience from Michelin-starred kitchens to create simple, elegant dishes that let ingredients shine.\n\nWe don't do molecular gastronomy. We don't do fusion confusion. We do ingredient-driven cooking that respects the source. When you eat at Savor, you're tasting the terroir of our region. Every carrot has a farm. Every fish has a fisherman. Every dish has a story.",
+      "body": "Ingredient-driven cooking. 20+ farms. Weekly menu changes. $2M to local economy.",
       "stats": [
         { "label": "Farm partners", "value": "20+" },
         { "label": "Menu changes", "value": "Weekly" },
@@ -124,7 +124,7 @@
       "items": [
         {
           "id": "t1",
-          "quote": "The best meal I've had in years. Every dish was thoughtful, beautifully presented, and absolutely delicious. The seasonal approach really shines—you can taste the difference.",
+          "quote": "Best meal in years. Recommended to 20+ friends. They all agree.",
           "name": "Amanda Foster",
           "role": "Food Blogger",
           "company": "Eats Weekly",
@@ -132,7 +132,7 @@
         },
         {
           "id": "t2",
-          "quote": "We've been coming here for years and it never disappoints. The commitment to local ingredients is genuine, and you can taste the difference. 50+ visits and counting.",
+          "quote": "50+ visits. Never disappoints. Celebrate every special occasion here.",
           "name": "David Park",
           "role": "Regular",
           "company": "Local Resident",
@@ -140,7 +140,7 @@
         },
         {
           "id": "t3",
-          "quote": "Chef Maria Santos is a genius. The heirloom carrot dish alone is worth the visit. Simple ingredients, extraordinary execution. This is what farm-to-table should be.",
+          "quote": "Chef Maria Santos is a genius. Heirloom carrots worth the visit. Send students here.",
           "name": "Sarah Chen",
           "role": "Chef",
           "company": "Bistro 7",
@@ -148,7 +148,7 @@
         },
         {
           "id": "t4",
-          "quote": "The Michelin star is well-deserved. Every course was a revelation. The wine pairing was exceptional. Worth every penny and more.",
+          "quote": "Michelin star well-deserved. Every course a revelation. Go-to date night spot.",
           "name": "Michael Torres",
           "role": "Wine Enthusiast",
           "company": "Portland Monthly",
@@ -161,7 +161,7 @@
       "id": "contact-1",
       "layout": "card",
       "heading": "JOIN US FOR DINNER",
-      "subheading": "Open Tuesday-Sunday, 5pm-10pm. Reservations strongly recommended for weekends. Private dining available for events up to 20 guests.",
+      "subheading": "Tue-Sun, 5pm-10pm. Weekend reservations recommended. Private dining for 20.",
       "email": "reservations@savor.restaurant",
       "phone": "(555) 123-4567",
       "location": "123 Farm Road, Portland, OR",

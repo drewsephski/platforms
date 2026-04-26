@@ -20,7 +20,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { toast } from 'sonner';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { CreditDisplay } from '@/components/credit-display';
 import { Save, Eye, ArrowLeft, Loader2, Globe, ExternalLink, Type, User, FolderGit2, Mail, Plus, Trash2, Settings2, FileText, Monitor, ArrowRight, ArrowLeft as ArrowLeftIcon, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { getSiteUrl } from '@/lib/utils';
@@ -432,9 +432,9 @@ export function SiteEditor({ site }: { site: Site }) {
           </div>
         </FieldGroup>
 
-        <FieldGroup title={`Projects (${projectsSection.items.length})`}>
+        <FieldGroup title={`Projects (${(projectsSection.items || []).length})`}>
           <div className="space-y-3">
-            {projectsSection.items.map((item, idx) => (
+            {(projectsSection.items || []).map((item, idx) => (
               <div key={item.id} className="rounded-lg border border-border/60 bg-muted/20 p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-muted-foreground">Project {idx + 1}</span>
@@ -443,7 +443,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     variant="ghost"
                     size="sm"
                     onClick={() => {
-                      const newItems = projectsSection.items.filter((_, i) => i !== idx);
+                      const newItems = (projectsSection.items || []).filter((_, i) => i !== idx);
                       updateSection(section.id, { items: newItems });
                     }}
                     className="h-7 px-2 text-xs text-muted-foreground hover:text-destructive"
@@ -455,7 +455,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Input
                     value={item.title}
                     onChange={(e) => {
-                      const newItems = [...projectsSection.items];
+                      const newItems = [...(projectsSection.items || [])];
                       newItems[idx] = { ...item, title: e.target.value };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -467,7 +467,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Textarea
                     value={item.description}
                     onChange={(e) => {
-                      const newItems = [...projectsSection.items];
+                      const newItems = [...(projectsSection.items || [])];
                       newItems[idx] = { ...item, description: e.target.value };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -481,7 +481,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     <Input
                       value={item.href || ''}
                       onChange={(e) => {
-                        const newItems = [...projectsSection.items];
+                        const newItems = [...(projectsSection.items || [])];
                         newItems[idx] = { ...item, href: e.target.value };
                         updateSection(section.id, { items: newItems });
                       }}
@@ -493,7 +493,7 @@ export function SiteEditor({ site }: { site: Site }) {
                     <Input
                       value={item.accentColor || ''}
                       onChange={(e) => {
-                        const newItems = [...projectsSection.items];
+                        const newItems = [...(projectsSection.items || [])];
                         newItems[idx] = { ...item, accentColor: e.target.value };
                         updateSection(section.id, { items: newItems });
                       }}
@@ -506,7 +506,7 @@ export function SiteEditor({ site }: { site: Site }) {
                   <Input
                     value={item.tags?.join(', ') || ''}
                     onChange={(e) => {
-                      const newItems = [...projectsSection.items];
+                      const newItems = [...(projectsSection.items || [])];
                       newItems[idx] = { ...item, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) };
                       updateSection(section.id, { items: newItems });
                     }}
@@ -522,7 +522,7 @@ export function SiteEditor({ site }: { site: Site }) {
               size="sm"
               onClick={() =>
                 updateSection(section.id, {
-                  items: [...projectsSection.items, { id: `proj-${Date.now()}`, title: '', description: '', accentColor: '#1e3a5f' }],
+                  items: [...(projectsSection.items || []), { id: `proj-${Date.now()}`, title: '', description: '', accentColor: '#1e3a5f' }],
                 })
               }
               className="w-full h-9 text-xs"
@@ -696,23 +696,23 @@ export function SiteEditor({ site }: { site: Site }) {
     };
 
     return (
-      <AccordionItem value={section.id} className="border-b border-border last:border-b-0">
-        <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/50 transition-colors duration-200 [&[data-state=open]]:bg-muted/50">
+      <AccordionItem value={section.id} className="border border-border bg-background px-4 first:rounded-t-lg last:rounded-b-lg last:border-b">
+        <AccordionTrigger className="hover:no-underline py-4">
           <div className="flex items-center gap-3">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10 text-primary"
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 text-primary"
             >
               {config.icon}
             </motion.div>
-            <div className="text-left">
-              <h3 className="text-sm font-medium">{config.label}</h3>
-              <p className="text-xs text-muted-foreground">{config.description}</p>
+            <div className="flex flex-col items-start text-left">
+              <span className="text-sm font-medium">{config.label}</span>
+              <span className="text-xs text-muted-foreground">{config.description}</span>
             </div>
           </div>
         </AccordionTrigger>
-        <AccordionContent className="px-4 pb-4 overflow-hidden">
+        <AccordionContent className="ps-14">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -731,9 +731,9 @@ export function SiteEditor({ site }: { site: Site }) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      {/* Editor Toolbar */}
+      <div className="sticky top-14 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link 
               href="/dashboard"
@@ -752,12 +752,13 @@ export function SiteEditor({ site }: { site: Site }) {
           </div>
           
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            <CreditDisplay compact showPurchase={false} />
+            <div className="h-4 w-px bg-border hidden sm:block" />
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setEditorOnLeft(!editorOnLeft)}
-              className="h-8 w-8"
+              className="h-8 w-8 hidden sm:flex"
               title="Toggle layout"
             >
               {editorOnLeft ? (
@@ -767,7 +768,7 @@ export function SiteEditor({ site }: { site: Site }) {
               )}
             </Button>
             {lastSaved && (
-              <span className="hidden sm:block text-xs text-muted-foreground">
+              <span className="hidden md:block text-xs text-muted-foreground">
                 Saved {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
             )}
@@ -808,7 +809,7 @@ export function SiteEditor({ site }: { site: Site }) {
             )}
           </div>
         </div>
-      </nav>
+      </div>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div className="grid lg:grid-cols-2 gap-6">
@@ -833,7 +834,7 @@ export function SiteEditor({ site }: { site: Site }) {
                 type="multiple"
                 value={openSections}
                 onValueChange={setOpenSections}
-                className="border border-border rounded-lg overflow-hidden bg-background"
+                className="w-full -space-y-px"
               >
                 <AnimatePresence mode="popLayout">
                   {content.sections

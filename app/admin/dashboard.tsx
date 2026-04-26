@@ -3,13 +3,15 @@
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2, Loader2, ExternalLink, ArrowLeft, LayoutGrid, AlertCircle, Check } from 'lucide-react';
+import { Trash2, Loader2, ExternalLink, ArrowLeft, AlertCircle, Check } from 'lucide-react';
 import Link from 'next/link';
 import { deleteSubdomainAction } from '@/app/actions';
 import { rootDomain, protocol, getSiteUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
+import TextReveal from '@/components/ui/text-reveal';
+import { PlatformsLogo } from '@/components/platforms-logo';
 
-type Tenant = {
+type Site = {
   subdomain: string;
   emoji: string;
   createdAt: number;
@@ -20,7 +22,7 @@ type DeleteState = {
   success?: string;
 };
 
-function DashboardHeader({ tenantCount }: { tenantCount: number }) {
+function DashboardHeader({ siteCount }: { siteCount: number }) {
   return (
     <div className="mb-10 animate-fade-in">
       <div className="flex items-center gap-2 mb-4">
@@ -36,18 +38,18 @@ function DashboardHeader({ tenantCount }: { tenantCount: number }) {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <LayoutGrid className="w-5 h-5 text-muted-foreground" />
+            <PlatformsLogo className="w-5 h-5 text-muted-foreground" />
             <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
               Admin
             </span>
           </div>
-          <h1 className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold tracking-tight text-foreground">
-            Subdomain Management
-          </h1>
+          <div className="text-[clamp(1.75rem,4vw,2.25rem)] font-semibold tracking-tight text-foreground">
+            <TextReveal word="Site Management" className="!border-none !bg-transparent !p-0 !min-h-auto" showButton={false} tag="h1" />
+          </div>
           <p className="mt-1.5 text-muted-foreground">
-            {tenantCount === 0 
-              ? "No subdomains created yet" 
-              : `Managing ${tenantCount} subdomain${tenantCount === 1 ? '' : 's'}`
+            {siteCount === 0 
+              ? "No sites created yet" 
+              : `Managing ${siteCount} site${siteCount === 1 ? '' : 's'}`
             }
           </p>
         </div>
@@ -66,18 +68,18 @@ function DashboardHeader({ tenantCount }: { tenantCount: number }) {
   );
 }
 
-function TenantCard({
-  tenant,
+function SiteCard({
+  site,
   action,
   isPending,
   index
 }: {
-  tenant: Tenant;
+  site: Site;
   action: (formData: FormData) => void;
   isPending: boolean;
   index: number;
 }) {
-  const fullUrl = getSiteUrl(tenant.subdomain);
+  const fullUrl = getSiteUrl(site.subdomain);
   
   return (
     <Card 
@@ -92,14 +94,14 @@ function TenantCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-xl">
-              {tenant.emoji}
+              {site.emoji}
             </div>
             <div className="min-w-0">
               <CardTitle className="text-base font-medium truncate">
-                {tenant.subdomain}
+                {site.subdomain}
               </CardTitle>
               <p className="text-xs text-muted-foreground mt-0.5">
-                {new Date(tenant.createdAt).toLocaleDateString('en-US', {
+                {new Date(site.createdAt).toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric'
@@ -109,7 +111,7 @@ function TenantCard({
           </div>
           
           <form action={action} className="flex-shrink-0">
-            <input type="hidden" name="subdomain" value={tenant.subdomain} />
+            <input type="hidden" name="subdomain" value={site.subdomain} />
             <Button
               variant="ghost"
               size="icon"
@@ -142,33 +144,33 @@ function TenantCard({
   );
 }
 
-function TenantGrid({
-  tenants,
+function SiteGrid({
+  sites,
   action,
   isPending
 }: {
-  tenants: Tenant[];
+  sites: Site[];
   action: (formData: FormData) => void;
   isPending: boolean;
 }) {
-  if (tenants.length === 0) {
+  if (sites.length === 0) {
     return (
       <Card className="border-dashed border-border/60 bg-muted/20">
         <CardContent className="py-16 text-center">
           <div className="w-12 h-12 rounded-full bg-secondary mx-auto mb-4 flex items-center justify-center">
-            <LayoutGrid className="w-6 h-6 text-muted-foreground" />
+            <PlatformsLogo className="w-6 h-6 text-muted-foreground" />
           </div>
           <h3 className="text-base font-medium text-foreground mb-1">
-            No subdomains yet
+            No sites yet
           </h3>
           <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-            Create your first subdomain from the main page to get started.
+            Create your first site from the main page to get started.
           </p>
           <Link
             href={`${protocol}://${rootDomain}`}
             className="group inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-foreground hover:underline"
           >
-            Create a subdomain
+            Create a site
             <ArrowLeft className="w-3.5 h-3.5 rotate-180 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         </CardContent>
@@ -178,10 +180,10 @@ function TenantGrid({
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {tenants.map((tenant, index) => (
-        <TenantCard
-          key={tenant.subdomain}
-          tenant={tenant}
+      {sites.map((site, index) => (
+        <SiteCard
+          key={site.subdomain}
+          site={site}
           action={action}
           isPending={isPending}
           index={index}
@@ -216,7 +218,7 @@ function Toast({ type, message, onClose }: { type: 'error' | 'success'; message:
   );
 }
 
-export function AdminDashboard({ tenants }: { tenants: Tenant[] }) {
+export function AdminDashboard({ sites }: { sites: Site[] }) {
   const [state, action, isPending] = useActionState<DeleteState, FormData>(
     deleteSubdomainAction,
     {}
@@ -225,8 +227,8 @@ export function AdminDashboard({ tenants }: { tenants: Tenant[] }) {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-6 py-8 md:py-12">
-        <DashboardHeader tenantCount={tenants.length} />
-        <TenantGrid tenants={tenants} action={action} isPending={isPending} />
+        <DashboardHeader siteCount={sites.length} />
+        <SiteGrid sites={sites} action={action} isPending={isPending} />
 
         {state.error && (
           <Toast type="error" message={state.error} />

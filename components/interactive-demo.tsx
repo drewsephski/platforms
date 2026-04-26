@@ -227,8 +227,10 @@ export function InteractiveDemo() {
         
         {generatedContent && step === 'complete' && (
           <div className="bg-background rounded-lg border border-border/30 overflow-hidden transition-all duration-700 ease-out-quart">
-            <div className="max-h-[600px] overflow-y-auto overflow-x-hidden">
-              <SiteRenderer content={generatedContent} />
+            <div className="max-h-[600px] overflow-y-auto overflow-x-hidden demo-preview">
+              <div className="w-full overflow-x-hidden site-renderer">
+                <SiteRenderer content={generatedContent} />
+              </div>
             </div>
           </div>
         )}

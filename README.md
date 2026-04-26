@@ -1,23 +1,24 @@
 # Platforms
 
-A production-ready multi-tenant application built with Next.js 15, featuring custom subdomains for each tenant. Transform prompts into production-ready websites instantly.
+A production-ready multi-tenant application built with Next.js 15, featuring path-based routing for each site. Transform prompts into production-ready websites instantly.
 
 ## Features
 
-- ✅ Custom subdomain routing with Next.js middleware
-- ✅ Tenant-specific content and pages
-- ✅ Shared components and layouts across tenants
-- ✅ Redis for tenant data storage
-- ✅ Admin interface for managing tenants
-- ✅ Emoji support for tenant branding
-- ✅ Support for local development with subdomains
+- ✅ Path-based site routing with Next.js middleware
+- ✅ Site-specific content and pages
+- ✅ Shared components and layouts across sites
+- ✅ Supabase for data storage
+- ✅ Admin interface for managing sites
+- ✅ Emoji support for site branding
+- ✅ AI-powered site generation
 - ✅ Compatible with Vercel preview deployments
 
 ## Tech Stack
 
 - [Next.js 15](https://nextjs.org/) with App Router
 - [React 19](https://react.dev/)
-- [Upstash Redis](https://upstash.com/) for data storage
+- [Supabase](https://supabase.com/) for database and auth
+- [Upstash Redis](https://upstash.com/) for caching
 - [Tailwind 4](https://tailwindcss.com/) for styling
 - [shadcn/ui](https://ui.shadcn.com/) for the design system
 
@@ -27,7 +28,8 @@ A production-ready multi-tenant application built with Next.js 15, featuring cus
 
 - Node.js 18.17.0 or later
 - pnpm (recommended) or npm/yarn
-- Upstash Redis account (for production)
+- Supabase account (for database and auth)
+- Upstash Redis account (for caching)
 
 ### Installation
 
@@ -48,6 +50,8 @@ A production-ready multi-tenant application built with Next.js 15, featuring cus
    Create a `.env.local` file in the root directory with:
 
    ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    KV_REST_API_URL=your_redis_url
    KV_REST_API_TOKEN=your_redis_token
    ```
@@ -59,21 +63,21 @@ A production-ready multi-tenant application built with Next.js 15, featuring cus
    ```
 
 5. Access the application:
-   - Main site: http://localhost:3000
-   - Admin panel: http://localhost:3000/admin
-   - Tenants: http://[tenant-name].localhost:3000
+   - Main site: <http://localhost:3000>
+   - Admin panel: <http://localhost:3000/admin>
+   - Sites: <http://localhost:3000/s/[site-name]>
 
-## Multi-Tenant Architecture
+## Architecture
 
-This application demonstrates a subdomain-based multi-tenant architecture where:
+This application demonstrates a path-based multi-tenant architecture where:
 
-- Each tenant gets their own subdomain (`tenant.yourdomain.com`)
-- The middleware handles routing requests to the correct tenant
-- Tenant data is stored in Redis using a `subdomain:{name}` key pattern
+- Each site gets its own path (`/s/[site-name]`)
+- The middleware handles routing requests to the correct site
+- Site data is stored in Supabase with caching in Redis
 - The main domain hosts the landing page and admin interface
-- Subdomains are dynamically mapped to tenant-specific content
+- Sites are dynamically mapped to site-specific content
 
-The middleware (`middleware.ts`) intelligently detects subdomains across various environments (local development, production, and Vercel preview deployments).
+The middleware (`middleware.ts`) handles routing across various environments (local development, production, and Vercel preview deployments).
 
 ## Deployment
 
@@ -84,7 +88,4 @@ This application is designed to be deployed on Vercel. To deploy:
 3. Configure environment variables
 4. Deploy
 
-For custom domains, make sure to:
-
-1. Add your root domain to Vercel
-2. Set up a wildcard DNS record (`*.yourdomain.com`) on Vercel
+No special DNS configuration is required for path-based routing.

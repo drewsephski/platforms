@@ -43,76 +43,89 @@ export type Theme = {
 export type HeroSection = {
   type: 'hero';
   id: string;
-  headline: string;
+  headline?: string;
   subheadline?: string;
   tagline?: string;
-  cta?: { text: string; href: string; variant?: 'primary' | 'secondary' | 'ghost' };
-  secondaryCta?: { text: string; href: string };
-  style: 'centered' | 'split' | 'minimal' | 'asymmetric' | 'fullbleed';
+  cta?: { text?: string; href?: string; variant?: 'primary' | 'secondary' | 'ghost' };
+  secondaryCta?: { text?: string; href?: string };
+  style?: 'centered' | 'split' | 'minimal' | 'asymmetric' | 'fullbleed';
   layout?: {
     textAlign?: 'left' | 'center' | 'right';
     verticalAlign?: 'top' | 'center' | 'bottom';
-    decorative?: 'none' | 'shapes' | 'lines' | 'texture' | 'gradient';
+    decorative?: 'none' | 'shapes' | 'lines' | 'texture' | 'gradient' | 'grain' | 'mesh' | 'aurora';
   };
+  backgroundEffect?: 'none' | 'gradient' | 'mesh' | 'aurora' | 'noise' | 'dots' | 'lines';
 };
 
 export type AboutSection = {
   type: 'about';
   id: string;
-  heading: string;
-  body: string;
+  heading?: string;
+  body?: string;
   avatarUrl?: string;
-  layout?: 'standard' | 'split' | 'editorial' | 'minimal';
-  stats?: { label: string; value: string }[];
+  imageUrl?: string;
+  layout?: 'standard' | 'split' | 'editorial' | 'minimal' | 'cards' | 'timeline';
+  stats?: { label?: string; value?: string }[];
+  features?: { title?: string; description?: string; icon?: string }[];
 };
 
 export type ProjectItem = {
   id: string;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   href?: string;
   tags?: string[];
   imageUrl?: string;
   accentColor?: string;
   size?: 'small' | 'medium' | 'large';
+  category?: string;
+  year?: string;
 };
 
 export type ProjectsSection = {
   type: 'projects';
   id: string;
-  heading: string;
+  heading?: string;
   subheading?: string;
-  items: ProjectItem[];
-  layout?: 'grid' | 'list' | 'masonry' | 'featured';
-  columns?: 1 | 2 | 3;
+  items?: ProjectItem[];
+  layout?: 'grid' | 'list' | 'masonry' | 'featured' | 'carousel' | 'bento';
+  columns?: 1 | 2 | 3 | 4;
+  filterable?: boolean;
 };
 
 export type TestimonialsSection = {
   type: 'testimonials';
   id: string;
   heading?: string;
-  items: {
+  subheading?: string;
+  items?: {
     id: string;
-    quote: string;
-    name: string;
+    quote?: string;
+    name?: string;
     role?: string;
     company?: string;
     outcome?: string;
+    avatarUrl?: string;
+    rating?: number;
   }[];
-  layout?: 'grid' | 'masonry' | 'carousel';
+  layout?: 'grid' | 'masonry' | 'carousel' | 'stack' | 'floating';
 };
 
 export type ContactSection = {
   type: 'contact';
   id: string;
-  heading: string;
+  heading?: string;
   subheading?: string;
+  body?: string;
   email?: string;
   phone?: string;
   location?: string;
-  links?: { label: string; href: string; icon?: string }[];
-  layout?: 'simple' | 'split' | 'card' | 'fullbleed';
-  cta?: { text: string; href: string };
+  availability?: string;
+  responseTime?: string;
+  links?: { label?: string; href?: string; icon?: string }[];
+  layout?: 'simple' | 'split' | 'card' | 'fullbleed' | 'minimal';
+  cta?: { text?: string; href?: string; variant?: 'primary' | 'secondary' | 'ghost' };
+  socials?: { platform?: string; url?: string; handle?: string }[];
 };
 
 export type StatsSection = {
@@ -219,6 +232,38 @@ export const ColorPaletteSchema = z.object({
   border: z.string().optional(),
 });
 
+// Default content generators for guaranteed rendering
+export const defaultContent = {
+  hero: {
+    headline: 'Craft something extraordinary',
+    subheadline: 'We build digital experiences that captivate, convert, and create lasting impressions.',
+    tagline: 'Welcome',
+    cta: { text: 'Get Started', href: '#contact', variant: 'primary' as const },
+  },
+  about: {
+    heading: 'About Us',
+    body: 'We are a team of creators, strategists, and builders dedicated to crafting exceptional digital experiences. Our work bridges the gap between vision and reality, transforming ideas into impactful solutions.',
+  },
+  projects: {
+    heading: 'Our Work',
+    items: [
+      { id: '1', title: 'Featured Project', description: 'A showcase of craft and attention to detail', href: '#', tags: [], imageUrl: undefined, size: 'medium' as const },
+      { id: '2', title: 'Recent Work', description: 'Designed with purpose and built with precision', href: '#', tags: [], imageUrl: undefined, size: 'medium' as const },
+    ],
+  },
+  testimonials: {
+    heading: 'What People Say',
+    items: [
+      { id: '1', quote: 'Exceptional work that exceeded all expectations.', name: 'Client Name', role: undefined, company: undefined, outcome: undefined, avatarUrl: undefined, rating: undefined },
+    ],
+  },
+  contact: {
+    heading: 'Get in Touch',
+    subheading: 'We would love to hear from you.',
+    email: 'hello@example.com',
+  },
+};
+
 // Helper to make enum fields more permissive for AI generation
 const permissiveEnum = <T extends readonly [string, ...string[]]>(
   values: T,
@@ -243,86 +288,99 @@ export const ThemeSchema = z.object({
 export const HeroSectionSchema = z.object({
   type: z.literal('hero'),
   id: z.string().default(() => `hero-${Date.now()}`),
-  headline: z.string().min(1, 'Headline is required').max(100, 'Headline must be under 100 characters'),
-  subheadline: z.string().max(200, 'Subheadline must be under 200 characters').optional(),
-  tagline: z.string().max(80, 'Tagline must be under 80 characters').optional(),
+  headline: z.string().min(1).max(100).optional().default(defaultContent.hero.headline),
+  subheadline: z.string().max(300).optional().default(defaultContent.hero.subheadline),
+  tagline: z.string().max(80).optional().default(defaultContent.hero.tagline),
   cta: z.object({
-    text: z.string().optional().default('Get Started'),
-    href: z.string().optional().default('#'),
-    variant: z.enum(['primary', 'secondary', 'ghost']).optional().or(z.literal('')).transform(v => v || undefined),
-  }).optional(),
-  secondaryCta: z.object({ text: z.string(), href: z.string() }).optional(),
-  style: permissiveEnum(['centered', 'split', 'minimal', 'asymmetric', 'fullbleed'], 'centered'),
+    text: z.string().optional().default(defaultContent.hero.cta.text),
+    href: z.string().optional().default(defaultContent.hero.cta.href),
+    variant: z.enum(['primary', 'secondary', 'ghost']).optional().default('primary'),
+  }).optional().default(defaultContent.hero.cta),
+  secondaryCta: z.object({ text: z.string().optional(), href: z.string().optional() }).optional(),
+  style: permissiveEnum(['centered', 'split', 'minimal', 'asymmetric', 'fullbleed'], 'centered').optional().default('centered'),
   layout: z.object({
-    textAlign: permissiveEnum(['left', 'center', 'right'], 'left').optional(),
-    verticalAlign: permissiveEnum(['top', 'center', 'bottom'], 'center').optional(),
-    decorative: permissiveEnum(['none', 'shapes', 'lines', 'texture', 'gradient'], 'none').optional(),
-  }).optional().or(z.string()).transform(v => typeof v === 'string' ? undefined : v),
+    textAlign: permissiveEnum(['left', 'center', 'right'], 'center').optional().default('center'),
+    verticalAlign: permissiveEnum(['top', 'center', 'bottom'], 'center').optional().default('center'),
+    decorative: permissiveEnum(['none', 'shapes', 'lines', 'texture', 'gradient', 'grain', 'mesh', 'aurora'], 'gradient').optional().default('gradient'),
+  }).optional().default({ textAlign: 'center', verticalAlign: 'center', decorative: 'gradient' }),
+  backgroundEffect: permissiveEnum(['none', 'gradient', 'mesh', 'aurora', 'noise', 'dots', 'lines'], 'gradient').optional().default('gradient'),
 }).passthrough();
 
 export const AboutSectionSchema = z.object({
   type: z.literal('about'),
   id: z.string().default(() => `about-${Date.now()}`),
-  heading: z.string().optional().default('About Us').transform(v => v || 'About Us'),
-  body: z.string().optional().transform(v => v || 'Tell your story here.'),
+  heading: z.string().optional().default(defaultContent.about.heading),
+  body: z.string().optional().default(defaultContent.about.body),
   avatarUrl: optionalString(),
-  layout: permissiveEnum(['standard', 'split', 'editorial', 'minimal'], 'standard').optional(),
-  stats: z.array(z.object({ label: z.string(), value: z.string() })).optional().default([]),
+  imageUrl: optionalString(),
+  layout: permissiveEnum(['standard', 'split', 'editorial', 'minimal', 'cards', 'timeline'], 'editorial').optional().default('editorial'),
+  stats: z.array(z.object({ label: z.string().optional(), value: z.string().optional() })).optional().default([]),
+  features: z.array(z.object({ title: z.string().optional(), description: z.string().optional(), icon: z.string().optional() })).optional().default([]),
 }).passthrough();
 
 export const ProjectItemSchema = z.object({
   id: z.string(),
-  title: z.string().optional().default('Project Title').transform(v => v || 'Project Title'),
-  description: z.string().optional().default('Project description goes here.').transform(v => v || 'Project description goes here.'),
-  href: optionalString(),
+  title: z.string().optional().default('Project'),
+  description: z.string().optional().default('A showcase of craft and attention to detail.'),
+  href: z.string().optional().default('#'),
   tags: z.array(z.string()).optional().default([]),
   imageUrl: optionalString(),
   accentColor: z.string().optional(),
-  size: permissiveEnum(['small', 'medium', 'large'], 'medium').optional(),
+  size: permissiveEnum(['small', 'medium', 'large'], 'medium').optional().default('medium'),
+  category: z.string().optional(),
+  year: z.string().optional(),
 });
 
 export const ProjectsSectionSchema = z.object({
   type: z.literal('projects'),
   id: z.string().default(() => `projects-${Date.now()}`),
-  heading: z.string().optional().default('Projects').transform(v => v || 'Projects'),
+  heading: z.string().optional().default(defaultContent.projects.heading),
   subheading: z.string().optional(),
-  items: z.array(ProjectItemSchema).default([]),
-  layout: permissiveEnum(['grid', 'list', 'masonry', 'featured'], 'grid').optional(),
-  columns: z.union([z.literal(1), z.literal(2), z.literal(3)]).optional(),
+  items: z.array(ProjectItemSchema).default(defaultContent.projects.items),
+  layout: permissiveEnum(['grid', 'list', 'masonry', 'featured', 'carousel', 'bento'], 'featured').optional().default('featured'),
+  columns: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).optional(),
+  filterable: z.boolean().optional().default(false),
 }).passthrough();
 
 export const TestimonialsSectionSchema = z.object({
   type: z.literal('testimonials'),
   id: z.string().default(() => `testimonials-${Date.now()}`),
-  heading: z.string().optional().default('Testimonials').transform(v => v || 'Testimonials'),
+  heading: z.string().optional().default(defaultContent.testimonials.heading),
+  subheading: z.string().optional(),
   items: z.array(
     z.object({
       id: z.string(),
-      quote: z.string().optional().default('Great experience!').transform(v => v || 'Great experience!'),
-      name: z.string().optional().default('Client').transform(v => v || 'Client'),
+      quote: z.string().optional().default('Exceptional work that exceeded expectations.'),
+      name: z.string().optional().default('Client'),
       role: z.string().optional(),
       company: z.string().optional(),
       outcome: z.string().optional(),
+      avatarUrl: z.string().optional(),
+      rating: z.number().min(1).max(5).optional(),
     })
-  ).default([]),
-  layout: permissiveEnum(['grid', 'masonry', 'carousel'], 'grid').optional(),
+  ).default(defaultContent.testimonials.items),
+  layout: permissiveEnum(['grid', 'masonry', 'carousel', 'stack', 'floating'], 'masonry').optional().default('masonry'),
 }).passthrough();
 
 export const ContactSectionSchema = z.object({
   type: z.literal('contact'),
   id: z.string().default(() => `contact-${Date.now()}`),
-  heading: z.string().optional().default('Contact Us').transform(v => v || 'Contact Us'),
-  subheading: z.string().optional(),
-  email: optionalString(),
+  heading: z.string().optional().default(defaultContent.contact.heading),
+  subheading: z.string().optional().default(defaultContent.contact.subheading),
+  body: z.string().optional(),
+  email: z.string().optional().default(defaultContent.contact.email),
   phone: z.string().optional(),
   location: z.string().optional(),
+  availability: z.string().optional(),
+  responseTime: z.string().optional(),
   links: z.array(z.object({
-    label: z.string().optional().default('Link').transform(v => v || 'Link'),
-    href: z.string().optional().default('#').transform(v => v || '#'),
+    label: z.string().optional().default('Link'),
+    href: z.string().optional().default('#'),
     icon: z.string().optional(),
   })).optional().default([]),
-  layout: permissiveEnum(['simple', 'split', 'card', 'fullbleed'], 'simple').optional(),
-  cta: z.object({ text: z.string(), href: z.string() }).optional(),
+  layout: permissiveEnum(['simple', 'split', 'card', 'fullbleed', 'minimal'], 'split').optional().default('split'),
+  cta: z.object({ text: z.string().optional(), href: z.string().optional(), variant: z.enum(['primary', 'secondary', 'ghost']).optional() }).optional(),
+  socials: z.array(z.object({ platform: z.string().optional(), url: z.string().optional(), handle: z.string().optional() })).optional().default([]),
 }).passthrough();
 
 export const RawSectionSchema = z.object({
