@@ -36,7 +36,7 @@ export default async function RootLayout({
     isAdmin = profile?.role === 'admin';
   }
 
-  const userData = user ? { email: user.email, isAdmin } : null;
+  const userData = user ? { email: user.email ?? null, isAdmin } : null;
 
   return (
     <html lang="en" suppressHydrationWarning>
