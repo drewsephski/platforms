@@ -97,9 +97,10 @@ BEGIN
         updated_at = now()
     WHERE user_id = user_uuid;
   ELSE
+    -- Use up all purchased credits first, then deduct remainder from monthly
     UPDATE public.user_credits
     SET monthly_credits = GREATEST(0, monthly_credits - (amount - COALESCE(purchased, 0))),
-        purchased_credits = GREATEST(0, purchased_credits - amount + monthly),
+        purchased_credits = 0,
         updated_at = now()
     WHERE user_id = user_uuid;
   END IF;

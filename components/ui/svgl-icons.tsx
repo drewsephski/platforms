@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 
@@ -39,6 +39,10 @@ export default function SvglTechLogos() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const clearHover = useCallback(() => {
+    setHoveredId(null);
+  }, []);
+
   useEffect(() => {
     async function fetchSvgs() {
       try {
@@ -57,6 +61,12 @@ export default function SvglTechLogos() {
 
     fetchSvgs();
   }, []);
+
+  // Safety: reset hover when window loses focus (prevents stuck state)
+  useEffect(() => {
+    window.addEventListener("blur", clearHover);
+    return () => window.removeEventListener("blur", clearHover);
+  }, [clearHover]);
 
   const activeSvg = svgs.find((s) => s.id === hoveredId);
 
@@ -123,7 +133,10 @@ export default function SvglTechLogos() {
       </div>
 
       {/* Right: icon grid */}
-      <div className="grid grid-cols-6 sm:flex sm:flex-wrap items-center justify-center sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto md:mt-6 sm:mt-0">
+      <div 
+        className="grid grid-cols-6 sm:flex sm:flex-wrap items-center justify-center sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto md:mt-6 sm:mt-0"
+        onMouseLeave={clearHover}
+      >
         {svgs.map((svg) => {
           const isActive = hoveredId === svg.id;
           const isDimmed = hoveredId !== null && !isActive;
