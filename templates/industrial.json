@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#e2e8f0",
-      "accent": "#f97316",
+      "accent": "#06b6d4",
       "background": "#0f172a",
       "surface": "#1e293b",
       "text": "#e2e8f0",
@@ -78,7 +78,7 @@
           "description": "Distributed message queue: 10M+ messages/day. Exactly-once semantics, dead letter queues, monitoring. Go + Kafka.",
           "href": "#",
           "tags": ["Go", "Kafka", "Monitoring", "Distributed Systems"],
-          "accentColor": "#f97316"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "project-2",
@@ -86,7 +86,7 @@
           "description": "High-performance API gateway: rate limiting, circuit breaking, routing. 50K+ RPS. Rust + Kubernetes.",
           "href": "#",
           "tags": ["Rust", "Kubernetes", "Networking", "High Performance"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "project-3",
@@ -94,7 +94,7 @@
           "description": "Custom observability platform: metrics, traces, logs. Prometheus, Jaeger, Elasticsearch. Unified monitoring.",
           "href": "#",
           "tags": ["Observability", "Prometheus", "Grafana", "Monitoring"],
-          "accentColor": "#f97316"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "project-4",
@@ -102,7 +102,7 @@
           "description": "Internal dev platform for automated deployments. GitOps, progressive delivery, automated rollback. 80% deployment time reduction.",
           "href": "#",
           "tags": ["DevOps", "ArgoCD", "Kubernetes", "Automation"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "project-5",
@@ -110,7 +110,7 @@
           "description": "Zero-downtime PostgreSQL migration tool. Schema changes, data transformation, rollback. 5TB migrated without downtime.",
           "href": "#",
           "tags": ["PostgreSQL", "Go", "Migration", "Database"],
-          "accentColor": "#f97316"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "project-6",
@@ -118,7 +118,7 @@
           "description": "Service mesh for microservices. mTLS, traffic management, policy enforcement. Secured 200+ microservices.",
           "href": "#",
           "tags": ["Istio", "Envoy", "Security", "Microservices"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "project-7",
@@ -126,7 +126,7 @@
           "description": "Custom L7 load balancer: intelligent routing, health checks, autoscaling. 100K+ concurrent connections. Go.",
           "href": "#",
           "tags": ["Go", "Networking", "Load Balancing", "High Availability"],
-          "accentColor": "#f97316"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "project-8",
@@ -134,7 +134,7 @@
           "description": "Centralized logging: 1TB+ daily logs. Real-time search, alerting, retention policies. ELK stack.",
           "href": "#",
           "tags": ["Elasticsearch", "Logging", "Monitoring", "Big Data"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         }
       ]
     },

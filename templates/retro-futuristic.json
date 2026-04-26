@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#00ff88",
-      "accent": "#ff00ff",
+      "accent": "#00d4ff",
       "background": "#0a0a1a",
       "surface": "#151530",
       "text": "#e0e0ff",
@@ -73,7 +73,7 @@
           "href": "#",
           "tags": ["AI", "WebSockets", "React"],
           "size": "large",
-          "accentColor": "#ff00ff"
+          "accentColor": "#00d4ff"
         },
         {
           "id": "project-2",
@@ -89,7 +89,7 @@
           "description": "Browser-based synthesizer and audio workstation. Real-time audio processing with Web Audio API.",
           "href": "#",
           "tags": ["Web Audio", "Canvas", "Music"],
-          "accentColor": "#ff00ff"
+          "accentColor": "#00d4ff"
         },
         {
           "id": "project-4",

@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#0a0a0a",
-      "accent": "#ff4500",
+      "accent": "#dc2626",
       "background": "#f8f5f2",
       "surface": "#ebe5de",
       "text": "#0a0a0a",
@@ -77,42 +77,42 @@
           "description": "Brand overhaul. Onboarding 14→4 steps. $12M ARR in 6 months. 3x brand awareness.",
           "tags": ["Branding", "Strategy", "UX"],
           "size": "large",
-          "accentColor": "#0a0a0a"
+          "accentColor": "#dc2626"
         },
         {
           "id": "p2",
           "title": "VERTEX FASHION: 67% LIFT",
           "description": "E-commerce replatform. 3x DTC revenue. 67% conversion improvement. Mobile +89%.",
           "tags": ["E-commerce", "Design System", "Next.js"],
-          "accentColor": "#ff4500"
+          "accentColor": "#0891b2"
         },
         {
           "id": "p3",
           "title": "APEX ANALYTICS: 32% CHURN REDUCTION",
           "description": "UX overhaul. 32% churn reduction. NPS 45→72. Time-to-value -60%.",
           "tags": ["Product Design", "SaaS", "Dashboard"],
-          "accentColor": "#0a0a0a"
+          "accentColor": "#dc2626"
         },
         {
           "id": "p4",
           "title": "FLUX STUDIO: 200% LEADS",
           "description": "Brand identity. 3 design awards. 200% lead increase. Project value +40%.",
           "tags": ["Branding", "Web Design", "Identity"],
-          "accentColor": "#ff4500"
+          "accentColor": "#0891b2"
         },
         {
           "id": "p5",
           "title": "BREW COFFEE: 98% ORDER VALUE",
           "description": "Mobile ordering. 98% order value increase. 55% mobile conversion. 12x ROI.",
           "tags": ["Mobile UX", "E-commerce", "Food & Beverage"],
-          "accentColor": "#0a0a0a"
+          "accentColor": "#dc2626"
         },
         {
           "id": "p6",
           "title": "VERTEX LEGAL: 18X FASTER",
           "description": "Intake platform. 3 days→4 hours. 35% efficiency gain. Satisfaction +45%.",
           "tags": ["Legal Tech", "Workflow", "Dashboard"],
-          "accentColor": "#ff4500"
+          "accentColor": "#0891b2"
         }
       ]
     },

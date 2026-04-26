@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#2d4a3e",
-      "accent": "#8b7355",
+      "accent": "#059669",
       "background": "#f5f3ef",
       "surface": "#ebe8e1",
       "text": "#2d4a3e",
@@ -72,7 +72,7 @@
           "href": "#",
           "tags": ["Branding", "E-commerce", "Sustainability"],
           "size": "large",
-          "accentColor": "#8b7355"
+          "accentColor": "#059669"
         },
         {
           "id": "project-2",
@@ -80,7 +80,7 @@
           "description": "Educational platform for outdoor learning programs. Designed to feel like a walk in the woods.",
           "href": "#",
           "tags": ["Education", "UX Design", "Web"],
-          "accentColor": "#2d4a3e"
+          "accentColor": "#84cc16"
         },
         {
           "id": "project-3",
@@ -88,7 +88,7 @@
           "description": "Recipe app celebrating family traditions and cultural heritage. Warm, inviting, and deeply personal.",
           "href": "#",
           "tags": ["Mobile App", "Food", "Culture"],
-          "accentColor": "#8b7355"
+          "accentColor": "#d97706"
         },
         {
           "id": "project-4",
@@ -96,7 +96,7 @@
           "description": "Digital tool for planning and tracking garden growth. Combines data with delight.",
           "href": "#",
           "tags": ["Product Design", "Data", "Gardening"],
-          "accentColor": "#2d4a3e"
+          "accentColor": "#14b8a6"
         },
         {
           "id": "project-5",
@@ -104,7 +104,7 @@
           "description": "Booking and community platform for a holistic wellness center. Calm, clear, and welcoming.",
           "href": "#",
           "tags": ["Web App", "Wellness", "Community"],
-          "accentColor": "#8b7355"
+          "accentColor": "#8b5cf6"
         }
       ]
     },

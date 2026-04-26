@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#1c1917",
-      "accent": "#b45309",
+      "accent": "#dc2626",
       "background": "#fafaf9",
       "surface": "#f5f5f4",
       "text": "#1c1917",
@@ -78,7 +78,7 @@
           "href": "#",
           "tags": ["Fintech", "UX Strategy", "Design System", "React"],
           "size": "large",
-          "accentColor": "#1e3a5f"
+          "accentColor": "#dc2626"
         },
         {
           "id": "project-2",
@@ -86,7 +86,7 @@
           "description": "E-commerce replatform: Shopify→Next.js. Subscription management, dynamic storytelling, roasting schedule. Result: 3x DTC revenue, 65% repeat purchase improvement.",
           "href": "#",
           "tags": ["E-commerce", "Next.js", "Headless CMS", "Subscription"],
-          "accentColor": "#8b4513"
+          "accentColor": "#059669"
         },
         {
           "id": "project-3",
@@ -94,7 +94,7 @@
           "description": "Brand and digital presence for Series A fund. Visual identity, investor portal with real-time tracking, automated LP reporting. Result: Fund II closed at $45M (2x target), 40% via digital platform.",
           "href": "#",
           "tags": ["Branding", "Investor Portal", "Web Application", "Next.js"],
-          "accentColor": "#2d4a3e"
+          "accentColor": "#7c3aed"
         },
         {
           "id": "project-4",
@@ -102,7 +102,7 @@
           "description": "Mobile-first ordering for restaurant group. Menu redesign, dynamic upselling, streamlined checkout. Result: 98% order value increase, 55% mobile conversion improvement.",
           "href": "#",
           "tags": ["Food & Beverage", "Mobile UX", "Ordering System", "Stripe"],
-          "accentColor": "#5c3a21"
+          "accentColor": "#ea580c"
         },
         {
           "id": "project-5",
@@ -110,7 +110,7 @@
           "description": "Client intake platform for law firm. Digital workflows, automated document generation, client portal. Result: intake 3 days→4 hours, 35% efficiency improvement.",
           "href": "#",
           "tags": ["Legal Tech", "Workflow Automation", "Dashboard", "React"],
-          "accentColor": "#3d4a5c"
+          "accentColor": "#0891b2"
         },
         {
           "id": "project-6",
@@ -118,7 +118,7 @@
           "description": "In-room tablet for hotel chain. Digital concierge, room controls, local recommendations, service requests. Result: 4.8/5 satisfaction, 40% front desk load reduction.",
           "href": "#",
           "tags": ["Hospitality", "Tablet UX", "IoT Integration", "React Native"],
-          "accentColor": "#1a3a5c"
+          "accentColor": "#c026d3"
         },
         {
           "id": "project-7",
@@ -126,7 +126,7 @@
           "description": "Patient portal for health clinic. Simplified scheduling, lab results, provider messaging. Result: 70% phone scheduling reduction, adoption 23%→78%.",
           "href": "#",
           "tags": ["Healthcare", "Patient UX", "HIPAA Compliance", "React"],
-          "accentColor": "#2a5a4a"
+          "accentColor": "#16a34a"
         },
         {
           "id": "project-8",
@@ -134,7 +134,7 @@
           "description": "Wholesale platform for outdoor gear. Tiered pricing, bulk ordering, inventory visibility. Result: 150% B2B volume increase, 85% order size increase, 45% inquiry reduction.",
           "href": "#",
           "tags": ["B2B Commerce", "Wholesale", "ERP Integration", "Next.js"],
-          "accentColor": "#5c4a3a"
+          "accentColor": "#ca8a04"
         }
       ]
     },

@@ -18,13 +18,13 @@
       }
     },
     "colors": {
-      "primary": "#171717",
-      "accent": "#737373",
+      "primary": "#1a1a1a",
+      "accent": "#6366f1",
       "background": "#fafafa",
-      "surface": "#f5f5f5",
-      "text": "#171717",
-      "muted": "#525252",
-      "border": "#e5e5e5"
+      "surface": "#f4f4f5",
+      "text": "#1a1a1a",
+      "muted": "#71717a",
+      "border": "#e4e4e7"
     }
   },
   "sections": [
@@ -65,7 +65,7 @@
           "description": "Led Stripe component library redesign. Focus: accessibility, developer experience. Comprehensive documentation and migration guides.",
           "href": "#",
           "tags": ["Design Systems", "React", "Accessibility"],
-          "accentColor": "#171717"
+          "accentColor": "#6366f1"
         },
         {
           "id": "project-2",
@@ -73,7 +73,7 @@
           "description": "Created Linear visual identity: logo, typography, brand guidelines. Cohesive design language across all touchpoints.",
           "href": "#",
           "tags": ["Branding", "Identity", "Typography"],
-          "accentColor": "#171717"
+          "accentColor": "#ec4899"
         },
         {
           "id": "project-3",
@@ -81,7 +81,7 @@
           "description": "Redesigned Vercel marketing site. Focus: performance, developer experience. 98/100 Lighthouse, sub-second load times.",
           "href": "#",
           "tags": ["Web Design", "Performance", "Next.js"],
-          "accentColor": "#171717"
+          "accentColor": "#14b8a6"
         },
         {
           "id": "project-4",
@@ -89,7 +89,7 @@
           "description": "Refreshed Notion visual identity while maintaining recognition. Updated color palette, typography, illustration style.",
           "href": "#",
           "tags": ["Branding", "Identity", "Design System"],
-          "accentColor": "#171717"
+          "accentColor": "#f59e0b"
         },
         {
           "id": "project-5",
@@ -97,7 +97,7 @@
           "description": "Designed and built Figma plugin suite used by 50K+ designers. Focus: discoverability, performance, seamless integration.",
           "href": "#",
           "tags": ["Product Design", "Figma", "Plugins"],
-          "accentColor": "#171717"
+          "accentColor": "#8b5cf6"
         }
       ]
     },

@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#e2e8f0",
-      "accent": "#10b981",
+      "accent": "#06b6d4",
       "background": "#0f172a",
       "surface": "#1e293b",
       "text": "#e2e8f0",
@@ -76,56 +76,56 @@
           "title": "WHY I STOPPED USING MICROSERVICES",
           "description": "$200K/year savings. Modular monolith migration. 3 companies adopted. $600K combined saved.",
           "tags": ["Architecture", "Microservices", "Performance"],
-          "accentColor": "#10b981"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p2",
           "title": "THE HIDDEN COST OF ABSTRACTIONS",
           "description": "Framework fatigue. 40% dev time saved. Decision framework included.",
           "tags": ["Software Design", "Opinion", "Productivity"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "p3",
           "title": "BUILDING A DATABASE FROM SCRATCH",
           "description": "Rust KV store. 3x faster than Redis. 50K+ readers. Part 1 of 5.",
           "tags": ["Database", "Rust", "Distributed Systems"],
-          "accentColor": "#10b981"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p4",
           "title": "POSTGRESQL AT 10M QPS",
           "description": "10M QPS without sharding. 12 companies adopted. Production metrics included.",
           "tags": ["PostgreSQL", "Scaling", "Performance"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "p5",
           "title": "THE DEATH OF THE SENIOR ENGINEER",
           "description": "Seniority titles are broken. New competency framework. 4 teams adopted.",
           "tags": ["Career", "Industry", "Opinion"],
-          "accentColor": "#10b981"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p6",
           "title": "RUST VS GO FOR BACKEND",
           "description": "Rust 2.3x faster. Go 3x faster to develop. Decision matrix included.",
           "tags": ["Rust", "Go", "Backend"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         },
         {
           "id": "p7",
           "title": "THE END OF CLOUD NATIVE",
           "description": "Kubernetes overkill. 8 companies simplified. $1.5M annual savings.",
           "tags": ["Architecture", "Cloud", "Opinion"],
-          "accentColor": "#10b981"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p8",
           "title": "ZERO DOWNTIME DEPLOYMENTS",
           "description": "100+ deploys/day. 99.99% success rate. Blue-green, canary, migrations.",
           "tags": ["DevOps", "Deployment", "Reliability"],
-          "accentColor": "#e2e8f0"
+          "accentColor": "#22c55e"
         }
       ]
     },

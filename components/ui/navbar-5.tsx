@@ -70,6 +70,12 @@ export const Navbar5 = ({ user }: Navbar5Props) => {
 
   const accountFeatures = [
     {
+      title: "Billing",
+      description: "Subscription and payment",
+      href: "/dashboard/billing",
+      icon: <CreditCard className="w-4 h-4" />,
+    },
+    {
       title: "Pricing",
       description: "Plans and pricing",
       href: "/pricing",

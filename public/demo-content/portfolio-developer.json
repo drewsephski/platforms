@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#e8e8e8",
-      "accent": "#00ff88",
+      "accent": "#06b6d4",
       "background": "#0d0d0d",
       "surface": "#1a1a1a",
       "text": "#e8e8e8",
@@ -71,42 +71,42 @@
           "title": "STRIPE DASHBOARD",
           "description": "60% load time reduction. 50+ products. 99.99% uptime. Conversion +15%.",
           "tags": ["React", "TypeScript", "Performance"],
-          "accentColor": "#00ff88"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p2",
           "title": "VERCEL ANALYTICS",
           "description": "10M+ events daily. Sub-100ms queries. Edge architecture. 50K+ developers.",
           "tags": ["Next.js", "Edge Functions", "WebSocket"],
-          "accentColor": "#e8e8e8"
+          "accentColor": "#22c55e"
         },
         {
           "id": "p3",
           "title": "COMPONENT LIBRARY",
           "description": "500+ developers. 98% coverage. Zero breaking changes. Airbnb, Netflix, Shopify.",
           "tags": ["Design Systems", "Storybook", "Testing"],
-          "accentColor": "#00ff88"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p4",
           "title": "E-COMMERCE PLATFORM",
           "description": "10K+ daily orders. 2-second loads. 99.9% uptime. Revenue +40%.",
           "tags": ["Next.js", "GraphQL", "Stripe"],
-          "accentColor": "#e8e8e8"
+          "accentColor": "#22c55e"
         },
         {
           "id": "p5",
           "title": "PERFORMANCE MONITORING",
           "description": "Core Web Vitals tracking. 40% improvement. $2M infrastructure savings annually.",
           "tags": ["Observability", "Web Vitals", "Automation"],
-          "accentColor": "#00ff88"
+          "accentColor": "#06b6d4"
         },
         {
           "id": "p6",
           "title": "NEXT.JS CONTRIBUTIONS",
           "description": "47 merged PRs. Server components, image optimization, cache strategy. Millions of developers.",
           "tags": ["Open Source", "React", "Core"],
-          "accentColor": "#e8e8e8"
+          "accentColor": "#22c55e"
         }
       ]
     },

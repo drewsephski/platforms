@@ -62,21 +62,21 @@
           "title": "STARTER",
           "description": "Small teams. Core features. ROI in 2 weeks.",
           "tags": ["$12/user/mo", "Up to 10 users", "Basic features", "99.9% uptime"],
-          "accentColor": "#6366f1"
+          "accentColor": "#0ea5e9"
         },
         {
           "id": "price-2",
           "title": "PRO",
           "description": "Growing teams. All features. 20+ hours/week saved.",
           "tags": ["$29/user/mo", "Unlimited users", "All features", "Priority support", "API access"],
-          "accentColor": "#8b5cf6"
+          "accentColor": "#f97316"
         },
         {
           "id": "price-3",
           "title": "ENTERPRISE",
           "description": "Large orgs. Security, compliance. 99.99% SLA.",
           "tags": ["Custom pricing", "SSO & SAML", "Dedicated support", "SLA guarantee", "Custom integrations"],
-          "accentColor": "#6366f1"
+          "accentColor": "#0ea5e9"
         }
       ]
     },
@@ -105,42 +105,42 @@
           "description": "Instant updates. No version conflicts. Sub-100ms sync via WebSockets.",
           "tags": ["Real-time", "WebSocket", "Sync"],
           "size": "large",
-          "accentColor": "#6366f1"
+          "accentColor": "#0ea5e9"
         },
         {
           "id": "p2",
           "title": "AUTOMATED WORKFLOWS",
           "description": "Custom automations in minutes. 20+ hours/week saved. No-code or API.",
           "tags": ["Automation", "No-code", "Productivity"],
-          "accentColor": "#8b5cf6"
+          "accentColor": "#f97316"
         },
         {
           "id": "p3",
           "title": "ADVANCED ANALYTICS",
           "description": "Track performance. Identify bottlenecks. Export to CSV, PDF, BI tools.",
           "tags": ["Analytics", "Insights", "Dashboard"],
-          "accentColor": "#6366f1"
+          "accentColor": "#0ea5e9"
         },
         {
           "id": "p4",
           "title": "100+ INTEGRATIONS",
           "description": "Slack, GitHub, Figma, Jira, Notion. Two-way sync. Webhooks. API.",
           "tags": ["Integrations", "API", "Webhooks"],
-          "accentColor": "#8b5cf6"
+          "accentColor": "#f97316"
         },
         {
           "id": "p5",
           "title": "TIME TRACKING",
           "description": "Billable hours. Reports. QuickBooks, Xero, FreshBooks integration.",
           "tags": ["Time Tracking", "Billing", "Reports"],
-          "accentColor": "#6366f1"
+          "accentColor": "#0ea5e9"
         },
         {
           "id": "p6",
           "title": "RESOURCE MANAGEMENT",
           "description": "Who's working on what. Prevent burnout. Capacity planning.",
           "tags": ["Resources", "Planning", "Capacity"],
-          "accentColor": "#8b5cf6"
+          "accentColor": "#f97316"
         }
       ]
     },

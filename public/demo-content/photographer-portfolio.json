@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#1c1917",
-      "accent": "#b45309",
+      "accent": "#ea580c",
       "background": "#fafaf9",
       "surface": "#f5f5f4",
       "text": "#1c1917",
@@ -76,56 +76,56 @@
           "title": "Elena & James Wedding",
           "description": "Brooklyn wedding. 150 guests. 800+ photos. 'We still look at them weekly.'",
           "tags": ["Wedding", "Portrait", "Candid"],
-          "accentColor": "#b45309"
+          "accentColor": "#ea580c"
         },
         {
           "id": "p2",
           "title": "Nike Campaign",
           "description": "Nike running collection. LA shoot. 30+ markets. Best-performing campaign.",
           "tags": ["Commercial", "Athletic", "Lifestyle"],
-          "accentColor": "#1c1917"
+          "accentColor": "#0891b2"
         },
         {
           "id": "p3",
           "title": "Family Portraits",
           "description": "5-year series. 15 families, 3+ years consecutive. Annual sessions.",
           "tags": ["Portrait", "Family", "Documentary"],
-          "accentColor": "#8b7355"
+          "accentColor": "#c026d3"
         },
         {
           "id": "p4",
           "title": "Vogue Editorial",
           "description": "12-page spread. Sustainable fashion. Editorial Photography nominee.",
           "tags": ["Fashion", "Editorial", "Sustainable"],
-          "accentColor": "#b45309"
+          "accentColor": "#ea580c"
         },
         {
           "id": "p5",
           "title": "Corporate Headshots",
           "description": "Fortune 500. 20 execs in 2 days. LinkedIn +40% engagement.",
           "tags": ["Corporate", "Headshot", "Professional"],
-          "accentColor": "#1c1917"
+          "accentColor": "#0891b2"
         },
         {
           "id": "p6",
           "title": "Newborn Sessions",
           "description": "In-home lifestyle. 95% rebook for first birthday. Warmth & intimacy.",
           "tags": ["Newborn", "Lifestyle", "In-home"],
-          "accentColor": "#8b7355"
+          "accentColor": "#c026d3"
         },
         {
           "id": "p7",
           "title": "Product Photography",
           "description": "Luxury jewelry. 200+ SKUs. Conversion +35% after refresh.",
           "tags": ["Product", "Commercial", "E-commerce"],
-          "accentColor": "#b45309"
+          "accentColor": "#ea580c"
         },
         {
           "id": "p8",
           "title": "Destination Wedding",
           "description": "Tuscany wedding. Week-long coverage. Destination Weddings Magazine.",
           "tags": ["Wedding", "Destination", "Travel"],
-          "accentColor": "#1c1917"
+          "accentColor": "#0891b2"
         }
       ]
     },

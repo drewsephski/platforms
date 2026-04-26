@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#1c1917",
-      "accent": "#b45309",
+      "accent": "#dc2626",
       "background": "#fafaf9",
       "surface": "#f5f5f4",
       "text": "#1c1917",
@@ -77,42 +77,42 @@
           "description": "Rainbow carrots from Green Valley Farm, roasted with honey-thyme glaze, served with whipped ricotta and toasted walnuts. A celebration of spring's sweetness. Vegetarian, gluten-free.",
           "tags": ["Vegetarian", "Seasonal", "GF"],
           "size": "large",
-          "accentColor": "#b45309"
+          "accentColor": "#dc2626"
         },
         {
           "id": "p2",
           "title": "PAN-SEARED SCALLOPS",
           "description": "Day-boat scallops from Pacific Coast, seared to perfection, served with cauliflower purée, crispy pancetta, and lemon butter sauce. Gluten-free.",
           "tags": ["Seafood", "GF"],
-          "accentColor": "#1c1917"
+          "accentColor": "#059669"
         },
         {
           "id": "p3",
           "title": "GRASS-FED RIBEYE",
           "description": "16oz ribeye from Pasture Prime Ranch, dry-aged 28 days, grilled over oak wood, served with roasted potatoes and red wine reduction. Gluten-free.",
           "tags": ["Meat", "GF"],
-          "accentColor": "#8b4513"
+          "accentColor": "#7c3aed"
         },
         {
           "id": "p4",
           "title": "WILD MUSHROOM RISOTTO",
           "description": "Arborio rice slow-cooked with foraged mushrooms, aged parmesan, and truffle oil. Finished with fresh herbs and microgreens. Vegetarian, gluten-free.",
           "tags": ["Vegetarian", "GF"],
-          "accentColor": "#5c3a21"
+          "accentColor": "#ea580c"
         },
         {
           "id": "p5",
           "title": "SEASONAL FRUIT TART",
           "description": "Buttery tart shell filled with vanilla bean custard, topped with whatever fruit is at its peak—currently strawberries and rhubarb. Vegetarian.",
           "tags": ["Dessert", "Vegetarian"],
-          "accentColor": "#b45309"
+          "accentColor": "#dc2626"
         },
         {
           "id": "p6",
           "title": "HOUSE-MADE GELATO",
           "description": "Three rotating flavors made in-house daily. Currently: lavender honey, dark chocolate sea salt, and strawberry basil. Gluten-free, vegan.",
           "tags": ["Dessert", "GF", "V"],
-          "accentColor": "#1c1917"
+          "accentColor": "#059669"
         }
       ]
     },

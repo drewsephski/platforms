@@ -912,6 +912,7 @@ function ProjectsSection({
     const { ref: cardRef, isVisible: cardVisible } = useReveal();
     const isLarge = item.size === 'large';
     const isFeatured = layout === 'featured' && index === 0;
+    const cardColor = item.accentColor || theme.colors?.accent || theme.colors?.surface || '#f5f5f5';
 
     return (
       <div
@@ -925,55 +926,59 @@ function ProjectsSection({
         >
           <div
             className={`relative overflow-hidden rounded-lg ${isFeatured ? 'aspect-[16/9] sm:aspect-[21/9]' : isLarge ? 'aspect-[4/3]' : 'aspect-square'}`}
-            style={{ backgroundColor: item.accentColor || theme.colors?.surface || '#f5f5f5' }}
+            style={{ backgroundColor: cardColor }}
           >
-          {item.imageUrl ? (
-            <img src={item.imageUrl} alt={item.title || 'Project'} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center opacity-20">
-              <span className="text-5xl sm:text-6xl">◆</span>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
-        <div className="mt-4 sm:mt-6">
-          <div className="flex items-start justify-between gap-4">
-            <h3
-              className="font-medium group-hover:opacity-70 transition-opacity leading-tight break-words"
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{
-                fontFamily: theme.fontPairing?.display,
-                fontSize: fluidType.body,
-                color: theme.colors?.text
+                background: `linear-gradient(135deg, ${cardColor}dd 0%, ${cardColor}88 100%)`
+              }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+              <div className="text-center">
+                <span className="text-4xl sm:text-5xl font-light" style={{ color: theme.colors?.background }}>
+                  {item.title?.charAt(0) || '◆'}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 sm:mt-6">
+            <div className="flex items-start justify-between gap-4">
+              <h3
+                className="font-medium group-hover:opacity-70 transition-opacity leading-tight break-words"
+                style={{
+                  fontFamily: theme.fontPairing?.display,
+                  fontSize: fluidType.body,
+                  color: theme.colors?.text
+                }}
+              >
+                {item.title || 'Project'}
+              </h3>
+              <span className="text-sm opacity-0 group-hover:opacity-70 transition-all duration-300 transform group-hover:translate-x-1" style={{ color: cardColor }}>→</span>
+            </div>
+            <p
+              className="mt-2 line-clamp-2 leading-relaxed break-words"
+              style={{
+                fontSize: fluidType.small,
+                color: theme.colors?.muted,
+                fontFamily: theme.fontPairing?.body
               }}
             >
-              {item.title || 'Project'}
-            </h3>
-            <span className="text-sm opacity-0 group-hover:opacity-70 transition-all duration-300 transform group-hover:translate-x-1">→</span>
+              {item.description || 'A showcase of craft and attention to detail.'}
+            </p>
+            {item.tags && item.tags.length > 0 && (
+              <div className="flex gap-2 flex-wrap mt-3 sm:mt-4">
+                {item.tags.slice(0, 3).map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full"
+                    style={{ backgroundColor: `${cardColor}15`, color: cardColor }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
-          <p
-            className="mt-2 line-clamp-2 leading-relaxed break-words"
-            style={{
-              fontSize: fluidType.small,
-              color: theme.colors?.muted,
-              fontFamily: theme.fontPairing?.body
-            }}
-          >
-            {item.description || 'A showcase of craft and attention to detail.'}
-          </p>
-          {item.tags && item.tags.length > 0 && (
-            <div className="flex gap-2 flex-wrap mt-3 sm:mt-4">
-              {item.tags.slice(0, 3).map((tag: string) => (
-                <span
-                  key={tag}
-                  className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full"
-                  style={{ backgroundColor: theme.colors?.surface, color: theme.colors?.muted }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
         </a>
       </div>
     );

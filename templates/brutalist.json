@@ -19,7 +19,7 @@
     },
     "colors": {
       "primary": "#0a0a0a",
-      "accent": "#ff2d00",
+      "accent": "#f97316",
       "background": "#f5f3f0",
       "surface": "#e8e4df",
       "text": "#0a0a0a",
@@ -79,7 +79,7 @@
           "href": "#",
           "tags": ["React", "Node.js", "PostgreSQL", "Redis"],
           "size": "large",
-          "accentColor": "#ff2d00"
+          "accentColor": "#f97316"
         },
         {
           "id": "project-2",
@@ -87,7 +87,7 @@
           "description": "Dashboard processing 1M+ events/sec. Go + WebSockets. Sub-ms latency.",
           "href": "#",
           "tags": ["Go", "WebSockets", "Redis", "TimescaleDB"],
-          "accentColor": "#0a0a0a"
+          "accentColor": "#0ea5e9"
         },
         {
           "id": "project-3",
@@ -95,7 +95,7 @@
           "description": "React Native app: 500K+ downloads, 4.8★. Offline-first, biometric auth.",
           "href": "#",
           "tags": ["React Native", "iOS", "Android", "Firebase"],
-          "accentColor": "#ff2d00"
+          "accentColor": "#22c55e"
         },
         {
           "id": "project-4",
@@ -103,7 +103,7 @@
           "description": "Scaled API 10K→10M requests/day. Rate limiting, caching, circuit breaking. 60% cost reduction.",
           "href": "#",
           "tags": ["AWS", "Lambda", "API Gateway", "CloudFront"],
-          "accentColor": "#0a0a0a"
+          "accentColor": "#a855f7"
         },
         {
           "id": "project-5",
@@ -111,7 +111,7 @@
           "description": "Dev platform: onboarding 2 weeks→2 days. Automated deployments and monitoring.",
           "href": "#",
           "tags": ["TypeScript", "Docker", "Kubernetes", "ArgoCD"],
-          "accentColor": "#ff2d00"
+          "accentColor": "#ec4899"
         },
         {
           "id": "project-6",
@@ -119,7 +119,7 @@
           "description": "ETL pipeline: 100TB daily. Real-time warehouse, ML serving, automated quality checks.",
           "href": "#",
           "tags": ["Python", "Airflow", "Snowflake", "TensorFlow"],
-          "accentColor": "#0a0a0a"
+          "accentColor": "#eab308"
         }
       ]
     },
