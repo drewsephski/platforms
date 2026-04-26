@@ -2,11 +2,10 @@ import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Navbar5 } from '@/components/ui/navbar-5';
-import { Footer } from '@/components/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Toaster } from 'sonner';
 import './globals.css';
+import { ConditionalLayout } from '@/components/conditional-layout';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -43,11 +42,9 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider defaultTheme="light" storageKey="platforms-ui-theme">
-          <Navbar5 user={userData} />
-          <main className="flex-1">
+          <ConditionalLayout user={userData}>
             {children}
-          </main>
-          <Footer />
+          </ConditionalLayout>
           <Toaster position="bottom-right" />
           <SpeedInsights />
         </ThemeProvider>
