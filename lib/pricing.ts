@@ -46,8 +46,8 @@ export const PRICING_PLANS: Record<PricingTier, PricingPlan> = {
       'HTML export',
       'Priority support',
     ],
-    stripeMonthlyPriceId: process.env.STRIPE_PRICE_INDIIE_MONTHLY || '',
-    stripeYearlyPriceId: process.env.STRIPE_PRICE_INDIIE_YEARLY || '',
+    stripeMonthlyPriceId: (process.env.STRIPE_PRICE_INDIIE_MONTHLY || '').trim(),
+    stripeYearlyPriceId: (process.env.STRIPE_PRICE_INDIIE_YEARLY || '').trim(),
   },
   pro: {
     id: 'pro',
@@ -65,8 +65,8 @@ export const PRICING_PLANS: Record<PricingTier, PricingPlan> = {
       'Priority support',
       'Advanced analytics',
     ],
-    stripeMonthlyPriceId: process.env.STRIPE_PRICE_PRO_MONTHLY || '',
-    stripeYearlyPriceId: process.env.STRIPE_PRICE_PRO_YEARLY || '',
+    stripeMonthlyPriceId: (process.env.STRIPE_PRICE_PRO_MONTHLY || '').trim(),
+    stripeYearlyPriceId: (process.env.STRIPE_PRICE_PRO_YEARLY || '').trim(),
   },
   agency: {
     id: 'agency',
@@ -86,8 +86,8 @@ export const PRICING_PLANS: Record<PricingTier, PricingPlan> = {
       'Advanced analytics',
       'Team collaboration',
     ],
-    stripeMonthlyPriceId: process.env.STRIPE_PRICE_AGENCY_MONTHLY || '',
-    stripeYearlyPriceId: process.env.STRIPE_PRICE_AGENCY_YEARLY || '',
+    stripeMonthlyPriceId: (process.env.STRIPE_PRICE_AGENCY_MONTHLY || '').trim(),
+    stripeYearlyPriceId: (process.env.STRIPE_PRICE_AGENCY_YEARLY || '').trim(),
   },
 };
 

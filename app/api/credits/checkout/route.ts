@@ -5,7 +5,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // Price ID for credit pack ($5 for 10 credits)
-const CREDIT_PACK_PRICE_ID = process.env.STRIPE_CREDIT_PACK_PRICE_ID;
+const CREDIT_PACK_PRICE_ID = (process.env.STRIPE_CREDIT_PACK_PRICE_ID || '').trim();
 
 export async function POST(request: Request) {
   try {
