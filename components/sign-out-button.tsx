@@ -15,6 +15,7 @@ export function SignOutButton() {
     try {
       const supabase = createClient();
       await supabase.auth.signOut();
+      router.push('/auth/signin');
       router.refresh();
     } catch (error) {
       console.error('Error signing out:', error);

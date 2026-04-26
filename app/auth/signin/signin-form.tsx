@@ -8,11 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, AlertCircle, ArrowLeft, Check } from 'lucide-react';
 import { PlatformsLogo } from '@/components/platforms-logo';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { rootDomain } from '@/lib/utils';
 
 export function SignInForm() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +36,8 @@ export function SignInForm() {
       if (error) {
         setError(error.message);
       } else {
-        redirect('/dashboard');
+        router.push('/dashboard');
+        router.refresh();
       }
     } catch (err: any) {
       setError('An error occurred during sign in');
@@ -60,7 +62,8 @@ export function SignInForm() {
       if (error) {
         setError(error.message);
       } else {
-        redirect('/dashboard');
+        router.push('/dashboard');
+        router.refresh();
       }
     } catch (err: any) {
       setError('An error occurred during sign up');

@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { rootDomain } from '@/lib/utils';
+import { createServerClient } from '@supabase/ssr';
 
 function extractSubdomain(request: NextRequest): string | null {
   const url = request.url;
@@ -44,6 +45,35 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const subdomain = extractSubdomain(request);
 
+  // Create a response object to modify cookies
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  // Create Supabase client with cookie handling for session refresh
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    }
+  );
+
+  // Refresh session if it exists - this updates the session cookie if needed
+  const { data: { user } } = await supabase.auth.getUser();
+
   if (subdomain) {
     // Block access to admin page from subdomains
     if (pathname.startsWith('/admin')) {
@@ -57,17 +87,19 @@ export async function middleware(request: NextRequest) {
   }
 
   // On the root domain, allow normal access
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
   matcher: [
     /*
      * Match all paths except for:
-     * 1. /api routes
-     * 2. /_next (Next.js internals)
+     * 1. /_next (Next.js internals)
+     * 2. /static (static files)
      * 3. all root files inside /public (e.g. /favicon.ico)
+     *
+     * Note: We include /api routes to handle auth session refresh
      */
-    '/((?!api|_next|[\\w-]+\\.\\w+).*)'
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'
   ]
 };
