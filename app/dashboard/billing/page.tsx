@@ -2,10 +2,10 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Crown, Check, Zap, AlertTriangle } from 'lucide-react';
-import { rootDomain } from '@/lib/utils';
+import { Crown, Zap, AlertTriangle, ArrowRight } from 'lucide-react';
 import { CreditDisplay } from '@/components/credit-display';
 import { SubscriptionActions } from '@/components/subscription-actions';
+import Link from 'next/link';
 
 export default async function BillingPage() {
   const supabase = await createClient();
@@ -137,61 +137,19 @@ export default async function BillingPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Crown className="w-5 h-5 text-muted-foreground" />
-                Upgrade to Pro
+                Upgrade Your Plan
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 rounded-lg p-6 border border-amber-200 dark:border-amber-800">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-semibold text-foreground">Pro Plan</span>
-                  <span className="text-3xl font-bold">$9<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
-                </div>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-center gap-2 text-sm">
-                    <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span>Unlimited sites</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm">
-                    <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span>Custom domains</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm">
-                    <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span>Priority support</span>
-                  </li>
-                  <li className="flex items-center gap-2 text-sm">
-                    <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span>50 AI credits/month</span>
-                  </li>
-                </ul>
-                <form action="/api/checkout" method="POST">
-                  <Button type="submit" className="w-full gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
-                    Upgrade to Pro
-                  </Button>
-                </form>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Current Plan Features</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground" />
-                    <span>1 site</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground" />
-                    <span>Subdomain only</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground" />
-                    <span>Basic support</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-muted-foreground" />
-                    <span>3 AI credits/month</span>
-                  </li>
-                </ul>
-              </div>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Unlock more sites, custom subdomains, and additional AI credits by upgrading to a paid plan.
+              </p>
+              <Link href="/pricing">
+                <Button className="w-full gap-2">
+                  View All Plans
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         )}
