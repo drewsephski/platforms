@@ -99,7 +99,7 @@ export function InteractiveDemo() {
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-2xl px-4 sm:px-0">
+    <div className="relative mx-auto w-full px-4 sm:px-0">
       {/* Prompt input mock */}
       <div className="bg-card border border-border/50 rounded-t-xl p-4 border-b-0 transition-all duration-500 ease-out-quart">
         <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-2 font-medium tracking-wide uppercase">
@@ -226,8 +226,8 @@ export function InteractiveDemo() {
         )}
         
         {generatedContent && step === 'complete' && (
-          <div className="bg-background rounded-lg border border-border/30 overflow-hidden transition-all duration-700 ease-out-quart">
-            <div className="max-h-[600px] overflow-y-auto overflow-x-hidden demo-preview">
+          <div className="bg-background rounded-lg border border-border/30 overflow-hidden transition-all duration-700 ease-out-quart flex justify-center">
+            <div className="max-h-[600px] overflow-y-auto overflow-x-hidden demo-preview" style={{ width: '375px' }}>
               <div className="w-full overflow-x-hidden site-renderer">
                 <SiteRenderer content={generatedContent} />
               </div>

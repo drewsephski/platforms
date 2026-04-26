@@ -916,11 +916,12 @@ export function SiteEditor({ site }: { site: Site }) {
                   /s/{site.subdomain}
                 </span>
               </div>
-              <div className="relative bg-background" style={{ height: 'calc(100vh - 240px)', minHeight: '500px' }}>
+              <div className="relative bg-background flex items-center justify-center overflow-auto" style={{ height: 'calc(100vh - 240px)', minHeight: '500px' }}>
                 <iframe
                   ref={iframeRef}
                   src="/preview"
-                  className="w-full h-full border-0"
+                  className="border-0 rounded-lg shadow-sm"
+                  style={{ width: '375px', height: '100%', minHeight: '500px' }}
                   sandbox="allow-scripts allow-same-origin"
                   title="Site Preview"
                 />
